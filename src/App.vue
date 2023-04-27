@@ -14,7 +14,7 @@
     <form id="country-guess-form">
       Guess The Country:
       <input id="country-name">
-      <button type="submit">Search</button>
+      <button type="submit">Guess</button>
     </form>
 
   </main>
