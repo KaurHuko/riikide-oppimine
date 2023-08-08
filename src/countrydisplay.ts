@@ -1,28 +1,40 @@
-import { defineCustomElement } from 'vue';
 import jsonCountries from './assets/countries/countries.json'; 
 
 const jsonCountryList: any[] = (jsonCountries as any).features;
 
-let possibleCanvas: HTMLElement | null;
+let svgMap: HTMLElement;
 
 const max_lat = 90;
 const max_alt = 180;
+
 let ppd: number; // pixels per degree
 let center_x: number;
 let center_y: number;
 
-const countries: Map<string, number[][][][]> = new Map();
+const countries: Map<string, SVGPathElement[]> = new Map();
 const countryNameList: string[] = [];
 let currentCountry: string;
 
-const drawnCountries: number[][][][][] = [];
+const drawnCountries: SVGPathElement[][] = [];
 
 export function setup() {
-    possibleCanvas = document.getElementById("countryCanvas");
+
+    htmlElementSetup();
     setupCountries();
     setupInsert();
-    drawMap();
     generateQuesion();
+
+}
+
+function htmlElementSetup() {
+    svgMap = document.getElementById("map")!;
+
+    const mapWidth = parseFloat(svgMap.getAttribute("width")!);
+    const mapHeight = parseFloat(svgMap.getAttribute("height")!);
+
+    ppd = Math.min(mapWidth / max_lat, mapHeight / max_alt);
+    center_x = ppd * max_alt;
+    center_y = ppd * max_lat;
 }
 
 function setupCountries() {
@@ -33,15 +45,12 @@ function setupCountries() {
         const coords: number[][][] = geometry.coordinates;
     
         if (geometryType == "MultiPolygon") {
-            countries.set(name, coords as any as number[][][][]);
+            countries.set(name, drawNewCountry(coords as any as number[][][][]));
             countryNameList.push(name);
 
         } else if (geometryType == "Polygon") {
-            countries.set(name, [coords]);
+            countries.set(name, drawNewCountry([coords]));
             countryNameList.push(name);
-
-        } else {
-            console.log("Geometry type: " + geometryType);
         }
     })
 }
@@ -71,66 +80,66 @@ function setupInsert() {
 
 function generateQuesion() {
     clearPrevCountries();
-    const countryName: string = countryNameList[Math.floor(Math.random() * countryNameList.length)];
-    const country: number[][][][] | undefined = countries.get(countryName);
-    currentCountry = countryName;	
-    if (country === undefined) return;
-    drawCountry(country, false);
-}
 
-function drawMap() {
-    countries.forEach(country => {
-        drawCountry(country, true);
-    });
+    const countryName: string = countryNameList[Math.floor(Math.random() * countryNameList.length)];
+    const country: SVGPathElement[] | undefined = countries.get(countryName);
+
+    currentCountry = countryName;
+    if (country === undefined) return;
+
+    colorCountry(country, true);
 }
 
 function clearPrevCountries() {
     drawnCountries.forEach(drawnCountry => {
-        drawCountry(drawnCountry, true);
+        colorCountry(drawnCountry, false);
     });
     drawnCountries.length = 0;
 }
 
-function drawCountry(country: number[][][][], erase: boolean) {
-    if (!(possibleCanvas instanceof HTMLCanvasElement)) return;
-    const canvas: HTMLCanvasElement = possibleCanvas as HTMLCanvasElement;
+function drawNewCountry(country: number[][][][]): SVGPathElement[] {
     
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-    if (ctx == null) return;
+    const counrtySvg: SVGPathElement[] = [];
 
-    ppd = 0.5 * Math.min(canvas.height / max_lat, canvas.width / max_alt);
-    center_x = ppd * max_alt;
-    center_y = ppd * max_lat;
+    for (const landPatch of country) {
+        counrtySvg.push(drawLandPatch(landPatch));
+    }
 
-    if (!erase) drawnCountries.push(country);
+    colorCountry(counrtySvg, false);
 
-    const eraseColor: string = "green";
-    const color: string = erase ? eraseColor : "yellow";
-
-    country.forEach(landPatch => {
-        drawPoly(ctx, landPatch[0], color);
-
-        for (let i: number = 1; i < landPatch.length; i++) {
-            drawPoly(ctx, landPatch[i], eraseColor);
-        }
-    });
+    return counrtySvg;
 }
 
-function drawPoly(ctx: CanvasRenderingContext2D, polygon: number[][], color: string) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
+function colorCountry(country: SVGPathElement[], highlight: boolean) {
+    const color = highlight ? "yellow" : "green";
+    if (highlight) drawnCountries.push(country);
 
-    ctx.moveTo(center_x + ppd * polygon[0][0], (center_y - ppd * polygon[0][1]));
-    polygon.forEach(point => {
-        ctx.lineTo(center_x + ppd * point[0], (center_y - ppd * point[1]));
-    });
+    for (const landPatch of country) {
+        landPatch.setAttribute("fill", color);
+    }
+}
 
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1;
-    //ctx.stroke();
+function drawLandPatch(landPatch: number[][][]): SVGPathElement {
+    
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    svgMap.appendChild(pathElement);
 
-    ctx.closePath();
-    ctx.fill();
+    let svgPointsAttribute = "";
+
+    for (const svgPoints of landPatch) {
+        svgPointsAttribute +=
+            "M" +
+            svgPoints.map(point => (center_x + ppd * point[0]) + " " + (center_y - ppd * point[1])).join(" ")
+            + "z";
+    }
+
+    pathElement.setAttribute("d", svgPointsAttribute);
+    pathElement.setAttribute("fill", "black");
+
+    pathElement.setAttribute("stroke", "#ffffff33");
+    pathElement.setAttribute("stroke-width", "0.75");
+    
+    return pathElement;
 }
 
 function formatName(name: string): string {

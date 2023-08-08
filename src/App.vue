@@ -7,10 +7,12 @@
 
   <main>
     
-    <canvas id="countryCanvas" width="1200" height="600"></canvas>
+    <!--<canvas id="countryCanvas" width="1200" height="600"></canvas>-->
+
+    <svg id="map" width="1200" height="600"></svg>
 
     <br><br>
-    <div id="feedback"><p></p></div>
+    <div id="feedback"><br></div>
     <form id="country-guess-form">
       Guess The Country:
       <input id="country-name">
