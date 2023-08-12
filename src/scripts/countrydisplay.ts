@@ -1,4 +1,4 @@
-import jsonCountries from './assets/countries/countries.json'; 
+import jsonCountries from '../country-data/countries.json'; 
 
 const jsonCountryList: any[] = (jsonCountries as any).features;
 
@@ -17,7 +17,7 @@ let currentCountry: string;
 
 const drawnCountries: SVGPathElement[][] = [];
 
-export function setup() {
+export function setup() { 
 
     htmlElementSetup();
     setupCountries();
