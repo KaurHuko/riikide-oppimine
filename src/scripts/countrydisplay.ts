@@ -1,4 +1,4 @@
-import jsonCountries from '../country-data/countries.json'; 
+import jsonCountries from '../assets/countries.json'; 
 
 const jsonCountryList: any[] = (jsonCountries as any).features;
 

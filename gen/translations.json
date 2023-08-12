@@ -1,0 +1,1279 @@
+{
+ "translations": [
+  {
+   "original": "Aruba",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Afghanistan",
+   "translations": ["Afganistaan"],
+   "alternatives": []
+  },
+  {
+   "original": "Angola",
+   "translations": ["Angola"],
+   "alternatives": []
+  },
+  {
+   "original": "Anguilla",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Albania",
+   "translations": ["Albaania"],
+   "alternatives": []
+  },
+  {
+   "original": "Aland",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Andorra",
+   "translations": ["Andorra"],
+   "alternatives": []
+  },
+  {
+   "original": "United Arab Emirates",
+   "translations": ["Araabia Ühendemiraadid"],
+   "alternatives": []
+  },
+  {
+   "original": "Argentina",
+   "translations": ["Argentiina"],
+   "alternatives": []
+  },
+  {
+   "original": "Armenia",
+   "translations": ["Armeenia"],
+   "alternatives": []
+  },
+  {
+   "original": "American Samoa",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Antarctica",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Ashmore and Cartier Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "French Southern and Antarctic Lands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Antigua and Barbuda",
+   "translations": ["Antigua ja Barbuda"],
+   "alternatives": []
+  },
+  {
+   "original": "Australia",
+   "translations": ["Austraalia"],
+   "alternatives": []
+  },
+  {
+   "original": "Austria",
+   "translations": ["Austria"],
+   "alternatives": []
+  },
+  {
+   "original": "Azerbaijan",
+   "translations": ["Aserbaidžaan"],
+   "alternatives": []
+  },
+  {
+   "original": "Burundi",
+   "translations": ["Burundi"],
+   "alternatives": []
+  },
+  {
+   "original": "Belgium",
+   "translations": ["Belgia"],
+   "alternatives": []
+  },
+  {
+   "original": "Benin",
+   "translations": ["Benin"],
+   "alternatives": []
+  },
+  {
+   "original": "Burkina Faso",
+   "translations": ["Burkina Faso"],
+   "alternatives": []
+  },
+  {
+   "original": "Bangladesh",
+   "translations": ["Balgladesh"],
+   "alternatives": []
+  },
+  {
+   "original": "Bulgaria",
+   "translations": ["Bulgaaria"],
+   "alternatives": []
+  },
+  {
+   "original": "Bahrain",
+   "translations": ["Bahrein"],
+   "alternatives": []
+  },
+  {
+   "original": "The Bahamas",
+   "translations": ["Bahama", "Bahama saared"],
+   "alternatives": []
+  },
+  {
+   "original": "Bosnia and Herzegovina",
+   "translations": ["Bosnia ja Hertsegoviina"],
+   "alternatives": []
+  },
+  {
+   "original": "Bajo Nuevo Bank (Petrel Is.)",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Barthelemy",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Belarus",
+   "translations": ["Valgevene"],
+   "alternatives": []
+  },
+  {
+   "original": "Belize",
+   "translations": ["Belize"],
+   "alternatives": []
+  },
+  {
+   "original": "Bermuda",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Bolivia",
+   "translations": ["Boliivia"],
+   "alternatives": []
+  },
+  {
+   "original": "Brazil",
+   "translations": ["Brasiilia"],
+   "alternatives": []
+  },
+  {
+   "original": "Barbados",
+   "translations": ["Barbados"],
+   "alternatives": []
+  },
+  {
+   "original": "Brunei",
+   "translations": ["Brunei"],
+   "alternatives": []
+  },
+  {
+   "original": "Bhutan",
+   "translations": ["Bhutan"],
+   "alternatives": []
+  },
+  {
+   "original": "Botswana",
+   "translations": ["Botswana"],
+   "alternatives": []
+  },
+  {
+   "original": "Central African Republic",
+   "translations": ["Kesk-Aafrika Vabariik"],
+   "alternatives": ["Kesk-Aafrika"]
+  },
+  {
+   "original": "Canada",
+   "translations": ["Kanada"],
+   "alternatives": []
+  },
+  {
+   "original": "Switzerland",
+   "translations": ["Šveits"],
+   "alternatives": []
+  },
+  {
+   "original": "Chile",
+   "translations": ["Tšiili"],
+   "alternatives": []
+  },
+  {
+   "original": "China",
+   "translations": ["Hiina", "Hiina Rahvavabariik", "Hiina RV"],
+   "alternatives": []
+  },
+  {
+   "original": "Ivory Coast",
+   "translations": ["Côte d'Ivoire", "Cote d'Ivoire", "Elevandiluurannik"],
+   "alternatives": []
+  },
+  {
+   "original": "Clipperton Island",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Cameroon",
+   "translations": ["Kamerun"],
+   "alternatives": []
+  },
+  {
+   "original": "Cyprus No Mans Area",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Democratic Republic of the Congo",
+   "translations": ["Kongo Demokraatlik Vabariik", "Kongo DV"],
+   "alternatives": []
+  },
+  {
+   "original": "Republic of Congo",
+   "translations": ["Kongo Vabariik"],
+   "alternatives": []
+  },
+  {
+   "original": "Cook Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Colombia",
+   "translations": ["Colombia"],
+   "alternatives": []
+  },
+  {
+   "original": "Comoros",
+   "translations": ["Komoorid"],
+   "alternatives": []
+  },
+  {
+   "original": "Cape Verde",
+   "translations": ["Cabo Verde", "Roheseemnesaared"],
+   "alternatives": []
+  },
+  {
+   "original": "Costa Rica",
+   "translations": ["Costa Rica"],
+   "alternatives": []
+  },
+  {
+   "original": "Coral Sea Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Cuba",
+   "translations": ["Kuuba"],
+   "alternatives": []
+  },
+  {
+   "original": "Curaçao",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Cayman Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Northern Cyprus",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Cyprus",
+   "translations": ["Küpros"],
+   "alternatives": []
+  },
+  {
+   "original": "Czech Republic",
+   "translations": ["Tšehhi"],
+   "alternatives": []
+  },
+  {
+   "original": "Germany",
+   "translations": ["Saksamaa"],
+   "alternatives": []
+  },
+  {
+   "original": "Djibouti",
+   "translations": ["Djibouti"],
+   "alternatives": []
+  },
+  {
+   "original": "Dominica",
+   "translations": ["Dominica"],
+   "alternatives": []
+  },
+  {
+   "original": "Denmark",
+   "translations": ["Taani", "Taani Kuningriik"],
+   "alternatives": []
+  },
+  {
+   "original": "Dominican Republic",
+   "translations": ["Dominikaani Vabariik"],
+   "alternatives": []
+  },
+  {
+   "original": "Algeria",
+   "translations": ["Alžeeria"],
+   "alternatives": []
+  },
+  {
+   "original": "Ecuador",
+   "translations": ["Ecuador"],
+   "alternatives": []
+  },
+  {
+   "original": "Egypt",
+   "translations": ["Egiprus"],
+   "alternatives": []
+  },
+  {
+   "original": "Eritrea",
+   "translations": ["Eritrea"],
+   "alternatives": []
+  },
+  {
+   "original": "Dhekelia Sovereign Base Area",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Spain",
+   "translations": ["Hispaania"],
+   "alternatives": []
+  },
+  {
+   "original": "Estonia",
+   "translations": ["Eesti"],
+   "alternatives": []
+  },
+  {
+   "original": "Ethiopia",
+   "translations": ["Etioopia"],
+   "alternatives": []
+  },
+  {
+   "original": "Finland",
+   "translations": ["Soome"],
+   "alternatives": []
+  },
+  {
+   "original": "Fiji",
+   "translations": ["Fidži"],
+   "alternatives": []
+  },
+  {
+   "original": "Falkland Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "France",
+   "translations": ["Prantsusmaa"],
+   "alternatives": []
+  },
+  {
+   "original": "Faroe Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Federated States of Micronesia",
+   "translations": ["Mikroneesia Liiduriigid"],
+   "alternatives": []
+  },
+  {
+   "original": "Gabon",
+   "translations": ["Gabon"],
+   "alternatives": []
+  },
+  {
+   "original": "United Kingdom",
+   "translations": ["Suurbritannia", "Ühendkuningriik", "Suurbritannia ja Põhja-Iiri Ühendkuningriik"],
+   "alternatives": ["Inglismaa"]
+  },
+  {
+   "original": "Georgia",
+   "translations": ["Gruusia"],
+   "alternatives": []
+  },
+  {
+   "original": "Guernsey",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Ghana",
+   "translations": ["Ghana"],
+   "alternatives": []
+  },
+  {
+   "original": "Gibraltar",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Guinea",
+   "translations": ["Guinea"],
+   "alternatives": []
+  },
+  {
+   "original": "Gambia",
+   "translations": ["Gambia"],
+   "alternatives": []
+  },
+  {
+   "original": "Guinea Bissau",
+   "translations": ["Guinea-Bissau"],
+   "alternatives": []
+  },
+  {
+   "original": "Equatorial Guinea",
+   "translations": ["Ekvatoriaal-Guinea"],
+   "alternatives": []
+  },
+  {
+   "original": "Greece",
+   "translations": ["Kreeka"],
+   "alternatives": []
+  },
+  {
+   "original": "Grenada",
+   "translations": ["Grenada"],
+   "alternatives": []
+  },
+  {
+   "original": "Greenland",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Guatemala",
+   "translations": ["Guatemala"],
+   "alternatives": []
+  },
+  {
+   "original": "Guam",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Guyana",
+   "translations": ["Guyana"],
+   "alternatives": []
+  },
+  {
+   "original": "Hong Kong S.A.R.",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Heard Island and McDonald Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Honduras",
+   "translations": ["Honduras"],
+   "alternatives": []
+  },
+  {
+   "original": "Croatia",
+   "translations": ["Horvaatia"],
+   "alternatives": []
+  },
+  {
+   "original": "Haiti",
+   "translations": ["Haiti"],
+   "alternatives": []
+  },
+  {
+   "original": "Hungary",
+   "translations": ["Ungari"],
+   "alternatives": []
+  },
+  {
+   "original": "Indonesia",
+   "translations": ["Indoneesia"],
+   "alternatives": []
+  },
+  {
+   "original": "Isle of Man",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "India",
+   "translations": ["India"],
+   "alternatives": []
+  },
+  {
+   "original": "Indian Ocean Territories",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "British Indian Ocean Territory",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Ireland",
+   "translations": ["Iirimaa"],
+   "alternatives": []
+  },
+  {
+   "original": "Iran",
+   "translations": ["Iraan"],
+   "alternatives": []
+  },
+  {
+   "original": "Iraq",
+   "translations": ["Iraak"],
+   "alternatives": []
+  },
+  {
+   "original": "Iceland",
+   "translations": ["Island"],
+   "alternatives": []
+  },
+  {
+   "original": "Israel",
+   "translations": ["Iisrael"],
+   "alternatives": []
+  },
+  {
+   "original": "Italy",
+   "translations": ["Itaalia"],
+   "alternatives": []
+  },
+  {
+   "original": "Jamaica",
+   "translations": ["Jamaica"],
+   "alternatives": []
+  },
+  {
+   "original": "Jersey",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Jordan",
+   "translations": ["Jordaania"],
+   "alternatives": []
+  },
+  {
+   "original": "Japan",
+   "translations": ["Jaapan"],
+   "alternatives": []
+  },
+  {
+   "original": "Baykonur Cosmodrome",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Siachen Glacier",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Kazakhstan",
+   "translations": ["Kasahstan"],
+   "alternatives": []
+  },
+  {
+   "original": "Kenya",
+   "translations": ["Keenia"],
+   "alternatives": []
+  },
+  {
+   "original": "Kyrgyzstan",
+   "translations": ["Kõrgõzstan"],
+   "alternatives": []
+  },
+  {
+   "original": "Cambodia",
+   "translations": ["Kambodža"],
+   "alternatives": []
+  },
+  {
+   "original": "Kiribati",
+   "translations": ["Kiribati"],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Kitts and Nevis",
+   "translations": ["Saint Kitts ja Nevis"],
+   "alternatives": []
+  },
+  {
+   "original": "South Korea",
+   "translations": ["Lõuna-Korea"],
+   "alternatives": []
+  },
+  {
+   "original": "Kosovo",
+   "translations": ["Kosovo"],
+   "alternatives": []
+  },
+  {
+   "original": "Kuwait",
+   "translations": ["Kuveit"],
+   "alternatives": []
+  },
+  {
+   "original": "Laos",
+   "translations": ["Laos"],
+   "alternatives": []
+  },
+  {
+   "original": "Lebanon",
+   "translations": ["Liibanon"],
+   "alternatives": []
+  },
+  {
+   "original": "Liberia",
+   "translations": ["Libeeria"],
+   "alternatives": []
+  },
+  {
+   "original": "Libya",
+   "translations": ["Liibüa"],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Lucia",
+   "translations": ["Saint Lucia"],
+   "alternatives": []
+  },
+  {
+   "original": "Liechtenstein",
+   "translations": ["Liechtenstein"],
+   "alternatives": []
+  },
+  {
+   "original": "Sri Lanka",
+   "translations": ["Sri Lanka"],
+   "alternatives": []
+  },
+  {
+   "original": "Lesotho",
+   "translations": ["Lesotho"],
+   "alternatives": []
+  },
+  {
+   "original": "Lithuania",
+   "translations": ["Leedu"],
+   "alternatives": []
+  },
+  {
+   "original": "Luxembourg",
+   "translations": ["Luksemburg"],
+   "alternatives": []
+  },
+  {
+   "original": "Latvia",
+   "translations": ["Läti"],
+   "alternatives": []
+  },
+  {
+   "original": "Macao S.A.R",
+   "translations": [""],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Martin",
+   "translations": [""],
+   "alternatives": []
+  },
+  {
+   "original": "Morocco",
+   "translations": ["Maroko"],
+   "alternatives": []
+  },
+  {
+   "original": "Monaco",
+   "translations": ["Monaco"],
+   "alternatives": []
+  },
+  {
+   "original": "Moldova",
+   "translations": ["Moldova"],
+   "alternatives": []
+  },
+  {
+   "original": "Madagascar",
+   "translations": ["Madagaskar"],
+   "alternatives": []
+  },
+  {
+   "original": "Maldives",
+   "translations": ["Maldiivid"],
+   "alternatives": []
+  },
+  {
+   "original": "Mexico",
+   "translations": ["Mehhiko"],
+   "alternatives": []
+  },
+  {
+   "original": "Marshall Islands",
+   "translations": ["Marshalli Saared"],
+   "alternatives": []
+  },
+  {
+   "original": "Macedonia",
+   "translations": ["Makedoonia"],
+   "alternatives": []
+  },
+  {
+   "original": "Mali",
+   "translations": ["Mali"],
+   "alternatives": []
+  },
+  {
+   "original": "Malta",
+   "translations": ["Malda"],
+   "alternatives": []
+  },
+  {
+   "original": "Myanmar",
+   "translations": ["Myanmar"],
+   "alternatives": []
+  },
+  {
+   "original": "Montenegro",
+   "translations": ["Montenegro"],
+   "alternatives": []
+  },
+  {
+   "original": "Mongolia",
+   "translations": ["Mongoolia"],
+   "alternatives": []
+  },
+  {
+   "original": "Northern Mariana Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Mozambique",
+   "translations": ["Mosambiik"],
+   "alternatives": []
+  },
+  {
+   "original": "Mauritania",
+   "translations": ["Mauritaania"],
+   "alternatives": []
+  },
+  {
+   "original": "Montserrat",
+   "translations": [""],
+   "alternatives": []
+  },
+  {
+   "original": "Mauritius",
+   "translations": ["Mauriitius"],
+   "alternatives": []
+  },
+  {
+   "original": "Malawi",
+   "translations": ["Malawi"],
+   "alternatives": []
+  },
+  {
+   "original": "Malaysia",
+   "translations": ["Malaisia"],
+   "alternatives": []
+  },
+  {
+   "original": "Namibia",
+   "translations": ["Namiibia"],
+   "alternatives": []
+  },
+  {
+   "original": "New Caledonia",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Niger",
+   "translations": ["Niger"],
+   "alternatives": []
+  },
+  {
+   "original": "Norfolk Island",
+   "translations": [""],
+   "alternatives": []
+  },
+  {
+   "original": "Nigeria",
+   "translations": ["Nigeeria"],
+   "alternatives": []
+  },
+  {
+   "original": "Nicaragua",
+   "translations": ["Nicaragua"],
+   "alternatives": []
+  },
+  {
+   "original": "Niue",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Netherlands",
+   "translations": ["Holland", "Madalmaad"],
+   "alternatives": []
+  },
+  {
+   "original": "Norway",
+   "translations": ["Norra"],
+   "alternatives": []
+  },
+  {
+   "original": "Nepal",
+   "translations": ["Nepal"],
+   "alternatives": []
+  },
+  {
+   "original": "Nauru",
+   "translations": ["Nauru"],
+   "alternatives": []
+  },
+  {
+   "original": "New Zealand",
+   "translations": ["Uus-Meremaa"],
+   "alternatives": []
+  },
+  {
+   "original": "Oman",
+   "translations": ["Omaan"],
+   "alternatives": []
+  },
+  {
+   "original": "Pakistan",
+   "translations": ["Pakistan"],
+   "alternatives": []
+  },
+  {
+   "original": "Panama",
+   "translations": ["Panama"],
+   "alternatives": []
+  },
+  {
+   "original": "Pitcairn Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Peru",
+   "translations": ["Peruu"],
+   "alternatives": []
+  },
+  {
+   "original": "Spratly Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Philippines",
+   "translations": ["Filipiiniid"],
+   "alternatives": []
+  },
+  {
+   "original": "Palau",
+   "translations": ["Belau"],
+   "alternatives": []
+  },
+  {
+   "original": "Papua New Guinea",
+   "translations": ["Paapua Uus-Guinea"],
+   "alternatives": []
+  },
+  {
+   "original": "Poland",
+   "translations": ["Poola"],
+   "alternatives": []
+  },
+  {
+   "original": "Puerto Rico",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "North Korea",
+   "translations": ["Põhja-Korea"],
+   "alternatives": []
+  },
+  {
+   "original": "Portugal",
+   "translations": ["Portugal"],
+   "alternatives": []
+  },
+  {
+   "original": "Paraguay",
+   "translations": ["Paraguay"],
+   "alternatives": []
+  },
+  {
+   "original": "Palestine",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "French Polynesia",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Qatar",
+   "translations": ["Kater"],
+   "alternatives": []
+  },
+  {
+   "original": "Romania",
+   "translations": ["Rumeenia"],
+   "alternatives": []
+  },
+  {
+   "original": "Russia",
+   "translations": ["Venemaa"],
+   "alternatives": []
+  },
+  {
+   "original": "Rwanda",
+   "translations": ["Rwanda"],
+   "alternatives": []
+  },
+  {
+   "original": "Western Sahara",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Saudi Arabia",
+   "translations": ["Saudi Araabia"],
+   "alternatives": []
+  },
+  {
+   "original": "Scarborough Reef",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Sudan",
+   "translations": ["Sudaan"],
+   "alternatives": []
+  },
+  {
+   "original": "South Sudan",
+   "translations": ["Lõuna-Sudaan"],
+   "alternatives": []
+  },
+  {
+   "original": "Senegal",
+   "translations": ["Senegal"],
+   "alternatives": []
+  },
+  {
+   "original": "Serranilla Bank",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Singapore",
+   "translations": ["Singapur"],
+   "alternatives": []
+  },
+  {
+   "original": "South Georgia and South Sandwich Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Helena",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Solomon Islands",
+   "translations": ["Saalomoni saared"],
+   "alternatives": []
+  },
+  {
+   "original": "Sierra Leone",
+   "translations": ["Sierra Leone"],
+   "alternatives": []
+  },
+  {
+   "original": "El Salvador",
+   "translations": ["El Salvador"],
+   "alternatives": []
+  },
+  {
+   "original": "San Marino",
+   "translations": ["San Marino"],
+   "alternatives": []
+  },
+  {
+   "original": "Somaliland",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Somalia",
+   "translations": ["Somaalia"],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Pierre and Miquelon",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Republic of Serbia",
+   "translations": ["Serbia"],
+   "alternatives": []
+  },
+  {
+   "original": "Sao Tome and Principe",
+   "translations": ["São Tomé ja Príncipe", "Sao Tome ja Principe"],
+   "alternatives": []
+  },
+  {
+   "original": "Suriname",
+   "translations": ["Suriname"],
+   "alternatives": []
+  },
+  {
+   "original": "Slovakia",
+   "translations": ["Slovakkia"],
+   "alternatives": []
+  },
+  {
+   "original": "Slovenia",
+   "translations": ["Sloveenia"],
+   "alternatives": []
+  },
+  {
+   "original": "Sweden",
+   "translations": ["Rootsi"],
+   "alternatives": []
+  },
+  {
+   "original": "Swaziland",
+   "translations": ["eSwatini", "eSwatini Kuningriik", "Svaasimaa"],
+   "alternatives": []
+  },
+  {
+   "original": "Sint Maarten",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Seychelles",
+   "translations": ["Seišellid"],
+   "alternatives": []
+  },
+  {
+   "original": "Syria",
+   "translations": ["Süüria"],
+   "alternatives": []
+  },
+  {
+   "original": "Turks and Caicos Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Chad",
+   "translations": ["Tšaad"],
+   "alternatives": []
+  },
+  {
+   "original": "Togo",
+   "translations": ["Togo"],
+   "alternatives": []
+  },
+  {
+   "original": "Thailand",
+   "translations": ["Tai"],
+   "alternatives": []
+  },
+  {
+   "original": "Tajikistan",
+   "translations": ["Tadžikistan"],
+   "alternatives": []
+  },
+  {
+   "original": "Turkmenistan",
+   "translations": ["Turkmenistan"],
+   "alternatives": []
+  },
+  {
+   "original": "East Timor",
+   "translations": ["Ida-Timor"],
+   "alternatives": []
+  },
+  {
+   "original": "Tonga",
+   "translations": ["Tonga"],
+   "alternatives": []
+  },
+  {
+   "original": "Trinidad and Tobago",
+   "translations": ["Trinidad ja Tobago"],
+   "alternatives": []
+  },
+  {
+   "original": "Tunisia",
+   "translations": ["Tuneesia"],
+   "alternatives": []
+  },
+  {
+   "original": "Turkey",
+   "translations": ["Türgi"],
+   "alternatives": []
+  },
+  {
+   "original": "Tuvalu",
+   "translations": ["Tuvalu"],
+   "alternatives": []
+  },
+  {
+   "original": "Taiwan",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "United Republic of Tanzania",
+   "translations": ["Tansaania"],
+   "alternatives": []
+  },
+  {
+   "original": "Uganda",
+   "translations": ["Uganda"],
+   "alternatives": []
+  },
+  {
+   "original": "Ukraine",
+   "translations": ["Ukraina"],
+   "alternatives": []
+  },
+  {
+   "original": "United States Minor Outlying Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Uruguay",
+   "translations": ["Uruguay"],
+   "alternatives": []
+  },
+  {
+   "original": "United States of America",
+   "translations": ["USA", "Ameerika Ühendriigid"],
+   "alternatives": ["Ameerika"]
+  },
+  {
+   "original": "US Naval Base Guantanamo Bay",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Uzbekistan",
+   "translations": ["Usbekistan"],
+   "alternatives": []
+  },
+  {
+   "original": "Vatican",
+   "translations": ["Vatikan"],
+   "alternatives": []
+  },
+  {
+   "original": "Saint Vincent and the Grenadines",
+   "translations": ["Saint Vincent ja Grenadiinid"],
+   "alternatives": []
+  },
+  {
+   "original": "Venezuela",
+   "translations": ["Venezuela"],
+   "alternatives": []
+  },
+  {
+   "original": "British Virgin Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "United States Virgin Islands",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Vietnam",
+   "translations": ["Vietnam"],
+   "alternatives": []
+  },
+  {
+   "original": "Vanuatu",
+   "translations": ["Vanuato"],
+   "alternatives": []
+  },
+  {
+   "original": "Wallis and Futuna",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Akrotiri Sovereign Base Area",
+   "translations": [],
+   "alternatives": []
+  },
+  {
+   "original": "Samoa",
+   "translations": ["Samoa"],
+   "alternatives": []
+  },
+  {
+   "original": "Yemen",
+   "translations": ["Jeemen"],
+   "alternatives": []
+  },
+  {
+   "original": "South Africa",
+   "translations": ["Lõuna-Aafrika Vabariik"],
+   "alternatives": []
+  },
+  {
+   "original": "Zambia",
+   "translations": ["Sambia"],
+   "alternatives": []
+  },
+  {
+   "original": "Zimbabwe",
+   "translations": ["Zimbabwe"],
+   "alternatives": []
+  }
+ ]
+}
