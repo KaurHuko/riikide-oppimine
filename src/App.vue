@@ -6,10 +6,9 @@
   </header>
 
   <main>
-    
-    <!--<canvas id="countryCanvas" width="1200" height="600"></canvas>-->
-
-    <svg id="map" width="1200" height="600"></svg>
+    <svg id="map" width="1200" height="600">
+      <animate attributeName="viewBox" values="0 0 600 400; 250 180 300 200" begin="-1h" dur="2000ms" fill="freeze"/>
+    </svg>
 
     <br><br>
     <div id="feedback"><br></div>

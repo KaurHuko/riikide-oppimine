@@ -10,7 +10,7 @@ for (const country of baseCountries.features) {
     translations.push({
         original: country.properties.ADMIN,
         translations: [],
-        alternatives: [],
+        alternatives: undefined,
     });
     fs.writeFileSync("./gen/translations-base.json", JSON.stringify(exportJson, undefined, 1));
 }

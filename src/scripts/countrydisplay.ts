@@ -1,21 +1,31 @@
+import type { CountryJson, CountryJsonList } from '@/lib/countryjson';
 import jsonCountries from '../assets/countries.json'; 
+import { animateViewBox } from './viewbox-animation';
 
-const jsonCountryList: any[] = (jsonCountries as any).features;
+interface CountryData {
+    jsonData: CountryJson,
+    polygon: SVGPathElement[]
+}
 
-let svgMap: HTMLElement;
+const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
 
-const max_lat = 90;
-const max_alt = 180;
-
-let ppd: number; // pixels per degree
-let center_x: number;
-let center_y: number;
-
-const countries: Map<string, SVGPathElement[]> = new Map();
+const countryMap: Map<string, CountryData> = new Map();
 const countryNameList: string[] = [];
 let currentCountry: string;
 
 const drawnCountries: SVGPathElement[][] = [];
+
+let worldMap: HTMLElement;
+
+let mapWidth: number;
+let mapHeight: number;
+
+const maxLatitude = 90;
+const maxAltitude = 180;
+
+let ppd: number; // pixels per degree
+let centerX: number;
+let centerY: number;
 
 export function setup() { 
 
@@ -27,32 +37,25 @@ export function setup() {
 }
 
 function htmlElementSetup() {
-    svgMap = document.getElementById("map")!;
+    worldMap = document.getElementById("map")!;
 
-    const mapWidth = parseFloat(svgMap.getAttribute("width")!);
-    const mapHeight = parseFloat(svgMap.getAttribute("height")!);
+    mapWidth = parseFloat(worldMap.getAttribute("width")!);
+    mapHeight = parseFloat(worldMap.getAttribute("height")!);
 
-    ppd = Math.min(mapWidth / max_lat, mapHeight / max_alt);
-    center_x = ppd * max_alt;
-    center_y = ppd * max_lat;
+    ppd = Math.min(mapWidth / maxLatitude, mapHeight / maxAltitude);
+    centerX = ppd * maxAltitude;
+    centerY = ppd * maxLatitude;
 }
 
 function setupCountries() {
-    jsonCountryList.forEach(country => {
-        const name: string = (country.properties.ADMIN as string).toLocaleLowerCase();
-        const geometry: any = country.geometry;
-        const geometryType: any = geometry.type;
-        const coords: number[][][] = geometry.coordinates;
-    
-        if (geometryType == "MultiPolygon") {
-            countries.set(name, drawNewCountry(coords as any as number[][][][]));
-            countryNameList.push(name);
+    for (const country of countryJsonArray) {
+        if (!country.active) continue;
+        const name = country.names[0].toLocaleLowerCase();
+        const geometry = country.geometry;
 
-        } else if (geometryType == "Polygon") {
-            countries.set(name, drawNewCountry([coords]));
-            countryNameList.push(name);
-        }
-    })
+        countryMap.set(name, {jsonData: country, polygon: drawNewCountry(geometry)});
+        countryNameList.push(name);
+    }
 }
 
 function setupInsert() {
@@ -82,12 +85,53 @@ function generateQuesion() {
     clearPrevCountries();
 
     const countryName: string = countryNameList[Math.floor(Math.random() * countryNameList.length)];
-    const country: SVGPathElement[] | undefined = countries.get(countryName);
+    const country: CountryData | undefined = countryMap.get(countryName);
 
     currentCountry = countryName;
     if (country === undefined) return;
 
-    colorCountry(country, true);
+    colorCountry(country.polygon, true);
+    animateViewBox(boundingBoxToView(country.jsonData.bounding), worldMap);    
+}
+
+function boundingBoxToView(bounding: number[][]): number[][] {
+    const position = [bounding[0][0], bounding[0][1]];
+    const size = [bounding[1][0] - bounding[0][0], bounding[1][1] - bounding[0][1]];
+
+    const viewExpand = Math.min(5, 2 * maxAltitude - size[0], 2 * maxLatitude - size[1]);
+
+    position[0] = centerX + ppd * (position[0] - viewExpand);
+    position[1] = centerY - ppd * (position[1] + size[1] + viewExpand);
+    size[0] = ppd * (size[0] + 2 * viewExpand);
+    size[1] = ppd * (size[1] + 2 * viewExpand);
+
+    const mapRatio = maxAltitude / maxLatitude;
+
+    if (size[0] / size[1] < mapRatio) { 
+        size[0] = fixSizeRatio(size[0], size[1], position, 0, mapRatio);
+    } else {
+        size[0] = fixSizeRatio(size[1], size[0], position, 1, 1/mapRatio);
+    }
+
+    position[0] = clampCoordinate(position[0], size[0], mapWidth);
+    position[1] = clampCoordinate(position[1], size[1], mapHeight);
+
+    return [position, size];    
+}
+
+function fixSizeRatio(size: number, otherSize: number, pos: number[], index: number, mapRatio: number): number {
+    const newSize = otherSize * mapRatio;
+    pos[index] -= (newSize - size) / 2;
+    return newSize;
+}
+
+function clampCoordinate(coord: number, size: number, coordMax: number): number {
+    if (coord < 0) {
+        coord = 0;
+    } else if (coord + size > coordMax) {
+        coord = coordMax - size;
+    }
+    return coord;
 }
 
 function clearPrevCountries() {
@@ -122,14 +166,14 @@ function colorCountry(country: SVGPathElement[], highlight: boolean) {
 function drawLandPatch(landPatch: number[][][]): SVGPathElement {
     
     const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    svgMap.appendChild(pathElement);
+    worldMap.appendChild(pathElement);
 
     let svgPointsAttribute = "";
 
     for (const svgPoints of landPatch) {
         svgPointsAttribute +=
             "M" +
-            svgPoints.map(point => (center_x + ppd * point[0]) + " " + (center_y - ppd * point[1])).join(" ")
+            svgPoints.map(point => (centerX + ppd * point[0]) + " " + (centerY - ppd * point[1])).join(" ")
             + "z";
     }
 
@@ -148,7 +192,6 @@ function formatName(name: string): string {
         if (name.charAt(i) === " ") {
             name = name.substring(0, i+1) + name.charAt(i+1).toUpperCase() + name.substring(i+2);
         }
-        console.log(name.length);
     }
     return name;
 }
