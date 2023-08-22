@@ -1,10 +1,11 @@
 import type { CountryJson, CountryJsonList } from '@/lib/countryjson';
 import jsonCountries from '../assets/countries.json'; 
 import { animateViewBox } from './viewbox-animation';
+import { replaceForeignChars, toPascalCase } from './text-util';
 
 interface CountryData {
     jsonData: CountryJson,
-    polygon: SVGPathElement[]
+    countrySvg: SVGGElement
 }
 
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
@@ -13,9 +14,10 @@ const countryMap: Map<string, CountryData> = new Map();
 const countryNameList: string[] = [];
 let currentCountry: string;
 
-const drawnCountries: SVGPathElement[][] = [];
+const drawnCountries: SVGGElement[] = [];
 
-let worldMap: HTMLElement;
+let mapSvg: HTMLElement;
+let mapSvgCountries: HTMLElement;
 
 let mapWidth: number;
 let mapHeight: number;
@@ -37,10 +39,11 @@ export function setup() {
 }
 
 function htmlElementSetup() {
-    worldMap = document.getElementById("map")!;
+    mapSvg = document.getElementById("map")!;
+    mapSvgCountries = document.getElementById("countries")!
 
-    mapWidth = parseFloat(worldMap.getAttribute("width")!);
-    mapHeight = parseFloat(worldMap.getAttribute("height")!);
+    mapWidth = parseFloat(mapSvg.getAttribute("width")!);
+    mapHeight = parseFloat(mapSvg.getAttribute("height")!);
 
     ppd = Math.min(mapWidth / maxLatitude, mapHeight / maxAltitude);
     centerX = ppd * maxAltitude;
@@ -54,7 +57,7 @@ function setupCountries() {
         const name = country.names[0].toLocaleLowerCase();
         const geometry = country.geometry;
 
-        countryMap.set(name, {jsonData: country, polygon: drawNewCountry(geometry)});
+        countryMap.set(name, {jsonData: country, countrySvg: drawNewCountry(name, geometry)});
         countryNameList.push(name);
     }
 }
@@ -70,11 +73,11 @@ function setupInsert() {
         const guess: string = input.value.toLocaleLowerCase();
         if (guess === currentCountry) {
             feedback.style.color = "green";
-            feedback.innerHTML = formatName(currentCountry) + " is correct!";
+            feedback.innerHTML = toPascalCase(currentCountry) + " is correct!";
             generateQuesion();
         } else {
             feedback.style.color = "red";
-            feedback.innerHTML = "Correct answer: " + formatName(currentCountry);
+            feedback.innerHTML = "Correct answer: " + toPascalCase(currentCountry);
         }
     })
 }
@@ -88,8 +91,8 @@ function generateQuesion() {
     currentCountry = countryName;
     if (country === undefined) return;
 
-    colorCountry(country.polygon, true);
-    animateViewBox(boundingBoxToView(country.jsonData.bounding), worldMap);
+    colorCountry(country.countrySvg, true);
+    animateViewBox(boundingBoxToView(country.jsonData.bounding), mapSvg);
 }
 
 function boundingBoxToView(bounding: number[][]): number[][] {
@@ -137,37 +140,37 @@ function clearPrevCountries() {
     drawnCountries.length = 0;
 }
 
-function drawNewCountry(country: number[][][][]): SVGPathElement[] {
+function drawNewCountry(name: string, geometry: number[][][][]): SVGGElement {
     
-    const counrtySvg: SVGPathElement[] = [];
+    const countryElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    countryElement.id = replaceForeignChars(name).replace(/ /g, "-");
 
-    for (const landPatch of country) {
-        counrtySvg.push(drawLandPatch(landPatch));
+    for (const landPatch of geometry) {
+        drawLandPatch(countryElement, landPatch);
     }
 
-    colorCountry(counrtySvg, false);
+    colorCountry(countryElement, false);
 
-    return counrtySvg;
+    mapSvgCountries.appendChild(countryElement);
+    return countryElement;
 }
 
-function colorCountry(country: SVGPathElement[], highlight: boolean) {
+function colorCountry(country: SVGGElement, highlight: boolean) {
     const color = highlight ? "yellow" : "green";
     const strokeColor = highlight ? "#ffff8888" : "#00000033";
 
     if (highlight) drawnCountries.push(country);
 
-    for (const landPatch of country) {
-        landPatch.setAttribute("fill", color);
-            
-        landPatch.setAttribute("stroke", strokeColor);
-        landPatch.setAttribute("stroke-width", "0.5");
-    }
+    country.setAttribute("fill", color);
+        
+    country.setAttribute("stroke", strokeColor);
+    country.setAttribute("stroke-width", "0.5");
 }
 
-function drawLandPatch(landPatch: number[][][]): SVGPathElement {
+function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SVGPathElement {
     
     const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    worldMap.appendChild(pathElement);
+    countryElement.appendChild(pathElement);
 
     let svgPointsAttribute = "";
 
@@ -180,14 +183,4 @@ function drawLandPatch(landPatch: number[][][]): SVGPathElement {
 
     pathElement.setAttribute("d", svgPointsAttribute);
     return pathElement;
-}
-
-function formatName(name: string): string {
-    name = name.substring(0, 1).toUpperCase() + name.substring(1);
-    for (let i: number = 1; i < name.length - 1; i++) {
-        if (name.charAt(i) === " ") {
-            name = name.substring(0, i+1) + name.charAt(i+1).toUpperCase() + name.substring(i+2);
-        }
-    }
-    return name;
 }

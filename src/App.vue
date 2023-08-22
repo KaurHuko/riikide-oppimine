@@ -7,17 +7,8 @@
 
   <main>
     <svg id="map" width="1200" height="600">
-      <animate attributeName="viewBox" values="0 0 600 400; 250 180 300 200" begin="-1h" dur="2000ms" fill="freeze"/>
+      <g id="countries"></g>
     </svg>
-
-    <div id="random-test" style="font-size: xx-large; text-align: 50%;">
-      <br>
-      <br>
-    </div>
-
-    <form id="random-test-form">
-      <button type="submit">Next</button>
-    </form>
 
     <br><br>
     <div id="feedback"><br></div>
