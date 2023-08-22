@@ -1,0 +1,31 @@
+{
+ "translations": [
+  {
+   "english": "Kosovo",
+   "translations": ["Kosovo"]
+  },
+  {
+   "english": "United Kingdom",
+   "translations": ["Suurbritannia", "Ühendkuningriik"],
+   "alternatives": ["Inglismaa"]
+  },
+  {
+    "english": "Ivory Coast",
+    "translations": ["Elevandiluurannik", "Cote d'Ivoire", "Côte d'Ivoire"]
+  },
+  {
+    "english": "Saint Vincent and the Grenadines",
+    "translations": ["Saint Vincent ja Grenadiinid"]
+  },
+  {
+    "english": "Democratic Republic of the Congo",
+    "translations": ["Kongo DV", "Kongo Demokraatlik Vabariik", "Kongo-Kinshasa", "Kinshasa Kongo"],
+    "alternatives": ["Kongo"]
+  },
+  {
+    "english": "Republic of Congo",
+    "translations": ["Kongo Vabariik", "Kongo-Brazzaville", "Brazzaville'i Kongo"],
+    "alternatives": ["Kongo"]
+  }
+ ]
+}

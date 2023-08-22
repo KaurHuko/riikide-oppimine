@@ -50,6 +50,7 @@ function htmlElementSetup() {
 function setupCountries() {
     for (const country of countryJsonArray) {
         if (!country.active) continue;
+
         const name = country.names[0].toLocaleLowerCase();
         const geometry = country.geometry;
 
@@ -59,26 +60,23 @@ function setupCountries() {
 }
 
 function setupInsert() {
-    try {
-        const form: HTMLFormElement = document.getElementById("country-guess-form") as HTMLFormElement;
-        const input: HTMLInputElement = document.getElementById("country-name") as HTMLInputElement;
-        const feedback: HTMLElement = document.getElementById("feedback") as HTMLElement;
+    const form: HTMLFormElement = document.getElementById("country-guess-form") as HTMLFormElement;
+    const input: HTMLInputElement = document.getElementById("country-name") as HTMLInputElement;
+    const feedback: HTMLElement = document.getElementById("feedback") as HTMLElement;
 
-        form.addEventListener("submit", event => {
-            event.preventDefault();
+    form.addEventListener("submit", event => {
+        event.preventDefault();
 
-            const guess: string = input.value.toLocaleLowerCase();
-            if (guess === currentCountry) {
-                feedback.style.color = "green";
-                feedback.innerHTML = formatName(currentCountry) + " is correct!";
-                generateQuesion();
-            } else {
-                feedback.style.color = "red";
-                feedback.innerHTML = "Correct answer: " + formatName(currentCountry);
-            }
-        })
-
-    } catch (ignored: any) {}
+        const guess: string = input.value.toLocaleLowerCase();
+        if (guess === currentCountry) {
+            feedback.style.color = "green";
+            feedback.innerHTML = formatName(currentCountry) + " is correct!";
+            generateQuesion();
+        } else {
+            feedback.style.color = "red";
+            feedback.innerHTML = "Correct answer: " + formatName(currentCountry);
+        }
+    })
 }
 
 function generateQuesion() {
@@ -91,13 +89,12 @@ function generateQuesion() {
     if (country === undefined) return;
 
     colorCountry(country.polygon, true);
-    animateViewBox(boundingBoxToView(country.jsonData.bounding), worldMap);    
+    animateViewBox(boundingBoxToView(country.jsonData.bounding), worldMap);
 }
 
 function boundingBoxToView(bounding: number[][]): number[][] {
     const position = [bounding[0][0], bounding[0][1]];
     const size = [bounding[1][0] - bounding[0][0], bounding[1][1] - bounding[0][1]];
-
     const viewExpand = Math.min(5, 2 * maxAltitude - size[0], 2 * maxLatitude - size[1]);
 
     position[0] = centerX + ppd * (position[0] - viewExpand);
@@ -106,11 +103,10 @@ function boundingBoxToView(bounding: number[][]): number[][] {
     size[1] = ppd * (size[1] + 2 * viewExpand);
 
     const mapRatio = maxAltitude / maxLatitude;
-
     if (size[0] / size[1] < mapRatio) { 
         size[0] = fixSizeRatio(size[0], size[1], position, 0, mapRatio);
     } else {
-        size[0] = fixSizeRatio(size[1], size[0], position, 1, 1/mapRatio);
+        size[1] = fixSizeRatio(size[1], size[0], position, 1, 1/mapRatio);
     }
 
     position[0] = clampCoordinate(position[0], size[0], mapWidth);
@@ -156,10 +152,15 @@ function drawNewCountry(country: number[][][][]): SVGPathElement[] {
 
 function colorCountry(country: SVGPathElement[], highlight: boolean) {
     const color = highlight ? "yellow" : "green";
+    const strokeColor = highlight ? "#ffff8888" : "#00000033";
+
     if (highlight) drawnCountries.push(country);
 
     for (const landPatch of country) {
         landPatch.setAttribute("fill", color);
+            
+        landPatch.setAttribute("stroke", strokeColor);
+        landPatch.setAttribute("stroke-width", "0.5");
     }
 }
 
@@ -178,11 +179,6 @@ function drawLandPatch(landPatch: number[][][]): SVGPathElement {
     }
 
     pathElement.setAttribute("d", svgPointsAttribute);
-    pathElement.setAttribute("fill", "black");
-
-    pathElement.setAttribute("stroke", "#ffffff33");
-    pathElement.setAttribute("stroke-width", "0.75");
-    
     return pathElement;
 }
 

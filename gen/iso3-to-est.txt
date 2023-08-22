@@ -1,0 +1,254 @@
+*Võetud leheküljelt https://www.eki.ee/knab/maadiso.htm
+
+*Maa	Pealinn	ISO 2-täheline kood	ISO 3-täheline kood	ISO numbrikood
+
+Afganistan	Kabul	AF	AFG	004
+*Ahvenamaa (Soome) [V-9]	Maarianhamina	AX	ALA	248
+Albaania	Tirana	AL	ALB	008
+Alžeeria	Alžiir	DZ	DZA	012
+*Ameerika Samoa	Pago Pago	AS	ASM	016
+Ameerika Ühendriigid	Washington	US	USA	840
+Andorra	Andorra la Vella	AD	AND	020
+Angola	Luanda	AO	AGO	024
+*Anguilla (Br)	The Valley	AI	AIA	660
+*Antarktis		AQ	ATA	010
+Antigua ja Barbuda	Saint John's	AG	ATG	028
+Araabia Ühendemiraadid	Abu Dhabi	AE	ARE	784
+Argentina	Buenos Aires	AR	ARG	032
+Armeenia	Jerevan	AM	ARM	051
+*Aruba (Holl)	Oranjestad	AW	ABW	533
+Aserbaidžaan	Bakuu	AZ	AZE	031
+Austraalia	Canberra	AU	AUS	036
+Austria	Viin	AT	AUT	040
+Bahama	Nassau	BS	BHS	044
+Bahrein	Manama	BH	BHR	048
+Bangladesh	Dhaka	BD	BGD	050
+Barbados	Bridgetown	BB	BRB	052
+Belau	Ngerulmud	PW	PLW	585
+Belgia	Brüssel	BE	BEL	056
+Belize	Belmopan	BZ	BLZ	084
+Benin	Porto-Novo	BJ	BEN	204
+*Bermuda (Br)	Hamilton	BM	BMU	060
+Bhutan	Thimphu	BT	BTN	064
+Boliivia	La Paz, Sucre	BO	BOL	068
+*Bonaire, Sint Eustatius ja Saba (Holl) [VI-8]		BQ	BES	535
+Bosnia ja Hertsegoviina	Sarajevo	BA	BIH	070
+Botswana	Gaborone	BW	BWA	072
+*Bouvet' saar (Norra)		BV	BVT	074
+Brasiilia	Brasília	BR	BRA	076
+*Briti India ookeani ala		IO	IOT	086
+*Briti Neitsisaared	Road Town	VG	VGB	092
+Brunei	Bandar Seri Begawan	BN	BRN	096
+Bulgaaria	Sofia	BG	BGR	100
+Burkina Faso	Ouagadougou	BF	BFA	854
+Burundi	Gitega	BI	BDI	108
+Colombia	Bogotá	CO	COL	170
+*Cooki saared (U-Mer)	Avarua	CK	COK	184
+Costa Rica	San José	CR	CRI	188
+*Curaçao (Holl) [VI-8]	Willemstad	CW	CUW	531
+Djibouti	Djibouti	DJ	DJI	262
+Dominica	Roseau	DM	DMA	212
+Dominikaani Vabariik	Santo Domingo	DO	DOM	214
+Ecuador	Quito	EC	ECU	218
+Eesti	Tallinn	EE	EST	233
+Egiptus	Kairo	EG	EGY	818
+Ekvatoriaal-Guinea	Malabo	GQ	GNQ	226
+Elevandiluurannik (Côte d'Ivoire)	Yamoussoukro	CI	CIV	384
+El Salvador	San Salvador	SV	SLV	222
+Eritrea	Asmara	ER	ERI	232
+Etioopia	Addis Abeba	ET	ETH	231
+*Falklandi saared (Br)	Port Stanley	FK	FLK	238
+Fidži	Suva	FJ	FJI	242
+Filipiinid	Manila	PH	PHL	608
+*Fääri saared (Taani)	Tórshavn	FO	FRO	234
+Gabon	Libreville	GA	GAB	266
+Gambia	Banjul	GM	GMB	270
+Ghana	Accra	GH	GHA	288
+*Gibraltar (Br)		GI	GIB	292
+Grenada	Saint George's	GD	GRD	308
+Gruusia	Thbilisi	GE	GEO	268
+*Gröönimaa (Taani)	Nuuk	GL	GRL	304
+*Guadeloupe (Pr)	Basse-Terre	GP	GLP	312
+*Guam (USA)	Hagåtña	GU	GUM	316
+Guatemala	Guatemala	GT	GTM	320
+*Guernsey (Br) [V-11]	Saint Peter Port	GG	GGY	831
+Guinea	Conakry	GN	GIN	324
+Guinea-Bissau	Bissau	GW	GNB	624
+Guyana	Georgetown	GY	GUY	328
+Haiti	Port-au-Prince	HT	HTI	332
+*Heard ja McDonald (Austrl)		HM	HMD	334
+Hiina	Peking	CN	CHN	156
+Hispaania	Madrid	ES	ESP	724
+Holland	Amsterdam, Haag	NL	NLD	528
+Honduras	Tegucigalpa	HN	HND	340
+*Hongkong (Hiina)		HK	HKG	344
+Horvaatia	Zagreb	HR	HRV	191
+Ida-Timor (Timor-Leste)	Dili	TL	TLS [V-5]	626
+Iirimaa	Dublin	IE	IRL	372
+Iisrael	Tel Aviv	IL	ISR	376
+India	New Delhi	IN	IND	356
+Indoneesia	Jakarta	ID	IDN	360
+Iraak	Bagdad	IQ	IRQ	368
+Iraan	Teheran	IR	IRN	364
+Island	Reykjavík	IS	ISL	352
+Itaalia	Rooma	IT	ITA	380
+Jaapan	Tōkyō	JP	JPN	392
+Jamaica	Kingston	JM	JAM	388
+*Jan Mayen vt Svalbard
+Jeemen	Sanaa	YE	YEM	887
+*Jersey (Br) [V-11]	Saint Hélier	JE	JEY	832
+Jordaania	Amman	JO	JOR	400
+*Jõulusaar (Austrl)	Flying Fish Cove	CX	CXR	162
+*Kaimanisaared (Br)	Georgetown	KY	CYM	136
+Kambodža	Phnom Penh	KH	KHM	116
+Kamerun	Yaoundé	CM	CMR	120
+Kanada	Ottawa	CA	CAN	124
+Kasahstan	Nur-Sultan	KZ	KAZ	398
+Katar	Doha	QA	QAT	634
+Keenia	Nairobi	KE	KEN	404
+Kesk-Aafrika Vabariik	Bangui	CF	CAF	140
+Kiribati	Bairiki/Tarawa	KI	KIR	296
+Komoorid	Moroni	KM	COM	174
+Kongo DV	Kinshasa	CD	COD	180
+Kongo Vabariik	Brazzaville	CG	COG	178
+*Kookossaared (Austrl)	West Island	CC	CCK	166
+Kreeka	Ateena	GR	GRC	300
+Kuuba	Havanna	CU	CUB	192
+Kuveit	Al-Kuwayt	KW	KWT	414
+Kõrgõzstan	Biškek	KG	KGZ	417
+Küpros	Nikosia	CY	CYP	196
+Laos	Vientiane	LA	LAO	418
+Leedu	Vilnius	LT	LTU	440
+Lesotho	Maseru	LS	LSO	426
+Libeeria	Monrovia	LR	LBR	430
+Liechtenstein	Vaduz	LI	LIE	438
+Liibanon	Beirut	LB	LBN	422
+Liibüa	Tripoli	LY	LBY	434
+Luksemburg	Luxembourg	LU	LUX	442
+Lõuna-Aafrika Vabariik	Pretoria, Kaplinn	ZA	ZAF	710
+*Lõuna-Georgia ja Lõuna-Sandwichi saared (Br)		GS	SGS	239
+Lõuna-Korea	Soul	KR	KOR	410
+Lõuna-Sudaan [VI-10]	Juba	SS	SSD	728
+Läti	Riia	LV	LVA	428
+*Lääne-Sahara		EH	ESH	732
+*Macau (Hiina)		MO	MAC	446
+Madagaskar	Antananarivo	MG	MDG	450
+Malaisia	Kuala Lumpur	MY	MYS	458
+Malawi	Lilongwe	MW	MWI	454
+Maldiivid	Male	MV	MDV	462
+Mali	Bamako	ML	MLI	466
+Malta	Valletta	MT	MLT	470
+*Mani saar (Br) [V-11]	Douglas	IM	IMN	833
+Maroko	Rabat	MA	MAR	504
+Marshalli Saared	Uliga/Majuro	MH	MHL	584
+*Martinique	Fort-de-France	MQ	MTQ	474
+Mauritaania	Nouakchott	MR	MRT	478
+Mauritius	Port Louis	MU	MUS	480
+*Mayotte (Pr)	Mamoudzou	YT	MYT	175
+Mehhiko	México	MX	MEX	484
+Mikroneesia	Palikir	FM	FSM	583
+Moldova	Chişinău	MD	MDA	498
+Monaco	Monaco	MC	MCO	492
+Mongoolia	Ulaanbaatar	MN	MNG	496
+Montenegro	Podgorica	ME	MNE	499
+*Montserrat (Br)	Plymouth	MS	MSR	500
+Mosambiik	Maputo	MZ	MOZ	508
+Myanmar (Birma)	Naypyidaw	MM	MMR	104
+Namiibia	Windhoek	NA	NAM	516
+Nauru	Yaren	NR	NRU	520
+Nepal	Katmandu	NP	NPL	524
+Nicaragua	Managua	NI	NIC	558
+Nigeeria	Abuja	NG	NGA	566
+Niger	Niamey	NE	NER	562
+*Niue (U-Mer)	Alofi	NU	NIU	570
+*Norfolk (Austrl)	Kingston	NF	NFK	574
+Norra	Oslo	NO	NOR	578
+Omaan	Masqaţ	OM	OMN	512
+Paapua Uus-Guinea	Port Moresby	PG	PNG	598
+Pakistan	Islamabad	PK	PAK	586
+*Palestiina	Rām Allāh	PS	PSE	275
+Panama	Panamá	PA	PAN	591
+Paraguay	Asunción	PY	PRY	600
+Peruu	Lima	PE	PER	604
+*Pitcairn (Br)	Adamstown	PN	PCN	612
+Poola	Varssavi	PL	POL	616
+Portugal	Lissabon	PT	PRT	620
+*Prantsuse Guajaana	Cayenne	GF	GUF	254
+*Prantsuse Lõunaalad	Port-aux-Français	TF	ATF	260
+*Prantsuse Polüneesia	Papeete	PF	PYF	258
+Prantsusmaa	Pariis	FR	FRA	250
+*Puerto Rico (USA)	San Juan	PR	PRI	630
+Põhja-Korea	Pyongyang	KP	PRK	408
+Põhja-Makedoonia	Skopje	MK	MKD	807
+*Põhja-Mariaanid (USA)	Chalan Kanoa / Garapan	MP	MNP	580
+*Réunion (Pr)	Saint-Denis	RE	REU	638
+Roheneemesaared (Cabo Verde)	Praia	CV	CPV	132
+Rootsi	Stockholm	SE	SWE	752
+Rumeenia	Bukarest	RO	ROU [V-3]	642
+Rwanda	Kigali	RW	RWA	646
+Saalomoni Saared	Honiara	SB	SLB	090
+*Saint-Barthélemy (Pr)	Gustavia	BL	BLM	652 [VI-1]
+*Saint Helena (Br)	Jamestown	SH	SHN	654
+Saint Kitts ja Nevis	Basseterre	KN	KNA	659
+Saint Lucia	Castries	LC	LCA	662
+*Saint-Martin (Prantsuse osa)	Marigot	MF	MAF	663 [VI-1]
+*Saint-Pierre ja Miquelon (Pr)	Saint-Pierre	PM	SPM	666
+Saint Vincent	Kingstown	VC	VCT	670
+Saksamaa	Berliin	DE	DEU	276
+Sambia	Lusaka	ZM	ZMB	894
+Samoa	Apia	WS	WSM	882
+San Marino	San Marino	SM	SMR	674
+São Tomé ja Príncipe	São Tomé	ST	STP	678
+Saudi Araabia	Ar-Riyāḑ	SA	SAU	682
+Seišellid	Victoria	SC	SYC	690
+Senegal	Dakar	SN	SEN	686
+Serbia	Belgrad	RS	SRB	688
+Sierra Leone	Freetown	SL	SLE	694
+Singapur	Singapur	SG	SGP	702
+*Sint Maarten (Holl) [VI-8]	Philipsburg	SX	SXM	534
+Slovakkia	Bratislava	SK	SVK	703
+Sloveenia	Ljubljana	SI	SVN	705
+Somaalia	Muqdisho	SO	SOM	706
+Soome	Helsingi	FI	FIN	246
+Sri Lanka	Colombo	LK	LKA	144
+Sudaan	Hartum	SD	SDN	729 [VI-10]
+Suriname	Paramaribo	SR	SUR	740
+Suurbritannia	London	GB	GBR	826
+Svaasimaa	Mbabane	SZ	SWZ	748
+*Svalbard ja Jan Mayen (Norra)	Longyearbyen	SJ	SJM	744
+Süüria	Damaskus	SY	SYR	760
+Šveits	Bern	CH	CHE	756
+Zimbabwe	Harare	ZW	ZWE	716
+Taani	Kopenhaagen	DK	DNK	208
+Tadžikistan	Dušanbe	TJ	TJK	762
+Tai	Bangkok	TH	THA	764
+*Taiwan (Hiina)	Taibei	TW	TWN	158
+Tansaania	Dodoma	TZ	TZA	834
+Togo	Lomé	TG	TGO	768
+*Tokelau (U-Mer)	Fakaofo	TK	TKL	772
+Tonga	Nuku‘alofa	TO	TON	776
+Trinidad ja Tobago	Port of Spain	TT	TTO	780
+Tšaad	N'Djamena	TD	TCD	148
+Tšehhi	Praha	CZ	CZE	203
+Tšiili	Santiago	CL	CHL	152
+Tuneesia	Tunis	TN	TUN	788
+*Turks ja Caicos (Br)	Cockburn Town	TC	TCA	796
+Tuvalu	Vaiaku/Funafuti	TV	TUV	798
+Türgi	Ankara	TR	TUR	792
+Türkmenistan	Aşgabat	TM	TKM	795
+Uganda	Kampala	UG	UGA	800
+Ukraina	Kiiev	UA	UKR	804
+Ungari	Budapest	HU	HUN	348
+Uruguay	Montevideo	UY	URY	858
+*USA Neitsisaared	Charlotte Amalie	VI	VIR	850
+Usbekistan	Taškent	UZ	UZB	860
+*Uus-Kaledoonia (Pr)	Nouméa	NC	NCL	540
+Uus-Meremaa	Wellington	NZ	NZL	554
+Valgevene	Minsk	BY	BLR	112
+Vanuatu	Port Vila	VU	VUT	548
+Vatikan		VA	VAT	336
+Venemaa	Moskva	RU	RUS	643
+Venezuela	Caracas	VE	VEN	862
+Vietnam	Hanoi	VN	VNM	704
+*Wallis ja Futuna (Pr)	Matâ'utu	WF	WLF	876
+*Ühendriikide hajasaared		UM	UMI	581
