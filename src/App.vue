@@ -6,17 +6,19 @@
   </header>
 
   <main>
-    <svg id="map" width="1200" height="600">
+
+    <svg id="map" width="100%" height="100%">
       <g id="countries"></g>
     </svg>
 
-    <br><br>
-    <div id="feedback"><br></div>
-    <form id="country-guess-form">
-      Guess The Country:
-      <input id="country-name">
-      <button type="submit">Guess</button>
-    </form>
+    <div class="interactions">
+      <div id="feedback"><br></div>
+      <form id="country-guess-form">
+        Guess The Country:
+        <input id="country-name">
+        <button type="submit">Guess</button>
+      </form>
+    </div>
 
   </main>
 </template>

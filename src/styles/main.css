@@ -1,3 +1,31 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.interactions {
+    z-index: 2;
+    position: absolute;
+
+    top: 30px;
+    left: 30px;
+
+    background-color: #ffffffdd;
+    font-size: x-large;
+
+    border-radius: 10px;
+    border: 10px solid transparent;
+}
+
 #map {
+    z-index: 1;
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
     background-color: black;
 }
