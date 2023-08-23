@@ -1,17 +1,32 @@
 // Generates the final json for country borders and names used in the website.
 
-import baseCountries from "./countries-base.json" assert {type: "json"}
-import manualTranslationData from "./manual-translations.json" assert {type: "json"}
+import { GeoJson, GeoJsonFeature } from "../src/lib/geojson"
+import { CountryJson } from "../src/lib/countryjson"
+import baseCountriesImport from "./countries-base.json"
+import manualTranslationImport from "./manual-translations.json"
 import fs from "fs"
 
+interface TranslationData {
+    translations: string[] | undefined,
+    alternatives: string[],
+}
+
+interface ManualTranslation {
+    english: string,
+    translations: string[] | undefined,
+    alternatives: string[] | undefined,
+}
+
+const baseCountries = baseCountriesImport as GeoJson;
+
 const mapLeftTrim = 3 - 180;
-const russiaLeftTrim = 20 - 180 // Lazy workaround to make the bounding box smaller without destroying other countries like uh Tonga
+const russiaLeftTrim = 20 - 180; // Lazy workaround to make the bounding box smaller without destroying other countries like uh Tonga
 const mapBottomTrim = 30 - 90;
 
-const nameToIso3 = new Map();
-const iso3ToNames = new Map();
-const manualTranslations = new Map();
-const countries = [];
+const nameToIso3 = new Map<string, string>();
+const iso3ToNames = new Map<string, string[]>();
+const manualTranslations = new Map<string, ManualTranslation>();
+const countries: CountryJson[] = [];
 
 loadNameToIso3();
 loadAdditionalNames();
@@ -20,56 +35,56 @@ loadCountries();
 
 fs.writeFileSync("./src/assets/countries.json", JSON.stringify({countries: countries}, undefined, 0));
 
-function currentDir(fileName) {
-    return "./gen/" + fileName;
-}
-
 function loadNameToIso3() {
-    try {
-        const data = fs.readFileSync(currentDir("iso3-to-est.txt"), 'utf8');
-        const lines = data.split('\n');
-        for (const line of lines) {
-            const values = getTsv(line, 0, 3);
-            if (values === undefined) continue;
-            
-            const countryName = cleanTabValue(values[0]);
-            const iso3 = cleanTabValue(values[1]);
-            
-            nameToIso3.set(countryName, iso3);
-        }
-    } catch (err) {
-        throw err;
-    }
+    iterateTsv(currentDir("iso3-to-est.txt"), tsvLine => {
+        const values = getTsv(tsvLine, 0, 3);
+        if (values === undefined) return;
+        
+        const countryName = cleanTabValue(values[0]);
+        const iso3 = cleanTabValue(values[1]);
+        
+        nameToIso3.set(countryName, iso3);
+    });
 }
 
 function loadAdditionalNames() {
+    iterateTsv(currentDir("more-est-names.txt"), tsvLine => {
+        const values = getTsv(tsvLine, 0);
+        if (values === undefined) return;
+
+        const countryNames = cleanTabValue(values[0]).split(" ~ ");
+        for (const name of countryNames) {
+            const iso3 = nameToIso3.get(name);
+            if (iso3 === undefined) continue;
+
+            iso3ToNames.set(iso3, countryNames);
+            break;
+        }
+    });
+}
+
+function currentDir(fileName: string): string {
+    return "./gen/" + fileName;
+}
+
+function iterateTsv(filePath: string, process: (line: string) => void) {
     try {
-        const data = fs.readFileSync(currentDir("more-est-names.txt"), 'utf8');
+        const data = fs.readFileSync(filePath, 'utf8');
         const lines = data.split('\n');
         
         for (const line of lines) {
-            const values = getTsv(line, 0);
-            if (values === undefined) continue;
-
-            const countryNames = cleanTabValue(values[0]).split(" ~ ");
-            for (const name of countryNames) {
-                const iso3 = nameToIso3.get(name);
-                if (iso3 === undefined) continue;
-
-                iso3ToNames.set(iso3, countryNames);
-                break;
-            }
+            process(line);
         }
     } catch (err) {
         throw err;
     }
 }
 
-function getTsv(line, ...columns) {
+function getTsv(line: string, ...columns: number[]): string[] | undefined {
     if (line.length < 1 || line[0] === "*") return undefined;
 
     const tsv = line.split("\t");
-    const returnValues = [];
+    const returnValues: string[] = [];
 
     for (const column of columns) {
         if (tsv.length <= column) return undefined;
@@ -79,7 +94,7 @@ function getTsv(line, ...columns) {
     return returnValues;
 }
 
-function cleanTabValue(name) {
+function cleanTabValue(name: string): string {
     // Remove text in brackets
     name = name.replace(/\([^)]*\)/g, "");
     name = name.replace(/\[[^\]]*\]/g, "");
@@ -92,24 +107,24 @@ function cleanTabValue(name) {
 }
 
 function loadManualTranslations() {
-    for (const manualTranslation of manualTranslationData.translations) {
-        manualTranslations.set(manualTranslation.english, manualTranslation);
+    for (const manualTranslation of manualTranslationImport.translations) {
+        manualTranslations.set(manualTranslation.english, manualTranslation as unknown as ManualTranslation);
     }
 }
 
 function loadCountries() {
     for (const baseCountry of baseCountries.features) {
 
-        const newCountry = {
+        const newCountry: CountryJson = {
             active: false,
             names: [],
             alternativeNames: [],
-            geometry: undefined,
-            bounding: undefined,
+            geometry: [],
+            bounding: [],
         };
 
         newCountry.geometry = getCountryGeometry(baseCountry);
-        if (newCountry.geometry === undefined) continue;
+        if (newCountry.geometry.length < 1) continue;
 
         newCountry.bounding = getGeometryBounding(newCountry.geometry);
 
@@ -119,15 +134,15 @@ function loadCountries() {
             newCountry.names = translationData.translations;
             newCountry.alternativeNames = translationData.alternatives;
         } else {
-            newCountry.names = baseCountry.properties.ADMIN;
+            newCountry.names = [baseCountry.properties.ADMIN];
         }
 
         countries.push(newCountry);
     }
 }
 
-function getCountryTranslations(baseCountry) {
-    const returnData = {translations: undefined, alternatives: []};
+function getCountryTranslations(baseCountry: GeoJsonFeature): TranslationData {
+    const returnData: TranslationData = {translations: undefined, alternatives: []};
     
     const manualTranslation = manualTranslations.get(baseCountry.properties.ADMIN);
 
@@ -147,16 +162,16 @@ function getCountryTranslations(baseCountry) {
     return returnData;
 }
 
-function getCountryGeometry(baseCountry) {
+function getCountryGeometry(baseCountry: GeoJsonFeature): number[][][][] {
     const geometryData = baseCountry.geometry;
-    let geometry;
+    let geometry: number[][][][] | undefined;
 
     if (geometryData.type == "Polygon") {
-        geometry = [geometryData.coordinates];
+        geometry = [geometryData.coordinates] as number[][][][];
     } else if (geometryData.type == "MultiPolygon") {
-        geometry = geometryData.coordinates;
+        geometry = geometryData.coordinates as number[][][][];
     } else {
-        return undefined;
+        return [];
     }
 
     geometry = cutMapEdges(baseCountry.properties.ADMIN, geometry);
@@ -165,34 +180,36 @@ function getCountryGeometry(baseCountry) {
     return geometry;
 }
 
-function cutMapEdges(name, geometry) {
-    const newGeometry = [];
-    let cutOff2 = false;
+function cutMapEdges(name: string, geometry: number[][][][]): number[][][][] {
+    const newGeometry: number[][][][] = [];
+    let countryCutOff = false;
 
     const leftTrim = name === "Russia" ? russiaLeftTrim : mapLeftTrim;
 
     for (const landPatch of geometry) {
         const polygon = landPatch[0];
-        let cutOff = false;
+        let landPatchCutoff = false;
 
         for (const point of polygon) {
             if (point[0] < leftTrim || point[1] < mapBottomTrim) {
-                cutOff = true;
-                cutOff2 = true;
+                landPatchCutoff = true;
                 break;
             }
         }
 
-        if (!cutOff) newGeometry.push(landPatch);
+        if (!landPatchCutoff) newGeometry.push(landPatch);
+        else countryCutOff = true;
     }
 
-    if (cutOff2) console.log("cutoff xd " + name);
-    if (newGeometry.length < 1) console.log("epic cutoff xd " + name);
+    if (countryCutOff) {
+        if (newGeometry.length > 0) console.log(`Partly cut off ${name}.`)
+        else console.log(`Entirely cut off ${name}.`)
+    }
 
     return newGeometry;
 }
 
-function applyMapProjection(geometry) {
+function applyMapProjection(geometry: number[][][][]) {
     for (const landPatch of geometry) {
         for (const polygon of landPatch) {
             for (const point of polygon) {
@@ -203,7 +220,7 @@ function applyMapProjection(geometry) {
     }
 }
 
-function getGeometryBounding(geometry) {
+function getGeometryBounding(geometry: number[][][][]): number[][] {
     const bounding = [
         [Number.MAX_VALUE, Number.MAX_VALUE],
         [-Number.MAX_VALUE, -Number.MAX_VALUE]
