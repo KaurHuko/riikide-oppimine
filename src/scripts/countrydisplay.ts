@@ -22,7 +22,12 @@ let mapSvgCountries: HTMLElement;
 let mapWidth: number;
 let mapHeight: number;
 
-const maxLatitude = 90;
+const latitudeSize = projectedYCoordinate(180);
+const altitudeSize = 360;
+
+const minLatitude = projectedYCoordinate(-60);
+const maxLatitude = projectedYCoordinate(90);
+const minAltitude = -178;
 const maxAltitude = 180;
 
 let ppd: number; // pixels per degree
@@ -45,8 +50,8 @@ function htmlElementSetup() {
     mapWidth = parseFloat(mapSvg.getAttribute("width")!);
     mapHeight = parseFloat(mapSvg.getAttribute("height")!);
 
-    ppd = Math.min(mapWidth / maxLatitude, mapHeight / maxAltitude);
-    centerX = ppd * maxAltitude;
+    ppd = Math.min(mapWidth / (maxAltitude - minAltitude), mapHeight / (maxLatitude - minLatitude));
+    centerX = ppd * -minAltitude;
     centerY = ppd * maxLatitude;
 }
 
@@ -98,14 +103,14 @@ function generateQuesion() {
 function boundingBoxToView(bounding: number[][]): number[][] {
     const position = [bounding[0][0], bounding[0][1]];
     const size = [bounding[1][0] - bounding[0][0], bounding[1][1] - bounding[0][1]];
-    const viewExpand = Math.min(5, 2 * maxAltitude - size[0], 2 * maxLatitude - size[1]);
+    const viewExpand = Math.min(5, altitudeSize - size[0], latitudeSize - size[1]);
 
     position[0] = centerX + ppd * (position[0] - viewExpand);
     position[1] = centerY - ppd * (position[1] + size[1] + viewExpand);
     size[0] = ppd * (size[0] + 2 * viewExpand);
     size[1] = ppd * (size[1] + 2 * viewExpand);
 
-    const mapRatio = maxAltitude / maxLatitude;
+    const mapRatio = altitudeSize / latitudeSize;
     if (size[0] / size[1] < mapRatio) { 
         size[0] = fixSizeRatio(size[0], size[1], position, 0, mapRatio);
     } else {
@@ -164,7 +169,7 @@ function colorCountry(country: SVGGElement, highlight: boolean) {
     country.setAttribute("fill", color);
         
     country.setAttribute("stroke", strokeColor);
-    country.setAttribute("stroke-width", "0.5");
+    country.setAttribute("stroke-width", "0.05");
 }
 
 function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SVGPathElement {
@@ -183,4 +188,10 @@ function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SV
 
     pathElement.setAttribute("d", svgPointsAttribute);
     return pathElement;
+}
+
+function projectedYCoordinate(coordinate: number): number {
+    const warp = Math.abs(coordinate) / 90;
+    const multiplier = 1 + 0.5 * (warp * warp);
+    return coordinate * multiplier;
 }
