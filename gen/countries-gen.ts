@@ -20,7 +20,7 @@ interface ManualTranslation {
 const baseCountries = baseCountriesImport as GeoJson;
 
 const mapLeftTrim = 3 - 180;
-const russiaLeftTrim = 20 - 180; // Lazy workaround to make the bounding box smaller without destroying other countries like uh Tonga
+const usRightTrim = 180 - 15;
 const mapBottomTrim = 30 - 90;
 
 const nameToIso3 = new Map<string, string>();
@@ -174,24 +174,40 @@ function getCountryGeometry(baseCountry: GeoJsonFeature): number[][][][] {
         return [];
     }
 
+    if (baseCountry.properties.ADMIN === "Russia") uniteRussia(geometry);
     geometry = cutMapEdges(baseCountry.properties.ADMIN, geometry);
     applyMapProjection(geometry);
 
     return geometry;
 }
 
+// The function name sounds extremely wrong, I'm just moving the right part of russia to the right
+// Because of polygon strokes it still looks kinda trash, but it's better than having a part of russia cut off
+// Might be a temporary solution, might not, idk
+function uniteRussia(geometry: number[][][][]) {
+    for (const landPatch of geometry) {
+        for (const polygon of landPatch) {
+            for (const point of polygon) {
+                if (point[0] < 0) point[0] += 360;
+            }
+        }
+    }
+}
+
 function cutMapEdges(name: string, geometry: number[][][][]): number[][][][] {
     const newGeometry: number[][][][] = [];
     let countryCutOff = false;
 
-    const leftTrim = name === "Russia" ? russiaLeftTrim : mapLeftTrim;
+    const leftTrim = mapLeftTrim;
+    const rightTrim = name === "United States of America" ? usRightTrim : 200;
+    const bottomTrim = mapBottomTrim;
 
     for (const landPatch of geometry) {
         const polygon = landPatch[0];
         let landPatchCutoff = false;
 
         for (const point of polygon) {
-            if (point[0] < leftTrim || point[1] < mapBottomTrim) {
+            if (point[0] < leftTrim || point[0] > rightTrim || point[1] < bottomTrim) {
                 landPatchCutoff = true;
                 break;
             }

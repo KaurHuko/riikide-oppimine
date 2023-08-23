@@ -25,12 +25,6 @@ let mapHeight: number;
 const latitudeSize = projectedYCoordinate(180);
 const altitudeSize = 360;
 
-const minLatitude = projectedYCoordinate(-60);
-const maxLatitude = projectedYCoordinate(90);
-const minAltitude = -178;
-const maxAltitude = 180;
-
-let ppd: number; // pixels per degree
 let centerX: number;
 let centerY: number;
 
@@ -47,12 +41,12 @@ function htmlElementSetup() {
     mapSvg = document.getElementById("map")!;
     mapSvgCountries = document.getElementById("countries")!
 
-    mapWidth = parseFloat(mapSvg.getAttribute("width")!);
-    mapHeight = parseFloat(mapSvg.getAttribute("height")!);
+    const computedStyle = getComputedStyle(mapSvg);
+    mapWidth = parseFloat(computedStyle.width);
+    mapHeight = parseFloat(computedStyle.height);
 
-    ppd = Math.min(mapWidth / (maxAltitude - minAltitude), mapHeight / (maxLatitude - minLatitude));
-    centerX = ppd * -minAltitude;
-    centerY = ppd * maxLatitude;
+    centerX = altitudeSize / 2;
+    centerY = latitudeSize / 2;
 }
 
 function setupCountries() {
@@ -105,12 +99,12 @@ function boundingBoxToView(bounding: number[][]): number[][] {
     const size = [bounding[1][0] - bounding[0][0], bounding[1][1] - bounding[0][1]];
     const viewExpand = Math.min(5, altitudeSize - size[0], latitudeSize - size[1]);
 
-    position[0] = centerX + ppd * (position[0] - viewExpand);
-    position[1] = centerY - ppd * (position[1] + size[1] + viewExpand);
-    size[0] = ppd * (size[0] + 2 * viewExpand);
-    size[1] = ppd * (size[1] + 2 * viewExpand);
+    position[0] = centerX + position[0] - viewExpand;
+    position[1] = centerY - position[1] - size[1] - viewExpand;
+    size[0] = size[0] + 2 * viewExpand;
+    size[1] = size[1] + 2 * viewExpand;
 
-    const mapRatio = altitudeSize / latitudeSize;
+    const mapRatio = mapWidth / mapHeight;
     if (size[0] / size[1] < mapRatio) { 
         size[0] = fixSizeRatio(size[0], size[1], position, 0, mapRatio);
     } else {
@@ -120,7 +114,7 @@ function boundingBoxToView(bounding: number[][]): number[][] {
     position[0] = clampCoordinate(position[0], size[0], mapWidth);
     position[1] = clampCoordinate(position[1], size[1], mapHeight);
 
-    return [position, size];    
+    return [position, size];
 }
 
 function fixSizeRatio(size: number, otherSize: number, pos: number[], index: number, mapRatio: number): number {
@@ -169,7 +163,7 @@ function colorCountry(country: SVGGElement, highlight: boolean) {
     country.setAttribute("fill", color);
         
     country.setAttribute("stroke", strokeColor);
-    country.setAttribute("stroke-width", "0.05");
+    country.setAttribute("stroke-width", "0.1");
 }
 
 function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SVGPathElement {
@@ -182,7 +176,7 @@ function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SV
     for (const svgPoints of landPatch) {
         svgPointsAttribute +=
             "M" +
-            svgPoints.map(point => (centerX + ppd * point[0]) + " " + (centerY - ppd * point[1])).join(" ")
+            svgPoints.map(point => (centerX + point[0]) + " " + (centerY - point[1])).join(" ")
             + "z";
     }
 
