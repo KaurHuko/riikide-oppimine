@@ -1,9 +1,10 @@
 // Generates the final json for country borders and names used in the website.
 
-import { GeoJson, GeoJsonFeature } from "../src/lib/geojson"
-import { CountryJson } from "../src/lib/countryjson"
-import baseCountriesImport from "./countries-base.json"
-import manualTranslationImport from "./manual-translations.json"
+import { GeoJson, GeoJsonFeature } from "../src/scripts/lib/geojson"
+import { CountryJson } from "../src/scripts/lib/countryjson"
+import baseCountriesImport from "./countries/countries-base.json"
+import manualTranslationImport from "./translations/manual-translations.json"
+import { projectedYCoordinate, sqrDistance } from '../src/scripts/util/math-util';
 import fs from "fs"
 
 interface TranslationData {
@@ -36,7 +37,7 @@ loadCountries();
 fs.writeFileSync("./src/assets/countries.json", JSON.stringify({countries: countries}, undefined, 0));
 
 function loadNameToIso3() {
-    iterateTsv(currentDir("iso3-to-est.txt"), tsvLine => {
+    iterateTsv(translationDir("iso3-to-est.txt"), tsvLine => {
         const values = getTsv(tsvLine, 0, 3);
         if (values === undefined) return;
         
@@ -48,7 +49,7 @@ function loadNameToIso3() {
 }
 
 function loadAdditionalNames() {
-    iterateTsv(currentDir("more-est-names.txt"), tsvLine => {
+    iterateTsv(translationDir("more-est-names.txt"), tsvLine => {
         const values = getTsv(tsvLine, 0);
         if (values === undefined) return;
 
@@ -63,8 +64,8 @@ function loadAdditionalNames() {
     });
 }
 
-function currentDir(fileName: string): string {
-    return "./gen/" + fileName;
+function translationDir(fileName: string): string {
+    return "./gen/translations/" + fileName;
 }
 
 function iterateTsv(filePath: string, process: (line: string) => void) {
@@ -231,8 +232,7 @@ function applyMapProjection(geometry: number[][][][]) {
     for (const landPatch of geometry) {
         for (const polygon of landPatch) {
             for (const point of polygon) {
-                const warp = point[1] / 90;
-                point[1] *= (1 + 0.5 * Math.abs(warp * warp));
+                point[1] = projectedYCoordinate(point[1]);
             }
         }
     }
@@ -264,12 +264,6 @@ function simplifiedGeometry(name: string, geometry: number[][][][]): number[][][
 
     if (newGeometry.length < 1) console.log("Simplified to non-existence: " + name);
     return newGeometry;
-}
-
-function sqrDistance(pointA: number[], pointB: number[]): number {
-    const x = pointA[0] - pointB[0];
-    const y = pointA[1] - pointB[1];
-    return x*x + y*y;
 }
 
 function getGeometryBounding(geometry: number[][][][]): number[][] {

@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import App from '../App.vue'
 import '../styles/main.css'
-import { setup } from "./countrydisplay"
+import { gameSetup } from "./game/game-logic"
 
 createApp(App).mount('#app');
 
-setup();
+gameSetup();

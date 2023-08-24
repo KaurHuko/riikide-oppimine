@@ -10,3 +10,8 @@ export interface CountryJson {
     bounding: number[][],
     geometry: number[][][][]
 }
+
+export interface CountryData {
+    jsonData: CountryJson,
+    countrySvg: SVGGElement
+}
