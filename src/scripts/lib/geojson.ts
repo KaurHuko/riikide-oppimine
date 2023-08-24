@@ -1,5 +1,6 @@
 
 export type GeometryType = "Polygon" | "MultiPolygon";
+export type GeometryCoordinates = number[][][] | number[][][][];
 
 export interface GeoJson {
     type: string,
@@ -21,5 +22,3 @@ export interface Geometry {
     type: GeometryType,
     coordinates: GeometryCoordinates
 }
-
-export type GeometryCoordinates = number[][][] | number[][][][];

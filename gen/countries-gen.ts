@@ -1,9 +1,9 @@
 // Generates the final json for country borders and names used in the website.
 
-import { GeoJson, GeoJsonFeature } from "../src/scripts/lib/geojson"
-import { CountryJson } from "../src/scripts/lib/countryjson"
-import baseCountriesImport from "./countries/countries-base.json"
-import manualTranslationImport from "./translations/manual-translations.json"
+import { GeoJson, GeoJsonFeature } from "../src/scripts/lib/geojson";
+import { CountryJson } from "../src/scripts/lib/countryjson";
+import baseCountriesImport from "./countries/countries-base.json";
+import manualTranslationImport from "./translations/manual-translations.json";
 import { projectedYCoordinate, sqrDistance } from '../src/scripts/util/math-util';
 import fs from "fs"
 
