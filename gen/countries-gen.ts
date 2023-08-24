@@ -178,6 +178,8 @@ function getCountryGeometry(baseCountry: GeoJsonFeature): number[][][][] {
     geometry = cutMapEdges(baseCountry.properties.ADMIN, geometry);
     applyMapProjection(geometry);
 
+    geometry = simplifiedGeometry(baseCountry.properties.ADMIN, geometry);
+
     return geometry;
 }
 
@@ -234,6 +236,40 @@ function applyMapProjection(geometry: number[][][][]) {
             }
         }
     }
+}
+
+function simplifiedGeometry(name: string, geometry: number[][][][]): number[][][][] {
+    if (geometry.length < 1) return [];
+    const newGeometry: number[][][][] = [];
+
+    for (const landPatch of geometry) {
+        const newLandPatch: number[][][] = [];
+
+        for (let i = 0; i < landPatch.length; i++) {
+            const polygon = landPatch[i];
+            const newPolygon: number[][] = [polygon[0]];
+
+            for (let j = 1; j < polygon.length; j++) {
+                const previousPoint = newPolygon[newPolygon.length - 1];
+                const point = polygon[j];
+                if (sqrDistance(previousPoint, point) > 0.1) {
+                    newPolygon.push(point);
+                }
+            }
+
+            if (newPolygon.length >= 3) newLandPatch.push(newPolygon);
+        }
+        if (newLandPatch.length > 0) newGeometry.push(newLandPatch);
+    }
+
+    if (newGeometry.length < 1) console.log("Simplified to non-existence: " + name);
+    return newGeometry;
+}
+
+function sqrDistance(pointA: number[], pointB: number[]): number {
+    const x = pointA[0] - pointB[0];
+    const y = pointA[1] - pointB[1];
+    return x*x + y*y;
 }
 
 function getGeometryBounding(geometry: number[][][][]): number[][] {
