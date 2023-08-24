@@ -4,11 +4,11 @@ import { replaceForeignChars } from "../util/text-util";
 import type { CountryData } from "@/scripts/lib/countryjson";
 import { animateViewBox } from "./viewbox-animation";
 
-let mapSvg: HTMLElement;
+export let mapSvg: HTMLElement;
 let mapSvgCountries: HTMLElement;
 
-let mapWidth: number;
-let mapHeight: number;
+export let mapWidth: number;
+export let mapHeight: number;
 
 const latitudeSize = projectedYCoordinate(180);
 const altitudeSize = 360;
@@ -49,7 +49,7 @@ export function highlightNewCountry(country: CountryData) {
     drawnCountry = country.countrySvg;
     colorCountry(country.countrySvg, true);
 
-    animateViewBox(boundingBoxToView(country.jsonData.bounding), mapSvg);
+    animateViewBox(boundingBoxToView(country.jsonData.bounding));
 }
 
 function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SVGPathElement {

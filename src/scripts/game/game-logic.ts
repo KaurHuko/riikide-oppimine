@@ -2,6 +2,7 @@ import type { CountryJson, CountryJsonList, CountryData } from '@/scripts/lib/co
 import jsonCountries from '@/assets/countries.json'; 
 import { toPascalCase } from '../util/text-util';
 import { mapElementSetup, drawNewCountry, highlightNewCountry } from './map-render';
+import { setupAnimation } from './viewbox-animation';
 
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
 
@@ -9,10 +10,11 @@ const countryMap: Map<string, CountryData> = new Map();
 const countryNameList: string[] = [];
 let currentCountry: string;
 
-export function gameSetup() { 
+export function gameSetup() {
     mapElementSetup();
     setupCountries();
     setupInsert();
+    setupAnimation();
     generateQuesion();
 }
 
