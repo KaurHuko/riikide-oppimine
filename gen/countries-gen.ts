@@ -124,11 +124,6 @@ function loadCountries() {
             bounding: [],
         };
 
-        newCountry.geometry = getCountryGeometry(baseCountry);
-        if (newCountry.geometry.length < 1) continue;
-
-        newCountry.bounding = getGeometryBounding(newCountry.geometry);
-
         const translationData = getCountryTranslations(baseCountry);
         if (translationData !== undefined && translationData.translations !== undefined) {
             newCountry.active = true;
@@ -137,6 +132,11 @@ function loadCountries() {
         } else {
             newCountry.names = [baseCountry.properties.ADMIN];
         }
+
+        newCountry.geometry = getCountryGeometry(baseCountry, newCountry.active);
+        if (newCountry.geometry.length < 1) continue;
+
+        newCountry.bounding = getGeometryBounding(newCountry.geometry);
 
         countries.push(newCountry);
     }
@@ -163,7 +163,7 @@ function getCountryTranslations(baseCountry: GeoJsonFeature): TranslationData {
     return returnData;
 }
 
-function getCountryGeometry(baseCountry: GeoJsonFeature): number[][][][] {
+function getCountryGeometry(baseCountry: GeoJsonFeature, active: boolean): number[][][][] {
     const geometryData = baseCountry.geometry;
     let geometry: number[][][][] | undefined;
 
@@ -179,7 +179,7 @@ function getCountryGeometry(baseCountry: GeoJsonFeature): number[][][][] {
     geometry = cutMapEdges(baseCountry.properties.ADMIN, geometry);
     applyMapProjection(geometry);
 
-    geometry = simplifiedGeometry(baseCountry.properties.ADMIN, geometry);
+    geometry = simplifiedGeometry(baseCountry.properties.ADMIN, geometry, active);
 
     return geometry;
 }
@@ -238,8 +238,21 @@ function applyMapProjection(geometry: number[][][][]) {
     }
 }
 
-function simplifiedGeometry(name: string, geometry: number[][][][]): number[][][][] {
+function simplifiedGeometry(name: string, geometry: number[][][][], active: boolean): number[][][][] {
     if (geometry.length < 1) return [];
+
+    let newGeometry = fixedSimplify(geometry, 0.1);
+    if (!active) return newGeometry;
+    if (newGeometry.length > 0) return newGeometry;
+    
+    // Geometry length check with larger simplification than the actual return value to get better detail for small countries
+    newGeometry = fixedSimplify(geometry, 0.01);
+    if (newGeometry.length > 0) return fixedSimplify(geometry, 0.004);
+
+    return geometry;
+}
+
+function fixedSimplify(geometry: number[][][][], amount: number): number[][][][] {
     const newGeometry: number[][][][] = [];
 
     for (const landPatch of geometry) {
@@ -252,7 +265,7 @@ function simplifiedGeometry(name: string, geometry: number[][][][]): number[][][
             for (let j = 1; j < polygon.length; j++) {
                 const previousPoint = newPolygon[newPolygon.length - 1];
                 const point = polygon[j];
-                if (sqrDistance(previousPoint, point) > 0.1) {
+                if (sqrDistance(previousPoint, point) > amount) {
                     newPolygon.push(point);
                 }
             }
@@ -262,7 +275,6 @@ function simplifiedGeometry(name: string, geometry: number[][][][]): number[][][
         if (newLandPatch.length > 0) newGeometry.push(newLandPatch);
     }
 
-    if (newGeometry.length < 1) console.log("Simplified to non-existence: " + name);
     return newGeometry;
 }
 
