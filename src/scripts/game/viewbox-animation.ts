@@ -1,46 +1,51 @@
-import { mapHeight, mapSvg, mapWidth } from "./map-render";
+import { BBox, cloneBBox } from "../lib/countryjson";
+import { someSmoothCurve } from "../util/math-util";
+import { centerX, centerY, mapSvg, xBorder, yBorder } from "./map-render";
 
 const countryZoomDuration = 500;
-let countryZoomActive = false;
+
+let animationState: "CountryZoom" | "ScrollZoom" | "None" = "None";
 let startTime: number | undefined = undefined;
 
-let previousViewBox: number[][] | undefined;
-let targetViewBox: number[][];
+let previousViewBox: BBox | undefined;
+let currentViewBox: BBox | undefined;
+let targetViewBox: BBox;
 
 export function setupAnimation() {
     mapSvg.addEventListener("wheel", onWheel);
 }
 
 function onWheel(event: WheelEvent) {
-    if (previousViewBox === undefined || countryZoomActive === true) return;
     event.preventDefault();
+    if (previousViewBox === undefined || animationState === "CountryZoom") return;
 
-    const zoom = Math.pow(1.004, event.deltaY);
-    const prevScale = previousViewBox[1];
-    const newScale = [prevScale[0] * zoom, prevScale[1] * zoom];
-    const scaleChange = [prevScale[0] - newScale[0], prevScale[1] - newScale[1]];
+    const newViewBox = cloneBBox(previousViewBox);
+    
+    const zoom = Math.pow(1.003, event.deltaY);
+    newViewBox.size = [newViewBox.size[0] * zoom, newViewBox.size[1] * zoom];
+    clampSize(newViewBox, 0);
+    const sizeChange = [previousViewBox.size[0] - newViewBox.size[0], previousViewBox.size[1] - newViewBox.size[1]];
 
-    const mouseX = event.clientX / mapWidth;
-    const mouseY = event.clientY / mapHeight;
+    const mouseX = event.clientX / mapWidth();
+    const mouseY = event.clientY / mapHeight();
+    newViewBox.pos = [previousViewBox.pos[0] + sizeChange[0] * mouseX, previousViewBox.pos[1] + sizeChange[1] * mouseY];
+    clampCoordinates(newViewBox);
 
-    const prevMinPos = previousViewBox[0];
-    const newMinPos = [prevMinPos[0] + scaleChange[0] * mouseX, prevMinPos[1] + scaleChange[1] * mouseY];
-
-    previousViewBox = [newMinPos, newScale];
-    setViewBox(previousViewBox);
+    previousViewBox = newViewBox;
+    setViewBox(newViewBox);
 }
 
-export function animateViewBox(target: number[][]) {
-    targetViewBox = target;
+export function animateViewBox(bounding: BBox) {
+    targetViewBox = countryZoomView(bounding);
 
     if (previousViewBox === undefined) {
-        previousViewBox = target;
-        setViewBox(target);
+        previousViewBox = targetViewBox;
+        setViewBox(targetViewBox);
         return;
     }
 
     startTime = undefined;
-    countryZoomActive = true;
+    animationState = "CountryZoom";
     window.requestAnimationFrame(animationFrame);
 }
 
@@ -51,24 +56,95 @@ function animationFrame(currentTime: number) {
         startTime = currentTime;
     }
 
-    const progress = Math.min(1, (currentTime - startTime) / countryZoomDuration);
-
-    const currentViewBox: number[][] = [[0, 0], [0, 0]];
-    for (let i = 0; i < 2; i++) {
-        for (let j = 0; j < 2; j++) {
-            currentViewBox[i][j] = (1 - progress) * previousViewBox[i][j] + progress * targetViewBox[i][j];
-        }
-    }
+    const progress = someSmoothCurve(Math.min(1, (currentTime - startTime) / countryZoomDuration));
+    currentViewBox = calculateCurrentViewBox(previousViewBox, targetViewBox, progress);
     setViewBox(currentViewBox);
 
     if (progress < 1) {
         window.requestAnimationFrame(animationFrame);
     } else {
-        countryZoomActive = false;
+        animationState = "None";
         previousViewBox = targetViewBox;
     }
 }
 
-function setViewBox(viewBox: number[][]) {
-    mapSvg.setAttribute("viewBox", `${viewBox[0][0]} ${viewBox[0][1]} ${viewBox[1][0]} ${viewBox[1][1]}`)
+function calculateCurrentViewBox(previous: BBox, target: BBox, progress: number): BBox {
+    const currentViewBox: BBox = new BBox(0, 0, 0, 0);
+
+    for (let i = 0; i < 2; i++) {
+        const prevSize = previous.size[i];
+        const targetSize = target.size[i];
+        const newSize = Math.pow(prevSize, (1 - progress)) * Math.pow(targetSize, progress);
+        currentViewBox.size[i] = newSize;
+
+        const sizeProgress = (newSize - prevSize) / (targetSize - prevSize);
+
+        const prevPos = previous.pos[i];
+        const targetPos = target.pos[i];
+        currentViewBox.pos[i] = prevPos + sizeProgress * (targetPos - prevPos);
+    }
+
+    return currentViewBox;
+}
+
+function setViewBox(viewBox: BBox) {
+    mapSvg.setAttribute("viewBox", `${viewBox.pos[0]} ${viewBox.pos[1]} ${viewBox.size[0]} ${viewBox.size[1]}`)
+}
+
+function countryZoomView(bounding: BBox): BBox {
+    const view = cloneBBox(bounding);
+
+    const viewExpand = 10;
+
+    view.pos[0] = centerX + view.pos[0] - viewExpand;
+    view.pos[1] = centerY - view.pos[1] - view.size[1] - viewExpand;
+    view.size[0] = view.size[0] + 2 * viewExpand;
+    view.size[1] = view.size[1] + 2 * viewExpand;
+
+    fixSizeRatio(view);
+    clampCoordinates(view);
+    return view;
+}
+
+function fixSizeRatio(viewBox: BBox) {
+    const mapRatio = mapWidth() / mapHeight();
+
+    if (viewBox.size[0] / viewBox.size[1] < mapRatio) { 
+        fixOneCoord(viewBox, 0, mapRatio);
+    } else {
+        fixOneCoord(viewBox, 1, 1 / mapRatio);
+    }
+
+    function fixOneCoord(bbox: BBox, i0: number, mapRatio: number) {
+        const i1 = 1 - i0;
+        const newSize = bbox.size[i1] * mapRatio;
+        bbox.pos[i0] -= (newSize - bbox.size[i0]) / 2;
+        bbox.size[i0] = newSize;
+    }
+}
+
+function clampSize(vb: BBox, i: number) {
+    const i1 = 1 - i;
+    if (vb.size[i] < 1) {
+        vb.size[i1] = vb.size[i1] * 1 / vb.size[i];
+        vb.size[i] = 1;
+    } else if (vb.size[i] > xBorder[2]) {
+        vb.size[i1] = vb.size[i1] * xBorder[2] / vb.size[i];
+        vb.size[i] = xBorder[2];
+    }
+}
+
+function clampCoordinates(viewBox: BBox) {
+    viewBox.pos[0] = Math.max(xBorder[0], Math.min(xBorder[1] - viewBox.size[0], viewBox.pos[0]));
+    viewBox.pos[1] = Math.max(yBorder[0], Math.min(yBorder[1] - viewBox.size[1], viewBox.pos[1]));
+}
+
+function mapWidth() {
+    const computedStyle = getComputedStyle(mapSvg);
+    return parseFloat(computedStyle.width);
+}
+
+function mapHeight() {
+    const computedStyle = getComputedStyle(mapSvg);
+    return parseFloat(computedStyle.height);
 }

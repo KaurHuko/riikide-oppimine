@@ -1,7 +1,7 @@
 // Generates the final json for country borders and names used in the website.
 
 import { GeoJson, GeoJsonFeature } from "../src/scripts/lib/geojson";
-import { CountryJson } from "../src/scripts/lib/countryjson";
+import { BBox, CountryJson } from "../src/scripts/lib/countryjson";
 import baseCountriesImport from "./countries/countries-base.json";
 import manualTranslationImport from "./translations/manual-translations.json";
 import { projectedYCoordinate, sqrDistance } from '../src/scripts/util/math-util';
@@ -20,7 +20,7 @@ interface ManualTranslation {
 
 const baseCountries = baseCountriesImport as GeoJson;
 
-const mapLeftTrim = 3 - 180;
+const mapLeftTrim = 4 - 180;
 const usRightTrim = 180 - 15;
 const mapBottomTrim = 30 - 90;
 
@@ -121,7 +121,7 @@ function loadCountries() {
             names: [],
             alternativeNames: [],
             geometry: [],
-            bounding: [],
+            bounding: new BBox(0, 0, 0, 0),
         };
 
         const translationData = getCountryTranslations(baseCountry);
@@ -278,21 +278,20 @@ function fixedSimplify(geometry: number[][][][], amount: number): number[][][][]
     return newGeometry;
 }
 
-function getGeometryBounding(geometry: number[][][][]): number[][] {
-    const bounding = [
-        [Number.MAX_VALUE, Number.MAX_VALUE],
-        [-Number.MAX_VALUE, -Number.MAX_VALUE]
-    ];
+function getGeometryBounding(geometry: number[][][][]): BBox {
+    const bounding: BBox = new BBox(Number.MAX_VALUE, Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE);
 
     for (const landPatch of geometry) {
         const polygon = landPatch[0];
         for (const point of polygon) {
-            bounding[0][0] = Math.min(bounding[0][0], point[0]);
-            bounding[0][1] = Math.min(bounding[0][1], point[1]);
-            bounding[1][0] = Math.max(bounding[1][0], point[0]);
-            bounding[1][1] = Math.max(bounding[1][1], point[1]);
+            bounding.pos[0] = Math.min(bounding.pos[0], point[0]);
+            bounding.pos[1] = Math.min(bounding.pos[1], point[1]);
+            bounding.size[0] = Math.max(bounding.size[0], point[0]);
+            bounding.size[1] = Math.max(bounding.size[1], point[1]);
         }
         
     }
+    bounding.size[0] -= bounding.pos[0];
+    bounding.size[1] -= bounding.pos[1];
     return bounding;
 }
