@@ -7,12 +7,28 @@ const countryZoomDuration = 500;
 let animationState: "CountryZoom" | "ScrollZoom" | "None" = "None";
 let startTime: number | undefined = undefined;
 
+let mouseDown = false;
+
 let previousViewBox: BBox | undefined;
 let currentViewBox: BBox | undefined;
 let targetViewBox: BBox;
 
 export function setupAnimation() {
     mapSvg.addEventListener("wheel", onWheel);
+    mapSvg.addEventListener("mousemove", onMouseMove);
+
+    mapSvg.addEventListener("mousedown", (event) => {
+        if (event.button === 0) {
+            mouseDown = true
+        }
+    });
+
+    mapSvg.addEventListener("mouseup", (event) => {
+        if (event.button === 0) {
+            document.body.style.cursor = "auto";
+            mouseDown = false
+        }
+    });
 }
 
 function onWheel(event: WheelEvent) {
@@ -33,6 +49,25 @@ function onWheel(event: WheelEvent) {
 
     previousViewBox = newViewBox;
     setViewBox(newViewBox);
+}
+
+function onMouseMove(event: MouseEvent) {
+    if (!mouseDown || previousViewBox === undefined) return
+
+    const newViewBox = cloneBBox(previousViewBox);
+
+    const mouseX = event.movementX / mapWidth() * newViewBox.size[0];
+    const mouseY = event.movementY / mapHeight() * newViewBox.size[1];
+
+    newViewBox.pos[0] -= mouseX;
+    newViewBox.pos[1] -= mouseY;
+
+    clampCoordinates(newViewBox);
+
+    previousViewBox = newViewBox;
+    setViewBox(newViewBox);
+
+    document.body.style.cursor = "move";
 }
 
 export function animateViewBox(bounding: BBox) {
