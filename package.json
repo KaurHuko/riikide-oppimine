@@ -11,10 +11,12 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "diff": "^5.1.0",
     "http-server": "^14.1.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@types/diff": "^5.0.3",
     "@types/node": "^18.14.2",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/tsconfig": "^0.1.3",

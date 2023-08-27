@@ -113,6 +113,8 @@ function calculateCurrentViewBox(previous: BBox, target: BBox, progress: number)
         currentViewBox.size[i] = newSize;
 
         const sizeProgress = (newSize - prevSize) / (targetSize - prevSize);
+        // This only happens if target is equal to previous.
+        if (Number.isNaN(sizeProgress) || !Number.isFinite(sizeProgress)) return previous;
 
         const prevPos = previous.pos[i];
         const targetPos = target.pos[i];
