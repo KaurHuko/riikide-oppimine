@@ -29,3 +29,11 @@ html, body {
 
     background-color: black;
 }
+
+.missing-char {
+    color: green;
+}
+
+.extra-char {
+    color: darkred;
+}

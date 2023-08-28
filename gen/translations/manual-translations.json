@@ -11,7 +11,11 @@
   },
   {
     "english": "Ivory Coast",
-    "translations": ["Elevandiluurannik", "Cote d'Ivoire", "Côte d'Ivoire"]
+    "translations": ["Elevandiluurannik", "Cote d'Ivoire"]
+  },
+  {
+    "english": "Sao Tome and Principe",
+    "translations": ["Sao Tome ja Principe"]
   },
   {
     "english": "Saint Vincent and the Grenadines",

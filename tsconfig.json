@@ -6,7 +6,10 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "lib": [
+      "ES2017", "DOM", "ScriptHost"
+    ]
   },
 
   // Most ts-node options can be specified here using their programmatic names.

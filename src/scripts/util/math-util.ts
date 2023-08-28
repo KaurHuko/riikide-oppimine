@@ -17,3 +17,10 @@ export function someSmoothCurve(input: number): number {
     const sqr = input*input;
     return 3*sqr - 2*sqr*input;
 }
+
+export function shuffleArray(array: any[]) {
+    for (let i = array.length; i > 0; i--) {
+        const j = Math.floor(Math.random() * i);
+        [array[i-1], array[j]] = [array[j], array[i-1]];
+    }
+}

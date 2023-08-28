@@ -1,25 +1,36 @@
 import type { CountryJson, CountryJsonList, CountryData } from '@/scripts/lib/countryjson';
-import jsonCountries from '@/assets/countries.json'; 
-import * as Diff from "diff";
+import jsonCountries from '@/assets/countries.json';
+import fastDiff from "fast-diff";
 import { mapElementSetup, drawNewCountry, highlightNewCountry } from './map-render';
 import { setupAnimation } from './viewbox-animation';
+import type diff from 'fast-diff';
+import { shuffleArray } from '../util/math-util';
 
-interface AnswerFeedback {
-    message: string,
+interface FeedbackComponent {
+    text: string,
     color: string
 }
 
-interface ReplaceChange {
-    added: string,
-    removed: string
+class GuessStatus {
+    falseGuesses: number = 0;
+    reset() {
+        this.falseGuesses = 0;
+    }
 }
 
-type Misspell = Diff.Change | ReplaceChange;
+type AnswerFeedback = FeedbackComponent[];
+
+let feedbackElement: HTMLElement;
 
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
 
 const countryMap: Map<string, CountryData> = new Map();
-const countryNameList: string[] = [];
+
+let askedCountryIndex = 0;
+let countriesToAsk: CountryData[] = [];
+let countriesToAskNext: CountryData[] = [];
+
+const guessStatus = new GuessStatus();
 let currentCountry: CountryData;
 
 export function gameSetup() {
@@ -34,41 +45,66 @@ function setupCountries() {
     for (const country of countryJsonArray) {
         if (!country.active) continue;
 
-        const name = country.names[0].toLocaleLowerCase();
+        const name = country.names[0].toLowerCase();
         const geometry = country.geometry;
 
-        countryMap.set(name, {jsonData: country, countrySvg: drawNewCountry(name, geometry)});
-        countryNameList.push(name);
+        const countryData: CountryData = {jsonData: country, countrySvg: drawNewCountry(name, geometry)};
+        countryMap.set(name, countryData);
+        countriesToAsk.push(countryData);
     }
+    shuffleArray(countriesToAsk);
 }
 
 function setupInsert() {
     const form: HTMLFormElement = document.getElementById("country-guess-form") as HTMLFormElement;
     const input: HTMLInputElement = document.getElementById("country-name") as HTMLInputElement;
-    const feedbackElement: HTMLElement = document.getElementById("feedback") as HTMLElement;
+    feedbackElement = document.getElementById("feedback") as HTMLElement;
 
     form.addEventListener("submit", event => {
         event.preventDefault();
 
         const guess: string = input.value;
         const feedback = answerCheck(guess);
+        displayFeedback(feedback);
+    });
+}
 
-        feedbackElement.innerHTML = feedback.message;
-        feedbackElement.style.color = feedback.color;
+function displayFeedback(feedback: AnswerFeedback) {
+    feedbackElement.innerHTML = "";
 
-    })
+    for (const feedbackComp of feedback) {
+        const span = document.createElement("span");
+        span.textContent = feedbackComp.text;
+        span.style.color = feedbackComp.color;
+        feedbackElement.appendChild(span);
+    }
 }
 
 function generateQuesion() {
-    const countryName: string = countryNameList[Math.floor(Math.random() * countryNameList.length)];
-    const country: CountryData = countryMap.get(countryName)!;
+    const prevCountry = currentCountry;
 
-    currentCountry = country;
-    highlightNewCountry(country);
+    if (askedCountryIndex >= countriesToAsk.length) {
+        countriesToAsk = countriesToAskNext;
+        countriesToAskNext = [];
+        askedCountryIndex = 0;
+    }
+
+    if (countriesToAsk.length === 0 || countriesToAsk.length === 1 && countriesToAsk[0] === prevCountry) {
+        displayFeedback([{
+            text: "It's Joever",
+            color: "blue"
+        }]);
+        return;
+    }
+
+    currentCountry = countriesToAsk[askedCountryIndex++];
+    guessStatus.reset();
+    highlightNewCountry(currentCountry);
 }
 
 function answerCheck(guess: string): AnswerFeedback {
     const answers = currentCountry.jsonData.names;
+    const unofficialAnswers = currentCountry.jsonData.alternativeNames;
 
     let feedback = isCorrectAnswer(guess, answers);
     if (feedback) {
@@ -78,17 +114,22 @@ function answerCheck(guess: string): AnswerFeedback {
 
     feedback = misspelledCheck(guess, answers);
     if (feedback) return feedback;
-        
+
+    feedback = unofficialCheck(guess, unofficialAnswers);
+    if (feedback) return feedback;
+    
+    guessStatus.falseGuesses++;
+    if (guessStatus.falseGuesses === 1) countriesToAskNext.push(currentCountry);
     return wrongAnswerFeedback(answers);
 }
 
 function isCorrectAnswer(guess: string, answers: string[]): AnswerFeedback | undefined {
     for (const correctAnswer of answers) {
         if (guess.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase()) {
-            return {
-                message: `${correctAnswer} is correct!`,
+            return [{
+                text: `${correctAnswer} on õige!`,
                 color: "green"
-            };
+            }];
         }
     }
     return undefined;
@@ -96,115 +137,104 @@ function isCorrectAnswer(guess: string, answers: string[]): AnswerFeedback | und
 
 function misspelledCheck(guess: string, answers: string[]): AnswerFeedback | undefined {
     for (const correctAnswer of answers) {
-        const misspells = getMisspells(guess, correctAnswer);
+        const [allDiffs, correctDiffs, guessDiffs] = getDifferences(guess, correctAnswer);
+        console.log(allDiffs);
+        console.log(correctDiffs);
+        console.log(guessDiffs);
 
-        const errorCount = countErrors(misspells);
-        const acceptedErrorCount = Math.floor(correctAnswer.length / 3);
+        const errorCount = countErrors(allDiffs);
+        const acceptedErrorCount = Math.floor((correctAnswer.length + guess.length) / 4);
 
         if (errorCount <= acceptedErrorCount) {
-            return {
-                message: `Misspell: ${guess} -> ${correctAnswer}`,
-                color: "goldenrod"
-            }
+            return formatMisspellFeedback(correctDiffs, guessDiffs);
         }
     }
     return undefined;
 }
 
-function getMisspells(guess: string, correctAnswer: string): Misspell[] {
-    const changes = Diff.diffChars(correctAnswer, guess, { ignoreCase: true });
-    const misspells: Misspell[] = [];
+function getDifferences(guess: string, correctAnswer: string) {
+    const allDiffs = fastDiff(correctAnswer.toLowerCase(), guess.toLowerCase());
 
-    for (let i = 0; i < changes.length; i++) {
-        const change = changes[i];
-        const nextChange = changes[i+1];
-        
-        if (i+1 == changes.length) {
-            misspells.push(change);
-            continue;
+    const correctDiffs: fastDiff.Diff[] = [];
+    let correctIndex = 0;
+    const guessDiffs: fastDiff.Diff[] = [];
+    let guessIndex = 0;
+
+    for (const diff of allDiffs) {
+        if (diff[0] === 0 || diff[0] === -1) {
+            correctDiffs.push([diff[0], correctAnswer.substring(correctIndex, correctIndex + diff[1].length)]);
+            correctIndex += diff[1].length;
         }
-
-        if ((change.added && nextChange.removed) || (change.removed && nextChange.added)) {
-            i = mergeMisspell(misspells, change, nextChange, i);
-        } else {
-            misspells.push(change);
+        if (diff[0] === 0 || diff[0] === 1) {
+            guessDiffs.push([diff[0], guess.substring(guessIndex, guessIndex + diff[1].length)]);
+            guessIndex += diff[1].length;
         }
     }
 
-    return misspells;
+    return [allDiffs, correctDiffs, guessDiffs];
 }
 
-function mergeMisspell(misspells: Misspell[], change: Diff.Change, nextChange: Diff.Change, i: number): number {
-
-    const added = change.added ? change.value : nextChange.value;
-    const removed = change.added ? nextChange.value : change.value;
-
-    if (change.count! < nextChange.count!) {
-        currentChangeSmaller()
-    } else if (change.count! > nextChange.count!) {
-        nextChangeSmaller();
-    } else {
-        changesEqual();
-    }
-
-    return i;
-
-    function currentChangeSmaller() {
-        misspells.push({
-            added: added.substring(0, change.count),
-            removed: removed.substring(0, change.count)
-        })
-        nextChange.count! -= change.count!;
-        nextChange.value = nextChange.value.substring(change.count!);
-    }
-
-    function changesEqual() {
-        misspells.push({
-            added: added.substring(0, change.count),
-            removed: removed.substring(0, nextChange.count)
-        })
-        i++;
-    }
-
-    function nextChangeSmaller() {
-        misspells.push({
-            added: added.substring(0, change.count),
-            removed: removed.substring(0, nextChange.count)
-        })
-        misspells.push({
-            value: change.value.substring(nextChange.count!),
-            added: change.added,
-            removed: change.removed,
-            count: change.count! - nextChange.count!
-        })
-        i++;
-    }
-}
-
-function countErrors(misspells: Misspell[]): number {
+function countErrors(diffs: fastDiff.Diff[]): number {
     let count = 0;
-
-    for (const misspell of misspells) {
-        if ("value" in misspell) {
-            if (misspell.added || misspell.removed) count += misspell.count!;
-        } else {
-            count += misspell.added.length;
-        }
+    for (const diff of diffs) {
+        if (diff[0] !== 0) count += diff[1].length;
     }
     return count;
 }
 
+function formatMisspellFeedback(correctDiffs: diff.Diff[], guessDiffs: diff.Diff[]) {
+    const mainColor = "goldenrod";
+    const missingColor = "green";
+    const extraColor = "red";
+
+    const feedback: AnswerFeedback = [];
+    feedback.push({ text: "Kirjaviga: ", color: mainColor });
+
+    for (const diff of guessDiffs) {
+        feedback.push({
+            text: diff[1],
+            color: diff[0] === 1 ? extraColor : mainColor
+        })
+    }
+
+    feedback.push({ text: " -> ", color: mainColor });
+
+    for (const diff of correctDiffs) {
+        feedback.push({
+            text: diff[1],
+            color: diff[0] === -1 ? missingColor : mainColor
+        })
+    }
+    return feedback;
+}
+
+function unofficialCheck(guess: string, unofficials: string[]): AnswerFeedback | undefined {
+    for (const unofficial of unofficials) {
+        if (guess.toLowerCase() === unofficial.toLowerCase()) {
+            return [{
+                text: `${unofficial} pole riigi ametlik nimi.`,
+                color: "goldenrod"
+            }];
+        }
+    }
+    return undefined;
+}
+
 function wrongAnswerFeedback(answers: string[]): AnswerFeedback {
-    const feedback: AnswerFeedback = {
-        message: "",
+    const feedback: FeedbackComponent = {
+        text: "",
         color: "red"
     }
 
-    if (answers.length > 1) {
-        feedback.message = `Correct Answers: ${answers.join(" / ")}`;
+    if (guessStatus.falseGuesses <= 1) {
+        const hint = answers[0];
+        feedback.text = `Vihje: ${hint.substring(0, 1) + hint.substring(1).replace(/\p{L}/gu, "*")}`
+
+    } else if (answers.length > 1) {
+        feedback.text = `Õiged vastused: ${answers.join(" / ")}`;
     } else {
-        feedback.message = `Correct answer: ${answers[0]}`;
+        feedback.text = `Õige vastus: ${answers[0]}`;
     }
 
-    return feedback;
+    return [feedback];
 }
