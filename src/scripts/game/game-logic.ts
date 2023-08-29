@@ -4,21 +4,26 @@ import fastDiff from "fast-diff";
 import { mapElementSetup, drawNewCountry, highlightNewCountry } from './map-render';
 import { setupAnimation } from './viewbox-animation';
 import type diff from 'fast-diff';
-import { shuffleArray } from '../util/math-util';
+import { pickFirstCountry, pickNewCountry, setupPicker } from './country-picker';
 
 interface FeedbackComponent {
     text: string,
     color: string
 }
 
-class GuessStatus {
+export class CurrentGuess {
+    country: CountryData;
     falseGuesses: number = 0;
-    reset() {
+
+    constructor(country: CountryData) {
+        this.country = country;
+    }
+    
+    reset(country: CountryData) {
+        this.country = country;
         this.falseGuesses = 0;
     }
 }
-
-type AnswerFeedback = FeedbackComponent[];
 
 let feedbackElement: HTMLElement;
 
@@ -26,19 +31,17 @@ const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).count
 
 const countryMap: Map<string, CountryData> = new Map();
 
-let askedCountryIndex = 0;
-let countriesToAsk: CountryData[] = [];
-let countriesToAskNext: CountryData[] = [];
-
-const guessStatus = new GuessStatus();
-let currentCountry: CountryData;
+let currentGuess: CurrentGuess;
 
 export function gameSetup() {
     mapElementSetup();
+
     setupCountries();
+    setupPicker(countryMap);
+
     setupInsert();
     setupAnimation();
-    generateQuesion();
+    generateQuesion(true);
 }
 
 function setupCountries() {
@@ -50,9 +53,7 @@ function setupCountries() {
 
         const countryData: CountryData = {jsonData: country, countrySvg: drawNewCountry(name, geometry)};
         countryMap.set(name, countryData);
-        countriesToAsk.push(countryData);
     }
-    shuffleArray(countriesToAsk);
 }
 
 function setupInsert() {
@@ -64,12 +65,11 @@ function setupInsert() {
         event.preventDefault();
 
         const guess: string = input.value;
-        const feedback = answerCheck(guess);
-        displayFeedback(feedback);
+        answerCheck(guess);
     });
 }
 
-function displayFeedback(feedback: AnswerFeedback) {
+function displayFeedback(feedback: FeedbackComponent[]) {
     feedbackElement.innerHTML = "";
 
     for (const feedbackComp of feedback) {
@@ -80,76 +80,65 @@ function displayFeedback(feedback: AnswerFeedback) {
     }
 }
 
-function generateQuesion() {
-    const prevCountry = currentCountry;
+function generateQuesion(first: boolean) {
+    const newCountry = first ? pickFirstCountry() : pickNewCountry(currentGuess);
 
-    if (askedCountryIndex >= countriesToAsk.length) {
-        countriesToAsk = countriesToAskNext;
-        countriesToAskNext = [];
-        askedCountryIndex = 0;
-    }
-
-    if (countriesToAsk.length === 0 || countriesToAsk.length === 1 && countriesToAsk[0] === prevCountry) {
-        displayFeedback([{
-            text: "It's Joever",
-            color: "blue"
-        }]);
+    if (newCountry === undefined) {
+        displayFeedback([{ text: "It's Joever", color: "blue" }]);
         return;
     }
 
-    currentCountry = countriesToAsk[askedCountryIndex++];
-    guessStatus.reset();
-    highlightNewCountry(currentCountry);
-}
-
-function answerCheck(guess: string): AnswerFeedback {
-    const answers = currentCountry.jsonData.names;
-    const unofficialAnswers = currentCountry.jsonData.alternativeNames;
-
-    let feedback = isCorrectAnswer(guess, answers);
-    if (feedback) {
-        generateQuesion();
-        return feedback;
+    if (first) {
+        currentGuess = new CurrentGuess(newCountry);
     }
 
-    feedback = misspelledCheck(guess, answers);
-    if (feedback) return feedback;
-
-    feedback = unofficialCheck(guess, unofficialAnswers);
-    if (feedback) return feedback;
-    
-    guessStatus.falseGuesses++;
-    if (guessStatus.falseGuesses === 1) countriesToAskNext.push(currentCountry);
-    return wrongAnswerFeedback(answers);
+    currentGuess.reset(newCountry);
+    highlightNewCountry(newCountry);
 }
 
-function isCorrectAnswer(guess: string, answers: string[]): AnswerFeedback | undefined {
+function answerCheck(guess: string) {
+    const answers = currentGuess.country.jsonData.names;
+    const unofficialAnswers = currentGuess.country.jsonData.alternativeNames;
+
+    if (isCorrectAnswer(guess, answers)) {
+        generateQuesion(false);
+        return;
+    }
+
+    if (misspelledCheck(guess, answers)) return;
+
+    if (unofficialCheck(guess, unofficialAnswers)) return;
+    
+    currentGuess.falseGuesses++;
+    wrongAnswerFeedback(answers);
+}
+
+function isCorrectAnswer(guess: string, answers: string[]): boolean {
     for (const correctAnswer of answers) {
         if (guess.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase()) {
-            return [{
+            displayFeedback([{
                 text: `${correctAnswer} on õige!`,
                 color: "green"
-            }];
+            }]);
+            return true
         }
     }
-    return undefined;
+    return false;
 }
 
-function misspelledCheck(guess: string, answers: string[]): AnswerFeedback | undefined {
+function misspelledCheck(guess: string, answers: string[]): boolean {
     for (const correctAnswer of answers) {
         const [allDiffs, correctDiffs, guessDiffs] = getDifferences(guess, correctAnswer);
-        console.log(allDiffs);
-        console.log(correctDiffs);
-        console.log(guessDiffs);
 
         const errorCount = countErrors(allDiffs);
         const acceptedErrorCount = Math.floor((correctAnswer.length + guess.length) / 4);
 
         if (errorCount <= acceptedErrorCount) {
-            return formatMisspellFeedback(correctDiffs, guessDiffs);
+            displayFeedback(formatMisspellFeedback(correctDiffs, guessDiffs));
+            return true
         }
     }
-    return undefined;
+    return false;
 }
 
 function getDifferences(guess: string, correctAnswer: string) {
@@ -187,7 +176,7 @@ function formatMisspellFeedback(correctDiffs: diff.Diff[], guessDiffs: diff.Diff
     const missingColor = "green";
     const extraColor = "red";
 
-    const feedback: AnswerFeedback = [];
+    const feedback: FeedbackComponent[] = [];
     feedback.push({ text: "Kirjaviga: ", color: mainColor });
 
     for (const diff of guessDiffs) {
@@ -208,25 +197,26 @@ function formatMisspellFeedback(correctDiffs: diff.Diff[], guessDiffs: diff.Diff
     return feedback;
 }
 
-function unofficialCheck(guess: string, unofficials: string[]): AnswerFeedback | undefined {
+function unofficialCheck(guess: string, unofficials: string[]): boolean {
     for (const unofficial of unofficials) {
         if (guess.toLowerCase() === unofficial.toLowerCase()) {
-            return [{
+            displayFeedback([{
                 text: `${unofficial} pole riigi ametlik nimi.`,
                 color: "goldenrod"
-            }];
+            }]);
+            return true;
         }
     }
-    return undefined;
+    return false;
 }
 
-function wrongAnswerFeedback(answers: string[]): AnswerFeedback {
+function wrongAnswerFeedback(answers: string[]) {
     const feedback: FeedbackComponent = {
         text: "",
         color: "red"
     }
 
-    if (guessStatus.falseGuesses <= 1) {
+    if (currentGuess.falseGuesses <= 1) {
         const hint = answers[0];
         feedback.text = `Vihje: ${hint.substring(0, 1) + hint.substring(1).replace(/\p{L}/gu, "*")}`
 
@@ -236,5 +226,5 @@ function wrongAnswerFeedback(answers: string[]): AnswerFeedback {
         feedback.text = `Õige vastus: ${answers[0]}`;
     }
 
-    return [feedback];
+    displayFeedback([feedback]);
 }
