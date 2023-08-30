@@ -2,120 +2,138 @@ import type { CountryData } from "../lib/countryjson";
 import { shuffleArray } from "../util/math-util";
 import type { CurrentGuess } from "./game-logic";
 
-class Node {
-    // Levels are reversed (bottom is 0, increases with height) as the height changes over time
-    level: number;
-    parent: ParentNode | undefined;
-
-    constructor(level: number) {
-        this.level = level;
-    }
+interface AskedQuestion {
+    country: CountryData,
+    correctStreak: number
 }
 
-class CountryNode extends Node {
-    country: CountryData;
+let streakToRemoveQuestion: number;
 
-    constructor(country: CountryData, level: number) {
-        super(level);
-        this.country = country;
-    }
-}
+const questionQueue = new Map<number, AskedQuestion[]>();
+let queueIndex = 0;
+let questionListIndex = -1;
 
-class ParentNode extends Node {
-    children: Node[] = [];
-
-    gameStatus: undefined | number | "Done";
-    falseGuesses = 0;
-
-    constructor(level: number) {
-        super(level);
-    }
-}
-
-const allNodes: Node[][] = [[]];
-
-let activeParent: ParentNode | undefined = undefined;
-
-let askedCountryIndex = 0;
 let allCountries: CountryData[] = [];
+let allCountriesIndex = 0;
 
 export function setupPicker(countryMap: Map<string, CountryData>) {
-    allCountries = Array.from(countryMap.values());
+    allCountries = Array.from(countryMap.values()).slice(63, 67);
 
     shuffleArray(allCountries);
+
+    streakToRemoveQuestion = 4;
 }
 
 export function pickFirstCountry(): CountryData | undefined {
     if (allCountries.length === 0) {
         return undefined;
     }
-    return allCountries[askedCountryIndex++];
+    return allCountries[allCountriesIndex++];
 }
 
-export function pickNewCountry(currentGuess: CurrentGuess): CountryData | undefined {
-    const prevCountry = currentGuess.country;
+export function pickNewCountry(prevGuess: CurrentGuess): CountryData | undefined {
+    managePreviousGuess(prevGuess);
 
-    if (activeParent === undefined) {
+    const fromActiveList = pickFromActiveList();
+    if (fromActiveList !== undefined) return fromActiveList;
 
-        if (currentGuess.falseGuesses <= 0) {
-            return newUnaskedCountry();
+    const fromQueueOrUnasked = pickFromQueueOrUnasked();
+    if (fromQueueOrUnasked !== undefined) return fromQueueOrUnasked;
+
+    return pickFromLeftover(prevGuess.country);
+}
+
+function pickFromActiveList(): CountryData | undefined {
+    const activeQuestionList = questionQueue.get(queueIndex);
+
+    if (activeQuestionList !== undefined && activeQuestionList.length > questionListIndex + 1) {
+        questionListIndex++;
+        return activeQuestionList[questionListIndex].country;
+    }
+
+    questionQueue.delete(queueIndex);
+}
+
+function pickFromQueueOrUnasked() {
+    if (allCountries.length > allCountriesIndex) {
+
+        queueIndex++;
+        const questionList = questionQueue.get(queueIndex);
+
+        if (questionList !== undefined) {
+            questionListIndex = 0;
+            return questionList[questionListIndex].country;
         }
-        return newNodeAndCountry(prevCountry)
-
+        
+        return allCountries[allCountriesIndex++];
     }
-
-    return countryFromActiveParent(currentGuess.falseGuesses <= 0)
 }
 
-function newUnaskedCountry(): CountryData | undefined {
-    if (askedCountryIndex >= allCountries.length) {
-        return undefined;
+function pickFromLeftover(prevCountry: CountryData): CountryData | undefined {
+    const maxPushIndex = pushIndex(streakToRemoveQuestion - 1);
+
+    let chosenCountry: CountryData | undefined;
+    let count = 0;
+
+    for (let i = queueIndex + 1; i <= maxPushIndex; i++) {
+        const questionList = questionQueue.get(i);
+        if (questionList === undefined) continue;
+
+        count += questionList.length;
+        
+        if (chosenCountry !== undefined) continue;
+        
+        questionListIndex = 0;
+        
+        if (questionList[questionListIndex].country === prevCountry) {
+            questionListIndex++;
+            count--;
+            if (questionList.length <= questionListIndex) continue;
+        }
+        chosenCountry = questionList[questionListIndex].country;
+        queueIndex = i;
     }
-    return allCountries[askedCountryIndex];
+    
+    streakToRemoveQuestion = Math.ceil(Math.log2(count));
+
+    return chosenCountry;
 }
 
-function newNodeAndCountry(prevCountry: CountryData) {
-    if (allCountries.length === 0 || allCountries.length === 1 && allCountries[0] === prevCountry) {
-        return undefined;
+function managePreviousGuess(prevGuess: CurrentGuess) {
+    const prevCountry = prevGuess.country;
+    const falseAnswer = prevGuess.falseGuesses > 0;
+
+    const activeQuestionList = questionQueue.get(queueIndex);
+
+    if (activeQuestionList !== undefined && activeQuestionList[questionListIndex] !== undefined) {
+        const queueCountry = activeQuestionList[questionListIndex];
+        
+        if (falseAnswer) queueCountry.correctStreak = 0;
+        else queueCountry.correctStreak++;
+
+        pushQuestion(queueCountry);
+        return;
     }
 
-    const newNode = new CountryNode(prevCountry, 0);
-    allNodes[0].push(newNode);
-
-    const newParent = pairIfPossible(newNode);
-    if (newParent !== undefined) activeParent = newParent;
-
-    return allCountries[askedCountryIndex++];
-}
-
-function countryFromActiveParent(prevWasCorrect: boolean): CountryData | undefined {
-     // The function is called after the if statement that ensures this
-    activeParent = activeParent as ParentNode;
-
-    if (activeParent.gameStatus === undefined) {
-        activeParent.gameStatus = 0;
-        return (activeParent.children[0] as CountryNode).country;
+    if (falseAnswer) {
+        const newQueueQuestion: AskedQuestion = {country: prevCountry, correctStreak: 0};
+        pushQuestion(newQueueQuestion);
     }
-
-    if (activeParent.gameStatus === whatever)
 }
 
-function pairIfPossible(node: Node): ParentNode | undefined {
-    const level = node.level;
-    const possiblePair = allNodes[level][allNodes[level].length - 2];
+function pushQuestion(question: AskedQuestion) {
+    if (question.correctStreak >= streakToRemoveQuestion) return;
 
-    if (possiblePair === undefined || possiblePair.parent !== undefined) return undefined;
+    const queuePosition = pushIndex(question.correctStreak);
+    const targetQuestionList = questionQueue.get(queuePosition);
 
-    if (allNodes.length <= level+1) allNodes.push([]);
+    if (targetQuestionList === undefined) {
+        questionQueue.set(queuePosition, [question]);
+    } else {
+        targetQuestionList.push(question);
+    }
+}
 
-    const newParent = new ParentNode(level+1);
-    allNodes[newParent.level].push(newParent);
-
-    newParent.children = [node, possiblePair];
-    node.parent = newParent;
-    possiblePair.parent = newParent;
-
-    pairIfPossible(newParent);
-
-    return newParent;
-} 
+function pushIndex(correctStreak: number): number {
+    return queueIndex + Math.pow(2, correctStreak + 1);
+}
