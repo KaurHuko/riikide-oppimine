@@ -46,12 +46,13 @@ export function gameSetup() {
 
 function setupCountries() {
     for (const country of countryJsonArray) {
-        if (!country.active) continue;
-
         const name = country.names[0].toLowerCase();
         const geometry = country.geometry;
+        const countrySvg = drawNewCountry(name, geometry);
 
-        const countryData: CountryData = {jsonData: country, countrySvg: drawNewCountry(name, geometry)};
+        if (!country.active) continue;
+
+        const countryData: CountryData = {jsonData: country, countrySvg: countrySvg};
         countryMap.set(name, countryData);
     }
 }
@@ -81,7 +82,13 @@ function displayFeedback(feedback: FeedbackComponent[]) {
 }
 
 function generateQuesion(first: boolean) {
-    const newCountry = first ? pickFirstCountry() : pickNewCountry(currentGuess);
+
+    // For development
+    const override = "balls";
+
+    let newCountry: CountryData | undefined;
+    if (countryMap.has(override)) newCountry = countryMap.get(override);
+    else newCountry = first ? pickFirstCountry() : pickNewCountry(currentGuess);
 
     if (newCountry === undefined) {
         displayFeedback([{ text: "It's Joever", color: "blue" }]);

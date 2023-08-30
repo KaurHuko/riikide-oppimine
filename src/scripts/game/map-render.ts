@@ -68,10 +68,10 @@ function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SV
 
 function colorCountry(country: SVGGElement, highlight: boolean) {
     const color = highlight ? "yellow" : "green";
-    const strokeColor = highlight ? "#ffff8888" : "#00000033";
+    const strokeColor = highlight ? "#ffff8888" : "#00000088";
 
     country.setAttribute("fill", color);
         
     country.setAttribute("stroke", strokeColor);
-    country.setAttribute("stroke-width", "0.1");
+    country.setAttribute("stroke-width", "0.05");
 }

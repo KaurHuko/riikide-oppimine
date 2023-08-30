@@ -1,11 +1,17 @@
 // Generates the final json for country borders and names used in the website.
 
-import { GeoJson, GeoJsonFeature } from "../src/scripts/lib/geojson";
+import { GeoJson, GeoJsonFeature, Geometry } from "../src/scripts/lib/geojson";
 import { BBox, CountryJson } from "../src/scripts/lib/countryjson";
-import baseCountriesImport from "./countries/countries-base.json";
+import { projectedYCoordinate } from '../src/scripts/util/math-util';
+
+import fullCountriesImport from "./countries/countries-rounded.json";
+import halfSimpleCountriesImport from "./countries/countries-half-simple.json";
+import simpleCountriesImport from "./countries/countries-simplest.json";
+
 import manualTranslationImport from "./translations/manual-translations.json";
-import { projectedYCoordinate, sqrDistance } from '../src/scripts/util/math-util';
-import fs from "fs"
+
+import * as turf from "@turf/turf";
+import fs from "fs";
 
 interface TranslationData {
     translations: string[] | undefined,
@@ -18,7 +24,9 @@ interface ManualTranslation {
     alternatives: string[] | undefined,
 }
 
-const baseCountries = baseCountriesImport as GeoJson;
+const simpleCountries = simpleCountriesImport as GeoJson;
+const halfSimpleCountries = halfSimpleCountriesImport as GeoJson;
+const fullCountries = fullCountriesImport as GeoJson;
 
 const mapLeftTrim = 4 - 180;
 const usRightTrim = 180 - 15;
@@ -27,14 +35,19 @@ const mapBottomTrim = 30 - 90;
 const nameToIso3 = new Map<string, string>();
 const iso3ToNames = new Map<string, string[]>();
 const manualTranslations = new Map<string, ManualTranslation>();
-const countries: CountryJson[] = [];
+
+const simpleGeometries = new Map<string, number[][][][]>();
+const halfSimpleGeometries = new Map<string, number[][][][]>();
+
+const countriesExport: CountryJson[] = [];
 
 loadNameToIso3();
 loadAdditionalNames();
 loadManualTranslations();
+loadSimplerGeometries();
 loadCountries();
 
-fs.writeFileSync("./src/assets/countries.json", JSON.stringify({countries: countries}, undefined, 0));
+fs.writeFileSync("./src/assets/countries.json", JSON.stringify({countries: countriesExport}, undefined, 0));
 
 function loadNameToIso3() {
     iterateTsv(translationDir("iso3-to-est.txt"), tsvLine => {
@@ -113,8 +126,20 @@ function loadManualTranslations() {
     }
 }
 
+function loadSimplerGeometries() {
+    for (const country of halfSimpleCountries.features) {
+        const geometry = getGeometryCoords(country.geometry);
+        if (geometry.length > 0) halfSimpleGeometries.set(country.properties.ADMIN, geometry);
+    }
+
+    for (const country of simpleCountries.features) {
+        const geometry = getGeometryCoords(country.geometry);
+        if (geometry.length > 0) simpleGeometries.set(country.properties.ADMIN, geometry);
+    }
+}
+
 function loadCountries() {
-    for (const baseCountry of baseCountries.features) {
+    for (const baseCountry of fullCountries.features) {
 
         const newCountry: CountryJson = {
             active: false,
@@ -138,7 +163,7 @@ function loadCountries() {
 
         newCountry.bounding = getGeometryBounding(newCountry.geometry);
 
-        countries.push(newCountry);
+        countriesExport.push(newCountry);
     }
 }
 
@@ -164,27 +189,46 @@ function getCountryTranslations(baseCountry: GeoJsonFeature): TranslationData {
 }
 
 function getCountryGeometry(baseCountry: GeoJsonFeature, active: boolean): number[][][][] {
-    const geometryData = baseCountry.geometry;
-    let geometry: number[][][][] | undefined;
-
-    if (geometryData.type == "Polygon") {
-        geometry = [geometryData.coordinates] as number[][][][];
-    } else if (geometryData.type == "MultiPolygon") {
-        geometry = geometryData.coordinates as number[][][][];
-    } else {
-        return [];
-    }
+    let geometry = chooseSimplification(baseCountry, active);
 
     if (baseCountry.properties.ADMIN === "Russia") uniteRussia(geometry);
     geometry = cutMapEdges(baseCountry.properties.ADMIN, geometry);
     applyMapProjection(geometry);
 
-    geometry = simplifiedGeometry(baseCountry.properties.ADMIN, geometry, active);
-
     return geometry;
 }
 
-// The function name sounds extremely wrong, I'm just moving the right part of russia to the right
+function getGeometryCoords(geometry: Geometry): number[][][][] {
+    if (geometry.type == "Polygon") {
+        return [geometry.coordinates] as number[][][][];
+    }
+    if (geometry.type == "MultiPolygon") {
+        return geometry.coordinates as number[][][][];
+    }
+    return [];
+}
+
+function chooseSimplification(country: GeoJsonFeature, active: boolean): number[][][][] {
+    const fullGeometry = getGeometryCoords(country.geometry);
+    const area = areaInKm2(country);
+    const name = country.properties.ADMIN;
+
+    if (area > 1000 || !active) {
+        return simpleGeometries.get(name)!
+    }
+    
+    if (area > 200) {
+        return halfSimpleGeometries.get(name)!
+    }
+    
+    return fullGeometry;
+}
+
+function areaInKm2(baseCountry: GeoJsonFeature) {
+    return turf.area(baseCountry.geometry) / 1e6;
+}
+
+// The function name sounds extremely wrong, I'm just moving the right part of russia (left on the map) to the right
 // Because of polygon strokes it still looks kinda trash, but it's better than having a part of russia cut off
 // Might be a temporary solution, might not, idk
 function uniteRussia(geometry: number[][][][]) {
@@ -236,46 +280,6 @@ function applyMapProjection(geometry: number[][][][]) {
             }
         }
     }
-}
-
-function simplifiedGeometry(name: string, geometry: number[][][][], active: boolean): number[][][][] {
-    if (geometry.length < 1) return [];
-
-    let newGeometry = fixedSimplify(geometry, 0.1);
-    if (!active) return newGeometry;
-    if (newGeometry.length > 0) return newGeometry;
-    
-    // Geometry length check with larger simplification than the actual return value to get better detail for small countries
-    newGeometry = fixedSimplify(geometry, 0.01);
-    if (newGeometry.length > 0) return fixedSimplify(geometry, 0.004);
-
-    return geometry;
-}
-
-function fixedSimplify(geometry: number[][][][], amount: number): number[][][][] {
-    const newGeometry: number[][][][] = [];
-
-    for (const landPatch of geometry) {
-        const newLandPatch: number[][][] = [];
-
-        for (let i = 0; i < landPatch.length; i++) {
-            const polygon = landPatch[i];
-            const newPolygon: number[][] = [polygon[0]];
-
-            for (let j = 1; j < polygon.length; j++) {
-                const previousPoint = newPolygon[newPolygon.length - 1];
-                const point = polygon[j];
-                if (sqrDistance(previousPoint, point) > amount) {
-                    newPolygon.push(point);
-                }
-            }
-
-            if (newPolygon.length >= 3) newLandPatch.push(newPolygon);
-        }
-        if (newLandPatch.length > 0) newGeometry.push(newLandPatch);
-    }
-
-    return newGeometry;
 }
 
 function getGeometryBounding(geometry: number[][][][]): BBox {

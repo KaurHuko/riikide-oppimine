@@ -17,14 +17,14 @@ let allCountries: CountryData[] = [];
 let allCountriesIndex = 0;
 
 export function setupPicker(countryMap: Map<string, CountryData>) {
-    allCountries = Array.from(countryMap.values()).slice(63, 67);
-
+    allCountries = Array.from(countryMap.values());
     shuffleArray(allCountries);
 
     streakToRemoveQuestion = 4;
 }
 
 export function pickFirstCountry(): CountryData | undefined {
+
     if (allCountries.length === 0) {
         return undefined;
     }

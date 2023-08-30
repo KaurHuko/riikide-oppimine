@@ -1,6 +1,16 @@
-import { GeoJson } from "../src/scripts/lib/geojson";
+// Rounds coordinates to make borders of different countries align (they're inconsistent in base file for some reason)
+// Necessary to work with https://mapshaper.org/
 
-const rounding = 1000000000;
+import fs from "fs";
+import { GeoJson } from "../src/scripts/lib/geojson";
+import baseCountriesImport from "./countries/countries-base.json"
+
+const rounding = 1e9;
+
+const countries = baseCountriesImport as GeoJson;
+roundAllCoords(countries);
+
+fs.writeFileSync("./gen/countries/countries-rounded.json", JSON.stringify(countries));
 
 function roundAllCoords(geoJson: GeoJson) {
     for (const country of geoJson.features) {
