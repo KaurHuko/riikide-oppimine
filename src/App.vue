@@ -11,12 +11,11 @@
       <g id="countries"></g>
     </svg>
 
-    <div class="interactions">
+    <div id="input-area">
       <div id="feedback"><br></div>
       <form id="country-guess-form">
-        Guess The Country:
-        <input id="country-name">
-        <button type="submit">Guess</button>
+        <input id="country-input" placeholder="Sisesta riigi nimi" autocomplete="off">
+
       </form>
     </div>
 

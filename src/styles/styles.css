@@ -1,0 +1,73 @@
+
+:root {
+    --input-height: 48px;
+    --feedback-height: 24px;
+    --interaction-margin: 10px;
+
+    font-family: Tahoma, sans-serif, Verdana, Geneva;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#input-area {
+    z-index: 2;
+    position: absolute;
+
+    bottom: 0;
+    width: 100%;
+
+    background-color: #0066ff77;
+}
+
+#country-input {
+    box-sizing: border-box;
+
+    margin: var(--interaction-margin);
+    height: var(--input-height);
+    width: calc(100% - 2 * var(--interaction-margin));
+    
+    text-align: center;
+    font-size: calc(0.5 * var(--input-height));
+    padding-left: 10px;
+
+    background-color: #ffffffee;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+#feedback {
+    margin: var(--interaction-margin);
+    margin-bottom: 0px;
+
+    font-size: var(--feedback-height);
+    text-align: center;
+
+    -webkit-text-stroke: 4px black;
+    paint-order: stroke fill;
+}
+
+#map {
+    z-index: 1;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: white;
+}
+
+.country-inactive {
+    fill: lightgray;
+    stroke: white;
+    stroke-width: 0.05;
+}
+
+.country-active {
+    fill: #777777;
+    stroke: #00ffff66;
+    stroke-width: 0.05px;
+}

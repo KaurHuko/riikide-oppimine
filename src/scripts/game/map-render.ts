@@ -67,11 +67,16 @@ function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SV
 }
 
 function colorCountry(country: SVGGElement, highlight: boolean) {
-    const color = highlight ? "yellow" : "green";
-    const strokeColor = highlight ? "#ffff8888" : "#00000088";
+    if (highlight) {
+        country.classList.add("country-active");
+        country.classList.remove("country-inactive");
 
-    country.setAttribute("fill", color);
-        
-    country.setAttribute("stroke", strokeColor);
-    country.setAttribute("stroke-width", "0.05");
+        const parent = country.parentElement!;
+        parent.removeChild(country);
+        parent.appendChild(country);
+
+    } else {
+        country.classList.add("country-inactive");
+        country.classList.remove("country-active");
+    }
 }

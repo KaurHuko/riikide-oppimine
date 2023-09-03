@@ -25,7 +25,18 @@ export class CurrentGuess {
     }
 }
 
-let feedbackElement: HTMLElement;
+let feedbackBgElement: HTMLElement;
+let feedbackTextElement: HTMLElement;
+
+const colors = {
+    bgError: "#ff000077",
+    bgMistake: "#bbbb0077",
+    bgCorrect: "#00ff0077",
+
+    plainText: "#ffffff",
+    missingChar: "#33ff33",
+    extraChar: "#ff3333"
+}
 
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
 
@@ -59,25 +70,30 @@ function setupCountries() {
 
 function setupInsert() {
     const form: HTMLFormElement = document.getElementById("country-guess-form") as HTMLFormElement;
-    const input: HTMLInputElement = document.getElementById("country-name") as HTMLInputElement;
-    feedbackElement = document.getElementById("feedback") as HTMLElement;
+    const input: HTMLInputElement = document.getElementById("country-input") as HTMLInputElement;
+    feedbackTextElement = document.getElementById("feedback") as HTMLElement;
+    feedbackBgElement = document.getElementById("input-area") as HTMLElement;
 
     form.addEventListener("submit", event => {
         event.preventDefault();
 
         const guess: string = input.value;
+        input.value = "";
+
         answerCheck(guess);
     });
 }
 
-function displayFeedback(feedback: FeedbackComponent[]) {
-    feedbackElement.innerHTML = "";
+function displayFeedback(bgColor: string, feedback: FeedbackComponent[]) {
+    feedbackBgElement.style.backgroundColor = bgColor;
+    
+    feedbackTextElement.innerHTML = "";
 
     for (const feedbackComp of feedback) {
         const span = document.createElement("span");
         span.textContent = feedbackComp.text;
         span.style.color = feedbackComp.color;
-        feedbackElement.appendChild(span);
+        feedbackTextElement.appendChild(span);
     }
 }
 
@@ -91,7 +107,7 @@ function generateQuesion(first: boolean) {
     else newCountry = first ? pickFirstCountry() : pickNewCountry(currentGuess);
 
     if (newCountry === undefined) {
-        displayFeedback([{ text: "It's Joever", color: "blue" }]);
+        displayFeedback(colors.bgCorrect, [{ text: "It's Joever", color: "white" }]);
         return;
     }
 
@@ -123,9 +139,9 @@ function answerCheck(guess: string) {
 function isCorrectAnswer(guess: string, answers: string[]): boolean {
     for (const correctAnswer of answers) {
         if (guess.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase()) {
-            displayFeedback([{
+            displayFeedback(colors.bgCorrect, [{
                 text: `${correctAnswer} on õige!`,
-                color: "green"
+                color: "white"
             }]);
             return true
         }
@@ -141,7 +157,7 @@ function misspelledCheck(guess: string, answers: string[]): boolean {
         const acceptedErrorCount = Math.floor((correctAnswer.length + guess.length) / 4);
 
         if (errorCount <= acceptedErrorCount) {
-            displayFeedback(formatMisspellFeedback(correctDiffs, guessDiffs));
+            displayFeedback(colors.bgMistake, formatMisspellFeedback(correctDiffs, guessDiffs));
             return true
         }
     }
@@ -179,26 +195,22 @@ function countErrors(diffs: fastDiff.Diff[]): number {
 }
 
 function formatMisspellFeedback(correctDiffs: diff.Diff[], guessDiffs: diff.Diff[]) {
-    const mainColor = "goldenrod";
-    const missingColor = "green";
-    const extraColor = "red";
-
     const feedback: FeedbackComponent[] = [];
-    feedback.push({ text: "Kirjaviga: ", color: mainColor });
+    feedback.push({ text: "Kirjaviga: ", color: colors.plainText });
 
     for (const diff of guessDiffs) {
         feedback.push({
             text: diff[1],
-            color: diff[0] === 1 ? extraColor : mainColor
+            color: diff[0] === 1 ? colors.extraChar : colors.plainText
         })
     }
 
-    feedback.push({ text: " -> ", color: mainColor });
+    feedback.push({ text: " -> ", color: colors.plainText });
 
     for (const diff of correctDiffs) {
         feedback.push({
             text: diff[1],
-            color: diff[0] === -1 ? missingColor : mainColor
+            color: diff[0] === -1 ? colors.missingChar : colors.plainText
         })
     }
     return feedback;
@@ -207,9 +219,9 @@ function formatMisspellFeedback(correctDiffs: diff.Diff[], guessDiffs: diff.Diff
 function unofficialCheck(guess: string, unofficials: string[]): boolean {
     for (const unofficial of unofficials) {
         if (guess.toLowerCase() === unofficial.toLowerCase()) {
-            displayFeedback([{
+            displayFeedback(colors.bgMistake, [{
                 text: `${unofficial} pole riigi ametlik nimi.`,
-                color: "goldenrod"
+                color: "white"
             }]);
             return true;
         }
@@ -220,7 +232,7 @@ function unofficialCheck(guess: string, unofficials: string[]): boolean {
 function wrongAnswerFeedback(answers: string[]) {
     const feedback: FeedbackComponent = {
         text: "",
-        color: "red"
+        color: "white"
     }
 
     if (currentGuess.falseGuesses <= 1) {
@@ -233,5 +245,5 @@ function wrongAnswerFeedback(answers: string[]) {
         feedback.text = `Õige vastus: ${answers[0]}`;
     }
 
-    displayFeedback([feedback]);
+    displayFeedback(colors.bgError, [feedback]);
 }
