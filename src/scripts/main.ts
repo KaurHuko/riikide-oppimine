@@ -1,8 +1,13 @@
-import { createApp } from 'vue'
-import App from '../App.vue'
-import '../styles/styles.css'
-import { gameSetup } from "./game/game-logic"
+import { createApp } from "vue";
+import { router } from "./router";
 
-createApp(App).mount('#app');
+import App from "@/App.vue"
+import "@/styles/styles.css"
 
-gameSetup();
+const app = createApp(App);
+app.use(router);
+
+router.isReady()
+    .then(() => {
+        app.mount("#app");
+    });
