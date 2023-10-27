@@ -40,6 +40,7 @@ const simpleGeometries = new Map<string, number[][][][]>();
 const halfSimpleGeometries = new Map<string, number[][][][]>();
 
 const countriesExport: CountryJson[] = [];
+const countryNameExport: String[] = [];
 
 loadNameToIso3();
 loadAdditionalNames();
@@ -47,7 +48,15 @@ loadManualTranslations();
 loadSimplerGeometries();
 loadCountries();
 
-fs.writeFileSync("./src/assets/countries.json", JSON.stringify({countries: countriesExport}, undefined, 0));
+fs.writeFileSync("./src/assets/countries.json", JSON.stringify({countries: countriesExport}));
+fs.writeFileSync("./gen/names-template.json", JSON.stringify({
+    regions: [],
+    lists: [{
+        name: "all",
+        description: "Kõik riigid",
+        countries: countryNameExport
+    }]
+}));
 
 function loadNameToIso3() {
     iterateTsv(translationDir("iso3-to-est.txt"), tsvLine => {
@@ -164,6 +173,7 @@ function loadCountries() {
         newCountry.bounding = getGeometryBounding(newCountry.geometry);
 
         countriesExport.push(newCountry);
+        if (newCountry.active) countryNameExport.push(newCountry.names[0]);
     }
 }
 

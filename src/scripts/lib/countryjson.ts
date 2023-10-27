@@ -11,7 +11,7 @@ export interface CountryJson {
     geometry: number[][][][]
 }
 
-export interface CountryData {
+export interface CountryElementData {
     jsonData: CountryJson,
     countrySvg: SVGGElement
 }

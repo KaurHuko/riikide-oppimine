@@ -1,0 +1,40 @@
+{
+    "regions": [
+        {
+            "name": "euroopa",
+            "countries": ["Albaania","Andorra","Austria","Belgia","Bulgaaria","Bosnia ja Hertsegoviina","Valgevene","Šveits","Küpros","Tšehhi","Saksamaa","Taani","Hispaania","Eesti","Soome","Prantsusmaa","Suurbritannia","Gruusia","Kreeka","Horvaatia","Iirimaa","Island","Itaalia","Kosovo","Liechtenstein","Leedu","Luksemburg","Läti","Monaco","Moldova","Põhja-Makedoonia","Malta","Holland","Norra","Poola","Portugal","Rumeenia","Venemaa","San Marino","Serbia","Slovakkia","Sloveenia","Rootsi","Türgi","Ukraina","Vatikan"]
+        },
+        {
+            "name": "aasia",
+            "countries": ["Afganistan","Araabia Ühendemiraadid","Armeenia","Aserbaidžaan","Bangladesh","Bahrein","Brunei","Bhutan","Hiina","Indoneesia","India","Iraan","Iraak","Iisrael","Jordaania","Jaapan","Kasahstan","Kambodža","Lõuna-Korea","Kuveit","Laos","Liibanon","Sri Lanka","Maldiivid","Myanmar","Mongoolia","Malaisia","Nepal","Omaan","Pakistan","Filipiinid","Põhja-Korea","Katar","Saudi Araabia","Singapur","Süüria","Tai","Tadžikistan","Türkmenistan","Ida-Timor","Usbekistan","Vietnam","Jeemen"]
+        },
+        {
+            "name": "aafrika",
+            "countries": ["Angola","Burundi","Benin","Burkina Faso","Boliivia","Botswana","Kesk-Aafrika Vabariik","Elevandiluurannik","Kamerun","Kongo DV", "Kongo Vabariik","Komoorid","Roheneemesaared","Djibouti","Alžeeria","Eritrea","Etioopia","Gabon","Ghana","Guinea","Gambia","Guinea-Bissau","Ekvatoriaal-Guinea","Keenia","Kõrgõzstan","Libeeria","Liibüa","Lesotho","Maroko","Madagaskar","Mali","Mosambiik","Mauritaania","Mauritius","Malawi","Namiibia","Niger","Nigeeria","Rwanda","Sudaan","Lõuna-Sudaan","Senegal","Sierra Leone","Somaalia","Sao Tome ja Principe","Svaasimaa","Seišellid","Tšaad","Togo","Tuneesia","Tansaania","Uganda","Lõuna-Aafrika Vabariik","Sambia","Zimbabwe"]
+        },
+        {
+            "name": "põhja-ameerika",
+            "countries": ["Antigua ja Barbuda","Bahama","Belize","Barbados","Kanada","Costa Rica","Kuuba","Dominica","Dominikaani Vabariik","Grenada","Guatemala","Honduras","Haiti","Jamaica","Saint Kitts ja Nevis","Saint Lucia","Mehhiko","Nicaragua","Panama","El Salvador","Ameerika Ühendriigid","Saint Vincent ja Grenadiinid"]
+        },
+        {
+            "name": "lõuna-ameerika",
+            "countries": ["Argentina","Brasiilia","Tšiili","Colombia","Ecuador","Guyana","Nauru","Peruu","Paraguay","Suriname","Trinidad ja Tobago","Uruguay","Venezuela"]
+        },
+        {
+            "name": "austraalia-ja-okeaania",
+            "countries": ["Austraalia","Fidži","Mikroneesia","Kiribati","Marshalli Saared","Uus-Meremaa","Belau","Paapua Uus-Guinea","Saalomoni Saared","Tonga","Tuvalu","Vanuatu","Samoa"]
+        }
+    ],
+    "lists": [
+        {
+            "name": "all",
+            "description": "Kõik riigid",
+            "countries": ["Afganistan","Angola","Albaania","Andorra","Araabia Ühendemiraadid","Argentina","Armeenia","Antigua ja Barbuda","Austraalia","Austria","Aserbaidžaan","Burundi","Belgia","Benin","Burkina Faso","Bangladesh","Bulgaaria","Bahrein","Bahama","Bosnia ja Hertsegoviina","Valgevene","Belize","Boliivia","Brasiilia","Barbados","Brunei","Bhutan","Botswana","Kesk-Aafrika Vabariik","Kanada","Šveits","Tšiili","Hiina","Elevandiluurannik","Kamerun","Kongo DV","Kongo Vabariik","Colombia","Komoorid","Roheneemesaared","Costa Rica","Kuuba","Küpros","Tšehhi","Saksamaa","Djibouti","Dominica","Taani","Dominikaani Vabariik","Alžeeria","Ecuador","Egiptus","Eritrea","Hispaania","Eesti","Etioopia","Soome","Fidži","Prantsusmaa","Mikroneesia","Gabon","Suurbritannia","Gruusia","Ghana","Guinea","Gambia","Guinea-Bissau","Ekvatoriaal-Guinea","Kreeka","Grenada","Guatemala","Guyana","Honduras","Horvaatia","Haiti","Ungari","Indoneesia","India","Iirimaa","Iraan","Iraak","Island","Iisrael","Itaalia","Jamaica","Jordaania","Jaapan","Kasahstan","Keenia","Kõrgõzstan","Kambodža","Kiribati","Saint Kitts ja Nevis","Lõuna-Korea","Kosovo","Kuveit","Laos","Liibanon","Libeeria","Liibüa","Saint Lucia","Liechtenstein","Sri Lanka","Lesotho","Leedu","Luksemburg","Läti","Maroko","Monaco","Moldova","Madagaskar","Maldiivid","Mehhiko","Marshalli Saared","Põhja-Makedoonia","Mali","Malta","Myanmar","Montenegro","Mongoolia","Mosambiik","Mauritaania","Mauritius","Malawi","Malaisia","Namiibia","Niger","Nigeeria","Nicaragua","Holland","Norra","Nepal","Nauru","Uus-Meremaa","Omaan","Pakistan","Panama","Peruu","Filipiinid","Belau","Paapua Uus-Guinea","Poola","Põhja-Korea","Portugal","Paraguay","Katar","Rumeenia","Venemaa","Rwanda","Saudi Araabia","Sudaan","Lõuna-Sudaan","Senegal","Singapur","Saalomoni Saared","Sierra Leone","El Salvador","San Marino","Somaalia","Serbia","Sao Tome ja Principe","Suriname","Slovakkia","Sloveenia","Rootsi","Svaasimaa","Seišellid","Süüria","Tšaad","Togo","Tai","Tadžikistan","Türkmenistan","Ida-Timor","Tonga","Trinidad ja Tobago","Tuneesia","Türgi","Tuvalu","Tansaania","Uganda","Ukraina","Uruguay","Ameerika Ühendriigid","Usbekistan","Vatikan","Saint Vincent ja Grenadiinid","Venezuela","Vietnam","Vanuatu","Samoa","Jeemen","Lõuna-Aafrika Vabariik","Sambia","Zimbabwe"]
+        },
+        {
+            "name": "küberson",
+            "description": "Ainult need, mida Küberson küsib",
+            "countries": ["Afganistan","Angola","Albaania","Andorra","Araabia Ühendemiraadid","Argentina","Armeenia","Austraalia","Austria","Aserbaidžaan","Burundi","Belgia","Benin","Burkina Faso","Bangladesh","Bulgaaria","Bahrein","Bosnia ja Hertsegoviina","Valgevene","Belize","Boliivia","Brasiilia","Brunei","Bhutan","Botswana","Kesk-Aafrika Vabariik","Kanada","Šveits","Tšiili","Hiina","Elevandiluurannik","Kamerun","Kongo DV","Kongo Vabariik","Colombia","Komoorid","Roheneemesaared","Costa Rica","Kuuba","Küpros","Tšehhi","Saksamaa","Djibouti","Taani","Dominikaani Vabariik","Alžeeria","Ecuador","Egiptus","Eritrea","Hispaania","Eesti","Etioopia","Soome","Prantsusmaa","Gabon","Suurbritannia","Gruusia","Ghana","Guinea","Gambia","Guinea-Bissau","Ekvatoriaal-Guinea","Kreeka","Guatemala","Guyana","Honduras","Horvaatia","Haiti","Ungari","Indoneesia","India","Iirimaa","Iraan","Iraak","Island","Iisrael","Itaalia","Jamaica","Jordaania","Jaapan","Kasahstan","Keenia","Kõrgõzstan","Kambodža","Lõuna-Korea","Kosovo","Kuveit","Laos","Liibanon","Libeeria","Liibüa","Liechtenstein","Sri Lanka","Lesotho","Leedu","Luksemburg","Läti","Maroko","Monaco","Moldova","Madagaskar","Maldiivid","Mehhiko","Põhja-Makedoonia","Mali","Malta","Myanmar","Montenegro","Mongoolia","Mosambiik","Mauritaania","Mauritius","Malawi","Malaisia","Namiibia","Niger","Nigeeria","Nicaragua","Holland","Norra","Nepal","Nauru","Uus-Meremaa","Omaan","Pakistan","Panama","Peruu","Filipiinid","Paapua Uus-Guinea","Poola","Põhja-Korea","Portugal","Paraguay","Katar","Rumeenia","Venemaa","Rwanda","Saudi Araabia","Sudaan","Lõuna-Sudaan","Senegal","Singapur","Sierra Leone","El Salvador","San Marino","Somaalia","Serbia","Sao Tome ja Principe","Suriname","Slovakkia","Sloveenia","Rootsi","Svaasimaa","Seišellid","Süüria","Tšaad","Togo","Tai","Tadžikistan","Türkmenistan","Ida-Timor","Trinidad ja Tobago","Tuneesia","Türgi","Tansaania","Uganda","Ukraina","Uruguay","Ameerika Ühendriigid","Usbekistan","Vatikan","Venezuela","Vietnam","Jeemen","Lõuna-Aafrika Vabariik","Sambia","Zimbabwe"]
+        }
+    ]
+}

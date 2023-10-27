@@ -4,7 +4,8 @@ import { gameSetup } from "@/scripts/game/game-logic";
 import { router } from "@/scripts/router/index";
 
 router.isReady().then(() => {
-    gameSetup();
+  const urlParams = new URLSearchParams(window.location.search);
+  gameSetup(urlParams.get("region"), urlParams.get("list"));
 });
 
 </script>

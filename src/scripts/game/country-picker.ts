@@ -1,9 +1,8 @@
-import type { CountryData } from "../lib/countryjson";
 import { shuffleArray } from "../util/math-util";
 import type { CurrentGuess } from "./game-logic";
 
 interface AskedQuestion {
-    country: CountryData,
+    country: string,
     correctStreak: number
 }
 
@@ -13,25 +12,24 @@ const questionQueue = new Map<number, AskedQuestion[]>();
 let queueIndex = 0;
 let questionListIndex = -1;
 
-let allCountries: CountryData[] = [];
+let allCountries: string[]
 let allCountriesIndex = 0;
 
-export function setupPicker(countryMap: Map<string, CountryData>) {
-    allCountries = Array.from(countryMap.values());
-    shuffleArray(allCountries);
+export function setupPicker(askedCountries: string[]) {
+    allCountries = askedCountries;
+    shuffleArray(askedCountries);
 
     streakToRemoveQuestion = 4;
 }
 
-export function pickFirstCountry(): CountryData | undefined {
-
+export function pickFirstCountry(): string | undefined {
     if (allCountries.length === 0) {
         return undefined;
     }
     return allCountries[allCountriesIndex++];
 }
 
-export function pickNewCountry(prevGuess: CurrentGuess): CountryData | undefined {
+export function pickNewCountry(prevGuess: CurrentGuess): string | undefined {
     managePreviousGuess(prevGuess);
 
     const fromActiveList = pickFromActiveList();
@@ -40,10 +38,10 @@ export function pickNewCountry(prevGuess: CurrentGuess): CountryData | undefined
     const fromQueueOrUnasked = pickFromQueueOrUnasked();
     if (fromQueueOrUnasked !== undefined) return fromQueueOrUnasked;
 
-    return pickFromLeftover(prevGuess.country);
+    return pickFromLeftover(prevGuess.countryName());
 }
 
-function pickFromActiveList(): CountryData | undefined {
+function pickFromActiveList(): string | undefined {
     const activeQuestionList = questionQueue.get(queueIndex);
 
     if (activeQuestionList !== undefined && activeQuestionList.length > questionListIndex + 1) {
@@ -69,10 +67,10 @@ function pickFromQueueOrUnasked() {
     }
 }
 
-function pickFromLeftover(prevCountry: CountryData): CountryData | undefined {
+function pickFromLeftover(prevCountry: string): string | undefined {
     const maxPushIndex = pushIndex(streakToRemoveQuestion - 1);
 
-    let chosenCountry: CountryData | undefined;
+    let chosenCountry: string | undefined;
     let count = 0;
 
     for (let i = queueIndex + 1; i <= maxPushIndex; i++) {
@@ -100,7 +98,6 @@ function pickFromLeftover(prevCountry: CountryData): CountryData | undefined {
 }
 
 function managePreviousGuess(prevGuess: CurrentGuess) {
-    const prevCountry = prevGuess.country;
     const falseAnswer = prevGuess.falseGuesses > 0;
 
     const activeQuestionList = questionQueue.get(queueIndex);
@@ -116,7 +113,7 @@ function managePreviousGuess(prevGuess: CurrentGuess) {
     }
 
     if (falseAnswer) {
-        const newQueueQuestion: AskedQuestion = {country: prevCountry, correctStreak: 0};
+        const newQueueQuestion: AskedQuestion = {country: prevGuess.countryName(), correctStreak: 0};
         pushQuestion(newQueueQuestion);
     }
 }

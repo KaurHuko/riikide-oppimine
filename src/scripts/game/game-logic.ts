@@ -1,10 +1,12 @@
-import type { CountryJson, CountryJsonList, CountryData } from '@/scripts/lib/countryjson';
-import jsonCountries from '@/assets/countries.json';
 import fastDiff from "fast-diff";
+import type diff from 'fast-diff';
+
+import type { CountryElementData } from '../lib/countryjson';
+
+import { pickFirstCountry, pickNewCountry, setupPicker } from './country-picker';
 import { mapElementSetup, drawNewCountry, highlightNewCountry } from './map-render';
 import { setupAnimation } from './viewbox-animation';
-import type diff from 'fast-diff';
-import { pickFirstCountry, pickNewCountry, setupPicker } from './country-picker';
+import { countryJsonMap, getCountries } from "./country-list";
 
 interface FeedbackComponent {
     text: string,
@@ -12,21 +14,22 @@ interface FeedbackComponent {
 }
 
 export class CurrentGuess {
-    country: CountryData;
+    country: CountryElementData;
     falseGuesses: number = 0;
 
-    constructor(country: CountryData) {
+    constructor(country: CountryElementData) {
         this.country = country;
     }
     
-    reset(country: CountryData) {
+    reset(country: CountryElementData) {
         this.country = country;
         this.falseGuesses = 0;
     }
-}
 
-let feedbackBgElement: HTMLElement;
-let feedbackTextElement: HTMLElement;
+    countryName(): string {
+        return this.country.jsonData.names[0];
+    }
+}
 
 const colors = {
     bgError: "#ff000077",
@@ -38,32 +41,35 @@ const colors = {
     extraChar: "#ff3333"
 }
 
-const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
+let feedbackBgElement: HTMLElement;
+let feedbackTextElement: HTMLElement;
 
-const countryMap: Map<string, CountryData> = new Map();
-
+const countryMap: Map<string, CountryElementData> = new Map();
+let askedCountries: string[];
 let currentGuess: CurrentGuess;
 
-export function gameSetup() {
+export function gameSetup(regionArg: string | null, listArg: string | null) {
     mapElementSetup();
 
-    setupCountries();
-    setupPicker(countryMap);
+    setupCountries(regionArg, listArg);
+    setupPicker(askedCountries);
 
     setupInsert();
     setupAnimation();
     generateQuesion(true);
 }
 
-function setupCountries() {
-    for (const country of countryJsonArray) {
-        const name = country.names[0].toLowerCase();
-        const geometry = country.geometry;
+function setupCountries(regionArg: string | null, listArg: string | null) {
+    askedCountries =getCountries(regionArg, listArg);
+
+    for (const country of countryJsonMap) {
+        const name = country[0];
+        const geometry = country[1].geometry;
         const countrySvg = drawNewCountry(name, geometry);
 
-        if (!country.active) continue;
+        if (!country[1].active) continue;
 
-        const countryData: CountryData = {jsonData: country, countrySvg: countrySvg};
+        const countryData: CountryElementData = {jsonData: country[1], countrySvg: countrySvg};
         countryMap.set(name, countryData);
     }
 }
@@ -102,9 +108,13 @@ function generateQuesion(first: boolean) {
     // For development
     const override = "balls";
 
-    let newCountry: CountryData | undefined;
-    if (countryMap.has(override)) newCountry = countryMap.get(override);
-    else newCountry = first ? pickFirstCountry() : pickNewCountry(currentGuess);
+    let newCountry: CountryElementData | undefined;
+    if (countryMap.has(override)) {
+        newCountry = countryMap.get(override);
+    } else {
+        const newCountryName = first ? pickFirstCountry() : pickNewCountry(currentGuess);
+        if (newCountryName !== undefined) newCountry = countryMap.get(newCountryName);
+    }
 
     if (newCountry === undefined) {
         displayFeedback(colors.bgCorrect, [{ text: "It's Joever", color: "white" }]);
