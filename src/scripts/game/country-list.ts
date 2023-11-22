@@ -4,10 +4,10 @@ import type { CountryJson, CountryJsonList } from '../lib/countryjson';
 import jsonCountries from '@/assets/countries.json';
 import jsonCountryNames from "@/assets/country-names.json";
 
+export const countryJsonMap: Map<string, CountryJson> = new Map();
+
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
 const countryNames: CountryNames = (jsonCountryNames as CountryNames);
-
-export const countryJsonMap: Map<string, CountryJson> = new Map();
 
 const countryRegionMap: Map<string, string[]> = new Map();
 const countryListMap: Map<string, Set<string>> = new Map();
@@ -16,6 +16,8 @@ export function countryListSetup() {
     for (const country of countryJsonArray) {
         countryJsonMap.set(country.names[0], country);
     }
+
+    //countryChecker();
 
     for (const region of countryNames.regions) {
         const countries: string[] = [];
@@ -57,3 +59,19 @@ export function getCountries(regionArg: string | null, listArg: string | null): 
 
     return mergedRegion;
 }
+
+/*
+const allC: Set<string> = new Set();
+
+function countryChecker() {
+    for (const c of countryNames.lists[2].countries) {
+        if (allC.has(c)) console.warn("Duplicate " + c);
+        else if (!countryJsonMap.has(c)) console.warn(c + " does not exist.");
+        else allC.add(c);
+    }
+
+    for (const c of countryJsonMap.keys()) {
+        if (countryJsonMap.get(c)?.active && !allC.has(c)) console.warn("Missing " + c);
+    }
+}
+*/
