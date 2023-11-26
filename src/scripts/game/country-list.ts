@@ -9,7 +9,7 @@ export const countryJsonMap: Map<string, CountryJson> = new Map();
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
 const countryNames: CountryNames = (jsonCountryNames as CountryNames);
 
-const countryRegionMap: Map<string, string[]> = new Map();
+export const countryRegionMap: Map<string, string[]> = new Map();
 const countryListMap: Map<string, Set<string>> = new Map();
 
 export function countryListSetup() {

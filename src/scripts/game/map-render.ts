@@ -18,7 +18,7 @@ let drawnCountry: SVGGElement | undefined = undefined;
 
 export function mapElementSetup() {
     mapSvg = document.getElementById("map")!;
-    mapSvgCountries = document.getElementById("countries")!
+    mapSvgCountries = document.getElementById("countries")!;
 }
 
 export function drawNewCountry(name: string, geometry: number[][][][]): SVGGElement {
