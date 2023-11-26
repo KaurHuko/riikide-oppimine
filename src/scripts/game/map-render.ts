@@ -1,5 +1,4 @@
 import { projectedYCoordinate } from "../util/math-util";
-import { replaceForeignChars } from "../util/text-util";
 import type { CountryElementData } from "@/scripts/lib/countryjson";
 import { animateViewBox } from "./viewbox-animation";
 
@@ -25,7 +24,7 @@ export function mapElementSetup() {
 export function drawNewCountry(name: string, geometry: number[][][][]): SVGGElement {
     
     const countryElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    countryElement.id = replaceForeignChars(name.toLocaleLowerCase()).replace(/ /g, "-");
+    countryElement.id = name.toLocaleLowerCase().replace(/ /g, "-");
 
     for (const landPatch of geometry) {
         drawLandPatch(countryElement, landPatch);
