@@ -138,5 +138,5 @@ function pushQuestion(question: AskedQuestion) {
 }
 
 function pushIndex(correctStreak: number): number {
-    return queueIndex + Math.pow(2, correctStreak + 1);
+    return queueIndex + 3 * Math.pow(2, correctStreak);
 }
