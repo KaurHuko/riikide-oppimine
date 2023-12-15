@@ -1,14 +1,18 @@
 <script setup lang="ts">
-const props = defineProps(["region", "list"]);
+import { router } from '@/scripts/router';
+import { getChosenCountryList } from '@/scripts/game/country-list';
+
+const props = defineProps(["region", "displayName"]);
 
 const region = props.region;
+const displayName = props.displayName;
 
-function geturl() {
-    return `/game?region=${region}&list=${props.list}`
+function onClick() {
+  router.push(`game?region=${region}&list=${getChosenCountryList()}`);
 }
 
 </script>
 
 <template>
-  <router-link :to="geturl()">{{ region }}</router-link>
+  <button @click="onClick()">{{ displayName }}</button>
 </template>

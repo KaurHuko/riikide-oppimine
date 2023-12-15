@@ -1,4 +1,4 @@
-import type { CountryNames } from '../lib/country-groups';
+import type { AllCountryNames, CountryNameList } from '../lib/country-groups';
 import type { CountryJson, CountryJsonList } from '../lib/countryjson';
 
 import jsonCountries from '@/assets/countries.json';
@@ -7,10 +7,12 @@ import jsonCountryNames from "@/assets/country-names.json";
 export const countryJsonMap: Map<string, CountryJson> = new Map();
 
 const countryJsonArray: CountryJson[] = (jsonCountries as CountryJsonList).countries;
-const countryNames: CountryNames = (jsonCountryNames as CountryNames);
+const allCountryNames: AllCountryNames = (jsonCountryNames as AllCountryNames);
 
-export const countryRegionMap: Map<string, string[]> = new Map();
-const countryListMap: Map<string, Set<string>> = new Map();
+export const countryRegionMap: Map<string, CountryNameList> = new Map();
+export const countryListMap: Map<string, Set<string>> = new Map();
+export const countryListNameMap: Map<string, string> = new Map();
+export let chosenCountryList: string;
 
 export function countryListSetup() {
     for (const country of countryJsonArray) {
@@ -19,7 +21,7 @@ export function countryListSetup() {
 
     //countryChecker();
 
-    for (const region of countryNames.regions) {
+    for (const region of allCountryNames.regions) {
         const countries: string[] = [];
 
         for (const countryName of region.countries) {
@@ -28,10 +30,12 @@ export function countryListSetup() {
             else console.log(`Missed ${countryName} in region ${region.name}`);
         }
 
-        if (countries.length > 0) countryRegionMap.set(region.name, countries);
+        const countryNameList: CountryNameList = {name: region.name, displayName: region.displayName, countries}
+        if (countries.length > 0) countryRegionMap.set(region.name, countryNameList);
     }
 
-    for (const countryList of countryNames.lists) {
+    chosenCountryList = allCountryNames.lists[0].name;
+    for (const countryList of allCountryNames.lists) {
         const countries: Set<string> = new Set();
 
         for (const countryName of countryList.countries) {
@@ -40,7 +44,9 @@ export function countryListSetup() {
             else (console.log(`Missed ${countryName} in list ${countryList.name}`));
         }
 
-        if (countries.size > 0) countryListMap.set(countryList.name, countries);
+        if (countries.size < 1) continue;
+        countryListMap.set(countryList.name, countries);
+        countryListNameMap.set(countryList.name, countryList.displayName);
     }
 }
 
@@ -53,11 +59,19 @@ export function getCountries(regionArg: string | null, listArg: string | null): 
     if (region === undefined || countryList === undefined) return [];
 
     const mergedRegion: string[] = [];
-    for (const regionCountry of region) {
+    for (const regionCountry of region.countries) {
         if (countryList.has(regionCountry)) mergedRegion.push(regionCountry);
     }
 
     return mergedRegion;
+}
+
+export function chooseCountryList(list: string) {
+    chosenCountryList = list;
+}
+
+export function getChosenCountryList() {
+    return chosenCountryList;
 }
 
 /*

@@ -1,16 +1,11 @@
 
-export interface CountryNames {
-    regions: CountriesByRegion[],
-    lists: CountriesByList[]
+export interface AllCountryNames {
+    regions: CountryNameList[],
+    lists: CountryNameList[]
 }
 
-export interface CountriesByList {
+export interface CountryNameList {
     name: string,
-    description: string,
-    countries: string[]
-}
-
-export interface CountriesByRegion {
-    name: string,
+    displayName: string,
     countries: string[]
 }
