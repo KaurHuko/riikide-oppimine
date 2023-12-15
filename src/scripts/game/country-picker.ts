@@ -6,18 +6,24 @@ interface AskedQuestion {
     correctStreak: number
 }
 
-let streakToRemoveQuestion: number;
-
 const questionQueue = new Map<number, AskedQuestion[]>();
-let queueIndex = 0;
-let questionListIndex = -1;
+let queueIndex: number;
+let questionListIndex: number;
 
 let allCountries: string[]
-let allCountriesIndex = 0;
+let allCountriesIndex: number;
+
+let streakToRemoveQuestion: number;
 
 export function setupPicker(askedCountries: string[]) {
+    questionQueue.clear()
+    
+    queueIndex = 0;
+    questionListIndex = -1;
+
     allCountries = askedCountries;
     shuffleArray(askedCountries);
+    allCountriesIndex = 0;
 
     streakToRemoveQuestion = 4;
 }

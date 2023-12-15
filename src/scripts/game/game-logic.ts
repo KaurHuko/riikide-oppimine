@@ -60,7 +60,7 @@ export function gameSetup(regionArg: string | null, listArg: string | null) {
 }
 
 function setupCountries(regionArg: string | null, listArg: string | null) {
-    askedCountries =getCountries(regionArg, listArg);
+    askedCountries = getCountries(regionArg, listArg);
 
     for (const country of countryJsonMap) {
         const name = country[0];
