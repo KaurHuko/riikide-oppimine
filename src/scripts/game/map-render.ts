@@ -4,6 +4,7 @@ import { animateViewBox } from "./viewbox-animation";
 
 export let mapSvg: HTMLElement;
 let mapSvgCountries: HTMLElement;
+let smallCountryHighlight: HTMLElement;
 
 const latitudeSize = projectedYCoordinate(180);
 const altitudeSize = 360;
@@ -19,6 +20,7 @@ let drawnCountry: SVGGElement | undefined = undefined;
 export function mapElementSetup() {
     mapSvg = document.getElementById("map")!;
     mapSvgCountries = document.getElementById("countries")!;
+    smallCountryHighlight = document.getElementById("country-highlighter")!;
 }
 
 export function drawNewCountry(name: string, geometry: number[][][][]): SVGGElement {
@@ -42,6 +44,7 @@ export function highlightNewCountry(country: CountryElementData) {
     }
     drawnCountry = country.countrySvg;
     colorCountry(country.countrySvg, true);
+    highlightSmallCountry(country);
 
     animateViewBox(country.jsonData.bounding);
 }
@@ -56,7 +59,7 @@ function drawLandPatch(countryElement: SVGGElement, landPatch: number[][][]): SV
     for (const svgPoints of landPatch) {
         svgPointsAttribute +=
             "M" +
-            svgPoints.map(point => (centerX + point[0]) + " " + (centerY - point[1])).join(" ")
+            svgPoints.map(point => mapX(point[0]) + " " + mapY(point[1])).join(" ")
             + "z";
     }
 
@@ -77,4 +80,23 @@ function colorCountry(country: SVGGElement, highlight: boolean) {
         country.classList.add("country-inactive");
         country.classList.remove("country-active");
     }
+}
+
+function highlightSmallCountry(country: CountryElementData) {
+    const bounding = country.jsonData.bounding;
+    if (bounding.size[0] + bounding.size[1] < 1) {
+        smallCountryHighlight.setAttribute("cx", `${mapX(bounding.pos[0] + bounding.size[0]/2)}`);
+        smallCountryHighlight.setAttribute("cy", `${mapY(bounding.pos[1] + bounding.size[1]/2)}`);
+        smallCountryHighlight.style.visibility = "visible";
+    } else {
+        smallCountryHighlight.style.visibility = "hidden";
+    }
+}
+
+function mapX(geometryX: number): number {
+    return centerX + geometryX;
+}
+
+function mapY(geometryY: number): number {
+    return centerY - geometryY;
 }

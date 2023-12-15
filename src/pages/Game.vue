@@ -14,6 +14,7 @@ router.isReady().then(() => {
 
   <svg id="map" width="100%" height="100%">
     <g id="countries"></g>
+    <circle id="country-highlighter" r="0.75"></circle>
   </svg>
 
   <div id="input-area">

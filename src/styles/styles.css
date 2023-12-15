@@ -68,6 +68,11 @@ html, body {
 
 .country-active {
     fill: #777777;
-    stroke: #00ffff66;
+    stroke: #00000044;
     stroke-width: 0.05px;
+}
+
+#country-highlighter {
+    visibility: hidden;
+    fill: #00ffff44;
 }
