@@ -3,7 +3,14 @@
     --input-height: 48px;
     --feedback-height: 24px;
     --interaction-margin: 10px;
+    
+    --sumbit-button-width: calc(0px + var(--input-height));
+    --input-width: calc(100% - var(--sumbit-button-width) - 4 * var(--interaction-margin));
 
+    --submit-v-offset: 5px;
+
+    --input-border-radius: 20px;
+    
     font-family: Tahoma, sans-serif, Verdana, Geneva;
 }
 
@@ -23,31 +30,62 @@ html, body {
     background-color: #0066ff77;
 }
 
-#country-input {
+.country-form {
     box-sizing: border-box;
 
     margin: var(--interaction-margin);
     height: var(--input-height);
-    width: calc(100% - 2 * var(--interaction-margin));
     
     text-align: center;
     font-size: calc(0.5 * var(--input-height));
-    padding-left: 10px;
+}
 
+#country-input {
     background-color: #ffffffee;
+    
+    width: var(--input-width);
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: var(--input-border-radius);
+}
+
+#country-submit-button {
+    width: var(--sumbit-button-width);
+    vertical-align: bottom;
+    margin-top: calc(var(--interaction-margin) - var(--submit-v-offset));
+    margin-bottom: calc(var(--interaction-margin) + var(--submit-v-offset));
+    margin-left: 0;
+
+    background-color: transparent;
+
+    border: none;
+    border-radius: 1px;
+}
+
+#country-submit-image {
+    margin: 0;
+    margin-bottom: calc(10px + var(--interaction-margin));
+    filter: drop-shadow(0px 5px 2px #00000044);
+    transition: 0.1s;
+}
+
+#country-submit-image:hover {
+    filter: drop-shadow(0px 2px 1px #00000044) brightness(90%);
 }
 
 #feedback {
+    width: var(--input-width);
+
     margin: var(--interaction-margin);
     margin-bottom: 0px;
 
     font-size: var(--feedback-height);
     text-align: center;
 
-    -webkit-text-stroke: 4px black;
-    paint-order: stroke fill;
+    text-shadow:
+        1px 1px 2px black,
+        1px -1px 2px black,
+        -1px 1px 2px black,
+        -1px -1px 2px black;
 }
 
 #map {
@@ -61,7 +99,7 @@ html, body {
 }
 
 .country-inactive {
-    fill: lightgray;
+    fill: #cccccc;
     stroke: white;
     stroke-width: 0.05;
 }

@@ -19,8 +19,11 @@ router.isReady().then(() => {
 
   <div id="input-area">
     <div id="feedback"><br></div>
-    <form id="country-guess-form">
-      <input id="country-input" placeholder="Sisesta riigi nimi" autocomplete="off">
+    <form id="country-form">
+      <input class="country-form" id="country-input" placeholder="Sisesta riigi nimi" autocomplete="off">
+      <button class="country-form" id="country-submit-button">
+        <img class="country-form" id="country-submit-image" src="../assets/icons/check.svg">
+      </button>
     </form>
   </div>
 
