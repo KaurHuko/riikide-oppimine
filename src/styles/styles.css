@@ -1,15 +1,17 @@
 
 :root {
-    --input-height: 48px;
+    --button-height: 48px;
+    --button-font-size: calc(var(--button-height) / 2);
+    --button-border-radius: 20px;
+
     --feedback-height: 24px;
     --interaction-margin: 10px;
-    
-    --sumbit-button-width: calc(0px + var(--input-height));
+    --sumbit-button-width: calc(0px + var(--button-height));
     --input-width: calc(100% - var(--sumbit-button-width) - 4 * var(--interaction-margin));
-
     --submit-v-offset: 5px;
 
-    --input-border-radius: 20px;
+    --home-window-width: 500px;
+    --home-margin: 10px;
     
     font-family: Tahoma, sans-serif, Verdana, Geneva;
 }
@@ -19,6 +21,52 @@ html, body {
     padding: 0;
     overflow: hidden;
 }
+
+
+#home-window {
+    margin: auto;
+    margin-top: 100px;
+    width: var(--home-window-width);
+}
+
+.home-button {
+    width: calc(100% - 2 * var(--home-margin));
+    margin: var(--home-margin);
+    height: var(--button-height);
+    font-size: var(--button-font-size);
+}
+
+.list-dropdown {
+    width: 100%;
+    margin: var(--home-margin);
+    margin-bottom: 60px;
+
+    img {
+        height: calc(var(--button-font-size) * 1.2);
+        float: right;
+        margin-right: 2%;
+        transition: 0.2s;
+    }
+    div {
+        width: 80%;
+        margin-left: 10%;
+    }
+}
+
+.region-option {
+    border-radius: var(--button-border-radius);
+}
+
+.list-option {
+    width: calc(var(--home-window-width) - 2 * var(--home-margin));
+
+    margin: 0;
+    margin-bottom: 2px;
+
+    border-radius: calc(var(--button-border-radius) * 0.4);
+    border: none;
+}
+
 
 #input-area {
     z-index: 2;
@@ -34,10 +82,10 @@ html, body {
     box-sizing: border-box;
 
     margin: var(--interaction-margin);
-    height: var(--input-height);
+    height: var(--button-height);
     
     text-align: center;
-    font-size: calc(0.5 * var(--input-height));
+    font-size: var(--button-font-size);
 }
 
 #country-input {
@@ -45,7 +93,7 @@ html, body {
     
     width: var(--input-width);
     border: 1px solid black;
-    border-radius: var(--input-border-radius);
+    border-radius: var(--button-border-radius);
 }
 
 #country-submit-button {

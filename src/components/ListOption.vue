@@ -10,5 +10,5 @@ const clickevent = props.clickevent;
 </script>
 
 <template>
-  <button @click="clickevent(list)">{{ displayName }}</button>
+  <button class="home-button list-option" @click="clickevent(list)">{{ displayName }}</button>
 </template>

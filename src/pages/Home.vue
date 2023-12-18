@@ -10,8 +10,9 @@ import ListOption from '@/components/ListOption.vue';
 
 const gamemodes = ref<HTMLDivElement | null>(null);
 const listoptions = ref<HTMLDivElement | null>(null);
-const listoptionbutton = ref<HTMLDivElement | null>(null);
+const dropdowntext = ref<HTMLDivElement | null>(null);
 const listdropdown = ref<MethodOptions | null>(null);
+const arrowicon = ref<HTMLImageElement | null>(null);
 
 onMounted(() => {
 
@@ -47,22 +48,32 @@ onMounted(() => {
 
 function onListPick(list: string) {
   chooseCountryList(list);
-  listoptionbutton.value!.innerHTML = countryListNameMap.get(chosenCountryList)!;
+  dropdowntext.value!.innerHTML = countryListNameMap.get(chosenCountryList)! + "";
   listdropdown.value?.close();
+}
+
+function onVisibleChange(visible: boolean) {
+  if (visible) arrowicon.value!.style.transform = "rotate(180deg)";
+  else arrowicon.value!.style.transform = "";
 }
 
 </script>
 
 <template>
+  <div id="home-window">
 
-  <Dropdown ref="listdropdown">
-    <template #trigger>
-      <button ref="listoptionbutton"></button>
-    </template>
+    <Dropdown class="home-button list-dropdown" ref="listdropdown" :border="false" v-on:visible-change="onVisibleChange">
+      <template #trigger>
+        <button class="home-button list-option">
+          <img src="../assets/icons/point-down.svg" ref="arrowicon">
+          <div ref="dropdowntext"></div>
+        </button>
+      </template>
 
-    <div ref="listoptions"></div>
-  </Dropdown>
-  
-  <div ref="gamemodes"></div>
+      <div ref="listoptions"></div>
+    </Dropdown>
+    
+    <div ref="gamemodes"></div>
 
+  </div>
 </template>
