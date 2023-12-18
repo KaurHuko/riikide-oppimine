@@ -1,4 +1,4 @@
-# Riikie Töö Abikäsi
+# Riikide Töö Abikäsi
 Gümnaasiumi praktilise tööna loodud õppematerjal, mis aitab õpilastel riikide nimesid õppida.  
 <br>
 Riikide piirid pärinevad [Natural Earthist](https://www.naturalearthdata.com/).  
