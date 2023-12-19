@@ -42,8 +42,8 @@ function onWheel(event: WheelEvent) {
     clampSize(newViewBox, 0);
     const sizeChange = [previousViewBox.size[0] - newViewBox.size[0], previousViewBox.size[1] - newViewBox.size[1]];
 
-    const mouseX = event.clientX / mapWidth();
-    const mouseY = event.clientY / mapHeight();
+    const mouseX = event.clientX / viewWidth();
+    const mouseY = event.clientY / viewHeight();
     newViewBox.pos = [previousViewBox.pos[0] + sizeChange[0] * mouseX, previousViewBox.pos[1] + sizeChange[1] * mouseY];
     clampCoordinates(newViewBox);
 
@@ -56,8 +56,8 @@ function onMouseMove(event: MouseEvent) {
 
     const newViewBox = cloneBBox(previousViewBox);
 
-    const mouseX = event.movementX / mapWidth() * newViewBox.size[0];
-    const mouseY = event.movementY / mapHeight() * newViewBox.size[1];
+    const mouseX = event.movementX / viewWidth() * newViewBox.size[0];
+    const mouseY = event.movementY / viewHeight() * newViewBox.size[1];
 
     newViewBox.pos[0] -= mouseX;
     newViewBox.pos[1] -= mouseY;
@@ -144,7 +144,7 @@ function countryZoomView(bounding: BBox): BBox {
 }
 
 function fixSizeRatio(viewBox: BBox) {
-    const mapRatio = mapWidth() / mapHeight();
+    const mapRatio = viewWidth() / viewHeight();
 
     if (viewBox.size[0] / viewBox.size[1] < mapRatio) { 
         fixOneCoord(viewBox, 0, mapRatio);
@@ -172,16 +172,22 @@ function clampSize(vb: BBox, i: number) {
 }
 
 function clampCoordinates(viewBox: BBox) {
+    const windowToViewRatio = windowHeight() / viewHeight();
     viewBox.pos[0] = Math.max(xBorder[0], Math.min(xBorder[1] - viewBox.size[0], viewBox.pos[0]));
     viewBox.pos[1] = Math.max(yBorder[0], Math.min(yBorder[1] - viewBox.size[1], viewBox.pos[1]));
+    viewBox.pos[1] -= (windowToViewRatio - 1.2) / 2 * viewBox.size[1];
 }
 
-function mapWidth() {
-    const computedStyle = getComputedStyle(mapSvg);
-    return parseFloat(computedStyle.width);
+function viewWidth() {
+    if (window.visualViewport) return window.visualViewport.width;
+    return window.screen.width;
 }
 
-function mapHeight() {
-    const computedStyle = getComputedStyle(mapSvg);
-    return parseFloat(computedStyle.height);
+function viewHeight() {
+    if (window.visualViewport) return window.visualViewport.height;
+    return window.screen.height;
+}
+
+function windowHeight() {
+    return window.innerHeight;
 }

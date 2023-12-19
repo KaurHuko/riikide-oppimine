@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { createApp, onMounted, ref, type MethodOptions } from 'vue';
+import { createApp, onMounted, ref, type MethodOptions, type App } from 'vue';
 import { countryRegionMap, countryListMap, chooseCountryList, chosenCountryList, countryListNameMap } from "@/scripts/game/country-list"
 import { router } from '@/scripts/router';
 
@@ -17,34 +17,30 @@ const arrowicon = ref<HTMLImageElement | null>(null);
 onMounted(() => {
 
   for (const region of countryRegionMap.values()) {
-    const div = document.createElement("div");
-    div.id = `mode-${region.name}`;
-    gamemodes.value?.appendChild(div);
-
     const gamemode = createApp(GameMode, {
       region: region.name,
       displayName: region.displayName,
       list: "küberson",
     });
-    
-    gamemode.use(router);
-    gamemode.mount("#" + div.id);
+    addApp(`mode-${region.name}`, gamemodes.value!, gamemode);
   }
 
   for (const list of countryListMap.keys()) {
-    const div = document.createElement("div");
-    div.id = `list-option-${list}`
-    listoptions.value?.appendChild(div);
-
     const listOption = createApp(ListOption, {list, clickevent: onListPick});
-
-    listOption.use(router);
-    listOption.mount("#" + div.id);
+    addApp(`list-option-${list}`, listoptions.value!, listOption);
   }
 
   onListPick(chosenCountryList);
-
 });
+
+function addApp(id: string, parent: HTMLElement, app: App<Element>) {
+    const div = document.createElement("div");
+    div.id = id;
+    parent.appendChild(div);
+
+    app.use(router);
+    app.mount("#" + div.id);
+}
 
 function onListPick(list: string) {
   chooseCountryList(list);
@@ -65,7 +61,7 @@ function onVisibleChange(visible: boolean) {
     <Dropdown class="home-button list-dropdown" ref="listdropdown" :border="false" v-on:visible-change="onVisibleChange">
       <template #trigger>
         <button class="home-button list-option">
-          <img src="../assets/icons/point-down.svg" ref="arrowicon">
+          <img class="dropdown-arrow" src="../assets/icons/point-down.svg" ref="arrowicon">
           <div ref="dropdowntext"></div>
         </button>
       </template>

@@ -73,6 +73,7 @@ function setupInsert() {
 
         const guess: string = input.value;
         input.value = "";
+        input.focus();
 
         answerCheck(guess);
         pickSubmitIcon(input.value, currentGuess.falseGuesses);

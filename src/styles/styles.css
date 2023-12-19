@@ -1,17 +1,19 @@
 
 :root {
-    --button-height: 48px;
-    --button-font-size: calc(var(--button-height) / 2);
-    --button-border-radius: 20px;
+    --font-size: min(3vh, 4.20vw);
+    
 
-    --feedback-height: 24px;
-    --interaction-margin: 10px;
-    --sumbit-button-width: calc(0px + var(--button-height));
-    --input-width: calc(100% - var(--sumbit-button-width) - 4 * var(--interaction-margin));
-    --submit-v-offset: 5px;
+    --button-height: calc(2 * var(--font-size));
+    --button-border-radius: calc(1/2 * var(--button-height));
 
-    --home-window-width: 500px;
-    --home-margin: 10px;
+    --feedback-height: var(--font-size);
+    --input-margins: calc(1/2 * var(--font-size));
+    --sumbit-button-width: var(--button-height);
+    --input-width: calc(100% - var(--sumbit-button-width) - 4 * var(--input-margins));
+    --submit-indicator-v-offset: calc(1/12 * var(--button-height));
+
+    --home-window-width: calc(20 * var(--font-size));
+    --home-margin: calc(1/3 * var(--font-size));
     
     font-family: Tahoma, sans-serif, Verdana, Geneva;
 }
@@ -25,7 +27,7 @@ html, body {
 
 #home-window {
     margin: auto;
-    margin-top: 100px;
+    margin-top: calc(10 * var(--home-margin));
     width: var(--home-window-width);
 }
 
@@ -33,24 +35,25 @@ html, body {
     width: calc(100% - 2 * var(--home-margin));
     margin: var(--home-margin);
     height: var(--button-height);
-    font-size: var(--button-font-size);
+    font-size: var(--font-size);
 }
 
 .list-dropdown {
     width: 100%;
     margin: var(--home-margin);
-    margin-bottom: 60px;
+    margin-bottom: calc(9 * var(--home-margin));
+}
 
-    img {
-        height: calc(var(--button-font-size) * 1.2);
-        float: right;
-        margin-right: 2%;
-        transition: 0.2s;
-    }
-    div {
-        width: 80%;
-        margin-left: 10%;
-    }
+.list-dropdown div {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.list-dropdown img {
+    height: calc(var(--font-size) * 1.2);
+    float: right;
+    margin-right: 2%;
+    transition: 0.2s;
 }
 
 .region-option {
@@ -61,7 +64,7 @@ html, body {
     width: calc(var(--home-window-width) - 2 * var(--home-margin));
 
     margin: 0;
-    margin-bottom: 2px;
+    margin-bottom: calc(1/5 * var(--home-margin));
 
     border-radius: calc(var(--button-border-radius) * 0.4);
     border: none;
@@ -81,26 +84,33 @@ html, body {
 .country-form {
     box-sizing: border-box;
 
-    margin: var(--interaction-margin);
+    margin: var(--input-margins);
     height: var(--button-height);
     
     text-align: center;
-    font-size: var(--button-font-size);
+    font-size: var(--font-size);
 }
 
 #country-input {
     background-color: #ffffffee;
-    
+
+    -webkit-appearance: none;
+    appearance: none;
+
     width: var(--input-width);
     border: 1px solid black;
     border-radius: var(--button-border-radius);
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
 #country-submit-button {
     width: var(--sumbit-button-width);
     vertical-align: bottom;
-    margin-top: calc(var(--interaction-margin) - var(--submit-v-offset));
-    margin-bottom: calc(var(--interaction-margin) + var(--submit-v-offset));
+    margin-top: calc(var(--input-margins) - var(--submit-indicator-v-offset));
+    margin-bottom: calc(var(--input-margins) + var(--submit-indicator-v-offset));
     margin-left: 0;
 
     background-color: transparent;
@@ -111,7 +121,6 @@ html, body {
 
 #country-submit-image {
     margin: 0;
-    margin-bottom: calc(10px + var(--interaction-margin));
     filter: drop-shadow(0px 5px 2px #00000044);
     transition: 0.1s;
 }
@@ -123,7 +132,7 @@ html, body {
 #feedback {
     width: var(--input-width);
 
-    margin: var(--interaction-margin);
+    margin: var(--input-margins);
     margin-bottom: 0px;
 
     font-size: var(--feedback-height);
