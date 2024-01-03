@@ -8,8 +8,8 @@
 
     --feedback-height: var(--font-size);
     --input-margins: calc(1/2 * var(--font-size));
-    --sumbit-button-width: var(--button-height);
-    --input-width: calc(100% - var(--sumbit-button-width) - 4 * var(--input-margins));
+    --submit-button-size: calc(2 * var(--input-margins) + var(--button-height));
+    --input-width: calc(100% - var(--submit-button-size) - 2 * var(--input-margins));
     --submit-indicator-v-offset: calc(1/12 * var(--button-height));
 
     --home-window-width: calc(20 * var(--font-size));
@@ -98,6 +98,8 @@ html, body {
     appearance: none;
 
     width: var(--input-width);
+    margin-right: 0;
+
     border: 1px solid black;
     border-radius: var(--button-border-radius);
 }
@@ -107,11 +109,10 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 #country-submit-button {
-    width: var(--sumbit-button-width);
+    width: calc(var(--input-margins) + var(--submit-button-size));
+    height: var(--submit-button-size);
     vertical-align: bottom;
-    margin-top: calc(var(--input-margins) - var(--submit-indicator-v-offset));
-    margin-bottom: calc(var(--input-margins) + var(--submit-indicator-v-offset));
-    margin-left: 0;
+    margin: 0;
 
     background-color: transparent;
 

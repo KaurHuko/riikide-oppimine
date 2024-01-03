@@ -25,7 +25,7 @@ export class CurrentGuess {
     }
 }
 
-let input: HTMLInputElement;
+export let input: HTMLInputElement;
 let form: HTMLFormElement;
 
 const countryMap: Map<string, CountryElementData> = new Map();

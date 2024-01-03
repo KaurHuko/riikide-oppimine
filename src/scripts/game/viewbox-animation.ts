@@ -139,7 +139,9 @@ function countryZoomView(bounding: BBox): BBox {
     view.size[1] = view.size[1] + 2 * viewExpand;
 
     fixSizeRatio(view);
+    view.pos[1] -= (windowHeight() / viewHeight() - 1.1) / 2 * view.size[1];
     clampCoordinates(view);
+
     return view;
 }
 
@@ -172,10 +174,8 @@ function clampSize(vb: BBox, i: number) {
 }
 
 function clampCoordinates(viewBox: BBox) {
-    const windowToViewRatio = windowHeight() / viewHeight();
     viewBox.pos[0] = Math.max(xBorder[0], Math.min(xBorder[1] - viewBox.size[0], viewBox.pos[0]));
     viewBox.pos[1] = Math.max(yBorder[0], Math.min(yBorder[1] - viewBox.size[1], viewBox.pos[1]));
-    viewBox.pos[1] -= (windowToViewRatio - 1.2) / 2 * viewBox.size[1];
 }
 
 function viewWidth() {
