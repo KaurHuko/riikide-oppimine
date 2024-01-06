@@ -86,8 +86,8 @@ function setupInsert() {
 
 function generateQuesion(first: boolean) {
 
-    // For development
-    const override = "balls";
+    // For development (should contain a string that definitely isn't the name of a country)
+    const override = "-";
 
     let newCountry: CountryElementData | undefined;
     if (countryMap.has(override)) {
