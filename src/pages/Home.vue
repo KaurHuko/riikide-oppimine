@@ -31,6 +31,8 @@ onMounted(() => {
   }
 
   onListPick(chosenCountryList);
+
+  onVisibleChange(false);
 });
 
 function addApp(id: string, parent: HTMLElement, app: App<Element>) {
@@ -49,8 +51,8 @@ function onListPick(list: string) {
 }
 
 function onVisibleChange(visible: boolean) {
-  if (visible) arrowicon.value!.style.transform = "rotate(180deg)";
-  else arrowicon.value!.style.transform = "";
+  if (visible) arrowicon.value!.style.transform = "rotate(0deg)";
+  else arrowicon.value!.style.transform = "rotate(-90deg)";
 }
 
 </script>

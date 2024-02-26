@@ -46,13 +46,14 @@ html, body {
 
 .list-dropdown div {
     width: 80%;
-    margin-left: 10%;
+    margin-right: 10%;
+    margin-left: auto;
 }
 
 .list-dropdown img {
     height: calc(var(--font-size) * 1.2);
-    float: right;
-    margin-right: 2%;
+    float: left;
+    margin-left: 2%;
     transition: 0.2s;
 }
 
