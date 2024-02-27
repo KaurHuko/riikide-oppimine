@@ -67,6 +67,7 @@ function setupCountries(regionArg: string | null, listArg: string | null) {
 function setupInsert() {
     form = document.getElementById("country-form") as HTMLFormElement;
     input = document.getElementById("country-input") as HTMLInputElement;
+    input.focus();
 
     form.addEventListener("submit", event => {
         event.preventDefault();

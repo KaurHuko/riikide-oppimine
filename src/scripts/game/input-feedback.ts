@@ -15,9 +15,9 @@ interface FeedbackComponent {
 }
 
 export const feedbackColors = {
-    bgError: "#ff000077",
-    bgMistake: "#bbbb0077",
-    bgCorrect: "#00ff0077",
+    bgError: "#ff000044",
+    bgMistake: "#bbbb0044",
+    bgCorrect: "#00ff0044",
 
     plainText: "#ffffff",
     missingChar: "#33ff33",
