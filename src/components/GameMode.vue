@@ -14,5 +14,9 @@ function onClick() {
 </script>
 
 <template>
-  <button class="home-button region-option" @click="onClick()">{{ displayName }}</button>
+  <button class="home-button region-option" @click="onClick()">
+    <img src="">
+    <br>
+    {{ displayName }}
+  </button>
 </template>

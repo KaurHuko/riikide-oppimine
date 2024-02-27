@@ -58,20 +58,21 @@ function onVisibleChange(visible: boolean) {
 </script>
 
 <template>
-  <div id="home-window">
 
-    <Dropdown class="home-button list-dropdown" ref="listdropdown" :border="false" v-on:visible-change="onVisibleChange">
-      <template #trigger>
-        <button class="home-button list-option">
-          <img class="dropdown-arrow" src="../assets/icons/point-down.svg" ref="arrowicon">
-          <div ref="dropdowntext"></div>
-        </button>
-      </template>
+  <Dropdown class="list-dropdown" ref="listdropdown" :animated="true" :border="false" v-on:visible-change="onVisibleChange">
+    <template #trigger>
+      <button class="home-button list-dropdown-button">
+        <img class="dropdown-arrow" src="../assets/icons/point-down.svg" ref="arrowicon">
+        <div ref="dropdowntext"></div>
+      </button>
+    </template>
 
-      <div ref="listoptions"></div>
-    </Dropdown>
-    
-    <div ref="gamemodes"></div>
 
-  </div>
+    <div ref="listoptions">
+      <div class="dropdown-fill"></div>
+    </div>
+  </Dropdown>
+
+  <div class="region-container" ref="gamemodes"></div>
+
 </template>
