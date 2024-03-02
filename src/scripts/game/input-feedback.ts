@@ -83,7 +83,7 @@ export function wrongAnswerFeedback(answers: string[], falseGuesses: number) {
 
     if (falseGuesses <= 1) {
         const hint = answers[0];
-        feedback.text = `Vihje: ${hint.substring(0, 1) + hint.substring(1).replace(/\p{L}/gu, "*")}`
+        feedback.text = `Vihje: ${hint.substring(0, 1) + hint.substring(1).replace(/\p{L}/gu, "_")}`
 
     } else if (answers.length > 1) {
         feedback.text = `Õiged vastused: ${answers.join(" / ")}`;
