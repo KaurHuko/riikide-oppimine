@@ -34,8 +34,6 @@
     --color-country-active: #606060;
     --color-country-stroke: #ffffff44;
     --color-country-highlighter: #00ffff33;
-
-    font-family: Tahoma, sans-serif, Verdana, Geneva;
 }
 
 html, body {
@@ -45,6 +43,10 @@ html, body {
     overflow: auto;
 
     background-color: var(--color-bg);
+}
+
+* {
+    font-family: "Gabarito", Tahoma, sans-serif, Verdana;
 }
 
 .home-button {
