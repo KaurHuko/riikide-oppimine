@@ -131,6 +131,8 @@ html, body {
 .region-option img {
     display: flex;
     width: 100%;
+    margin-bottom: calc(3/4 * var(--region-option-padding));
+
     aspect-ratio: 10 / 9;
     box-shadow: var(--box-shadow);
 }
