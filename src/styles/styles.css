@@ -134,6 +134,7 @@ html, body {
     margin-bottom: calc(3/4 * var(--region-option-padding));
 
     aspect-ratio: 10 / 9;
+    border-radius: calc(0.4 * var(--button-border-radius));
     box-shadow: var(--box-shadow);
 }
 
