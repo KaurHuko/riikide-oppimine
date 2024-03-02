@@ -15,7 +15,7 @@ function onClick() {
 
 <template>
   <button class="home-button region-option" @click="onClick()">
-    <img src="">
+    <img :src="`/continent-icons/${region}.png`">
     <br>
     {{ displayName }}
   </button>
