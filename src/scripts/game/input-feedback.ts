@@ -29,8 +29,8 @@ let feedbackTextElement: HTMLElement;
 let submitImageElement: HTMLImageElement;
 
 const checkIcon: SubmitIcon = {src: checkSvg, description: "Kontrolli"};
-const hintIcon: SubmitIcon = {src: hintSvg, description: "Vihje"};
-const revealIcon: SubmitIcon = {src: revealSvg, description: "Avalda"};
+const hintIcon: SubmitIcon = {src: hintSvg, description: "Näita vihjet"};
+const revealIcon: SubmitIcon = {src: revealSvg, description: "Näita vastust"};
 
 let currentSubmitIcon: SubmitIcon;
 
