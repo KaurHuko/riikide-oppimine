@@ -25,9 +25,7 @@
     --color-click: #404040;
     --color-text: white;
 
-    --color-shadow: #00000044;
-    --shadow-offset: 0;
-    --shadow-blur: calc(var(--font-size) / 2);
+    --box-shadow: 0 0 calc(var(--font-size) / 2) #00000044;
 
     --color-water: #101018;
     --color-country-inactive: #323232;
@@ -56,7 +54,6 @@ html, body {
     border: none;
     color: var(--color-text);
     background-color: var(--color-button);
-    box-shadow: var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--color-shadow);
 }
 
 .home-button:hover {
@@ -92,7 +89,6 @@ html, body {
     width: 100%;
     border-radius: calc(var(--button-border-radius) * 0.4);
     transition: 0.0s;
-    box-shadow: none;
     margin-bottom: calc(0px - var(--button-height));
     z-index: 3;
 }
@@ -100,7 +96,6 @@ html, body {
 .list-option {
     width: var(--list-option-width);
     transition: 0.0s;
-    box-shadow: none;
 }
 
 .dropdown-fill {
@@ -129,12 +124,15 @@ html, body {
     width: var(--region-option-width);
     padding: var(--region-option-padding);
     border-radius: var(--button-border-radius);
+    box-shadow: var(--box-shadow);
     transition: 0.25s;
 }
 
 .region-option img {
+    display: flex;
     width: 100%;
-    padding-top: 90%;
+    aspect-ratio: 10 / 9;
+    box-shadow: var(--box-shadow);
 }
 
 
