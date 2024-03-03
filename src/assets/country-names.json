@@ -3,12 +3,12 @@
         {
             "name": "euroopa",
             "displayName": "Euroopa",
-            "countries": ["Albaania","Andorra","Austria","Belgia","Bulgaaria","Bosnia ja Hertsegoviina","Valgevene","Šveits","Tšehhi","Saksamaa","Taani","Hispaania","Eesti","Soome","Prantsusmaa","Suurbritannia","Kreeka","Horvaatia","Ungari","Iirimaa","Island","Itaalia","Kosovo","Liechtenstein","Leedu","Luksemburg","Läti","Monaco","Moldova","Põhja-Makedoonia","Malta","Montenegro","Holland","Norra","Poola","Portugal","Rumeenia","Venemaa","San Marino","Serbia","Slovakkia","Sloveenia","Rootsi","Türgi","Ukraina","Vatikan"]
+            "countries": ["Albaania","Andorra","Austria","Belgia","Bulgaaria","Bosnia ja Hertsegoviina","Valgevene","Šveits","Tšehhi","Saksamaa","Taani","Hispaania","Eesti","Soome","Prantsusmaa","Suurbritannia","Kreeka","Horvaatia","Ungari","Iirimaa","Island","Itaalia","Kosovo","Liechtenstein","Leedu","Luksemburg","Läti","Monaco","Moldova","Põhja-Makedoonia","Malta","Montenegro","Holland","Norra","Poola","Portugal","Rumeenia","Venemaa","San Marino","Serbia","Slovakkia","Sloveenia","Rootsi","Ukraina","Vatikan"]
         },
         {
             "name": "aasia",
             "displayName": "Aasia",
-            "countries": ["Afganistan","Araabia Ühendemiraadid","Armeenia","Aserbaidžaan","Bangladesh","Bahrein","Brunei","Bhutan","Hiina","Küpros","Gruusia","Indoneesia","India","Iraan","Iraak","Iisrael","Jordaania","Jaapan","Kasahstan","Kambodža","Kõrgõzstan","Lõuna-Korea","Kuveit","Laos","Liibanon","Sri Lanka","Maldiivid","Myanmar","Mongoolia","Malaisia","Nepal","Omaan","Pakistan","Filipiinid","Põhja-Korea","Katar","Saudi Araabia","Singapur","Süüria","Tai","Tadžikistan","Türkmenistan","Ida-Timor","Usbekistan","Vietnam","Jeemen"]
+            "countries": ["Afganistan","Araabia Ühendemiraadid","Armeenia","Aserbaidžaan","Bangladesh","Bahrein","Brunei","Bhutan","Hiina","Küpros","Gruusia","Indoneesia","India","Iraan","Iraak","Iisrael","Jordaania","Jaapan","Kasahstan","Kambodža","Kõrgõzstan","Lõuna-Korea","Kuveit","Laos","Liibanon","Sri Lanka","Maldiivid","Myanmar","Mongoolia","Malaisia","Nepal","Omaan","Pakistan","Filipiinid","Põhja-Korea","Katar","Saudi Araabia","Singapur","Süüria","Tai","Tadžikistan","Türgi","Türkmenistan","Ida-Timor","Usbekistan","Vietnam","Jeemen"]
         },
         {
             "name": "aafrika",
