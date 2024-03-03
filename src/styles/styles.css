@@ -67,7 +67,7 @@ html, body {
 .list-dropdown {
     width: var(--list-option-width);
     display: flex;
-    margin: auto;
+    margin-left: calc(50% - 1/2 * var(--list-option-width));
     margin-top: calc(3 * var(--font-size));
     margin-bottom: calc(5 * var(--font-size));
 }
@@ -103,8 +103,8 @@ html, body {
 }
 
 .v-dropdown-container {
-    background-color: var(--color-button);
-    z-index: 2;
+    background-color: var(--color-button) !important;
+    z-index: 2 !important;
 }
 
 .region-container {
