@@ -10,6 +10,10 @@
    "alternatives": ["Inglismaa"]
   },
   {
+    "english": "United States of America",
+    "alternatives": ["USA"]
+  },
+  {
     "english": "Ivory Coast",
     "translations": ["Elevandiluurannik", "Cote d'Ivoire"]
   },
