@@ -25,7 +25,7 @@ export function setupPicker(askedCountries: string[]) {
     shuffleArray(askedCountries);
     allCountriesIndex = 0;
 
-    streakToRemoveQuestion = 4;
+    streakToRemoveQuestion = 3;
 }
 
 export function pickFirstCountry(): string | undefined {
