@@ -23,12 +23,12 @@
         {
             "name": "lõuna-ameerika",
             "displayName": "Lõuna-Ameerika",
-            "countries": ["Argentina","Boliivia","Brasiilia","Tšiili","Colombia","Ecuador","Guyana","Nauru","Peruu","Paraguay","Suriname","Trinidad ja Tobago","Uruguay","Venezuela"]
+            "countries": ["Argentina","Boliivia","Brasiilia","Tšiili","Colombia","Ecuador","Guyana","Peruu","Paraguay","Suriname","Trinidad ja Tobago","Uruguay","Venezuela"]
         },
         {
             "name": "austraalia-ja-okeaania",
             "displayName": "Austraalia ja Okeaania",
-            "countries": ["Austraalia","Fidži","Mikroneesia","Kiribati","Marshalli Saared","Uus-Meremaa","Belau","Paapua Uus-Guinea","Saalomoni Saared","Tonga","Tuvalu","Vanuatu","Samoa"]
+            "countries": ["Austraalia","Fidži","Mikroneesia","Kiribati","Marshalli Saared","Nauru","Uus-Meremaa","Belau","Paapua Uus-Guinea","Saalomoni Saared","Tonga","Tuvalu","Vanuatu","Samoa"]
         }
     ],
     "lists": [
