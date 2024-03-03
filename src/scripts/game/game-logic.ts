@@ -136,7 +136,7 @@ function isCorrectAnswer(guess: string, answers: string[]): boolean {
                 text: `${correctAnswer} on õige!`,
                 color: "white"
             }]);
-            return true
+            return true;
         }
     }
     return false;
@@ -151,7 +151,7 @@ function misspelledCheck(guess: string, answers: string[]): boolean {
 
         if (errorCount <= acceptedErrorCount) {
             displayFeedback(feedbackColors.bgMistake, formatMisspellFeedback(correctDiffs, guessDiffs));
-            return true
+            return true;
         }
     }
     return false;
