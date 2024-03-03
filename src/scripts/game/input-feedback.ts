@@ -35,8 +35,8 @@ const revealIcon: SubmitIcon = {src: revealSvg, description: "Näita vastust"};
 let currentSubmitIcon: SubmitIcon;
 
 export function setupFeedback() {
-    feedbackTextElement = document.getElementById("feedback") as HTMLElement;
     feedbackBgElement = document.getElementById("input-area") as HTMLElement;
+    feedbackTextElement = document.getElementById("feedback-text") as HTMLElement;
     submitImageElement = document.getElementById("country-submit-image") as HTMLImageElement;
 }
 

@@ -27,12 +27,15 @@ export class CurrentGuess {
 
 export let input: HTMLInputElement;
 let form: HTMLFormElement;
+let homeButton: HTMLElement;
 
 const countryMap: Map<string, CountryElementData> = new Map();
 let askedCountries: string[];
 let currentGuess: CurrentGuess;
 
 export function gameSetup(regionArg: string | null, listArg: string | null) {
+    homeButton = document.getElementById("feedback-home-link") as HTMLElement;
+
     mapElementSetup();
 
     setupCountries(regionArg, listArg);
@@ -46,6 +49,8 @@ export function gameSetup(regionArg: string | null, listArg: string | null) {
 
 function endGame() {
     displayFeedback(feedbackColors.bgCorrect, [{ text: "Riigid läbi töötatud!", color: "white" }]);
+    homeButton.setAttribute("hidden", "false");
+    homeButton.hidden = false;
     input.disabled = true;
 }
 

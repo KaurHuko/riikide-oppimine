@@ -18,13 +18,21 @@ router.isReady().then(() => {
   </svg>
 
   <div id="input-area">
-    <div id="feedback"><br></div>
+
+    <div id="feedback">
+      <span>&nbsp</span>
+      <span id="feedback-text"></span>
+      <span>&nbsp</span>
+      <RouterLink id="feedback-home-link" hidden="true" to="/">Pealehele</RouterLink>
+    </div>
+
     <form id="country-form">
       <input class="country-form" id="country-input" type="search" placeholder="Sisesta riigi nimi" autocomplete="off">
       <button class="country-form" id="country-submit-button">
         <img class="country-form" id="country-submit-image" src="../assets/icons/check.svg">
       </button>
     </form>
+
   </div>
 
 </template>

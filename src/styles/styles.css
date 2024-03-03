@@ -23,7 +23,9 @@
     --color-button: #1c1c1c;
     --color-highlight: #303030;
     --color-click: #404040;
+
     --color-text: white;
+    --color-text-highlight: #cccccc;
 
     --box-shadow: 0 0 calc(var(--font-size) / 2) #00000044;
 
@@ -220,6 +222,16 @@ input[type="search"]::-webkit-search-cancel-button {
         1px -1px 2px black,
         -1px 1px 2px black,
         -1px -1px 2px black;
+}
+
+#feedback a {
+    text-decoration: underline;
+    color: var(--color-text);
+    transition: 0.1s;
+}
+
+#feedback a:hover {
+    color: var(--color-text-highlight);
 }
 
 #map {
